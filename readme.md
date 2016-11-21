@@ -1,6 +1,7 @@
 # Depth Clustering #
 
 [![Build Status](https://travis-ci.org/niosus/depth_clustering.svg?branch=github_travis)](https://travis-ci.org/niosus/depth_clustering)
+[![Coverage Status](https://coveralls.io/repos/github/niosus/depth_clustering/badge.svg?branch=master)](https://coveralls.io/github/niosus/depth_clustering?branch=master)
 
 This is a fast and robust algorithm to segment point clouds taken with
 Velodyne sensor into objects. It works with all available Velodyne sensors,
