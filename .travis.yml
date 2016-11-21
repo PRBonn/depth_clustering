@@ -1,0 +1,29 @@
+dist: trusty
+sudo: required
+language: generic
+cache: apt
+
+env:
+  global:
+    - ROS_DISTRO=indigo
+    - ROS_CI_DESKTOP="`lsb_release -cs`"
+
+before_install:
+  - sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main\" > /etc/apt/sources.list.d/ros-latest.list"
+  - wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+  - sudo apt-get update -qq
+  - sudo apt-get install -y ros-${ROS_DISTRO}-desktop-full python-catkin-tools
+  - source /opt/ros/$ROS_DISTRO/setup.bash
+
+before_script:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y libqt4-dev libqglviewer-dev gcovr
+  - ls /usr/share/cmake-2.8/Modules | grep cmake
+  - mkdir build
+  - cd build
+
+script:
+  - cmake .. -DBUILD_WITH_COVERAGE=YES -DCMAKE_MODULE_PATH=/usr/share/cmake-2.8/Modules
+  - make -j8
+  - ctest -VV
+  - gcovr -r ../src/ .

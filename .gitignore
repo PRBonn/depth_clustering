@@ -1,0 +1,30 @@
+
+# added by GitSavvy
+/dynamics_processing.sublime-workspace
+
+# added by GitSavvy
+/.ycm_extra_conf.pyc
+
+# added by GitSavvy
+/config/cmake_config.h
+
+# added by GitSavvy
+/.clang_complete
+
+/src/qt/.clang_complete
+
+/src/qt/src/.clang_complete
+
+/build/
+
+/depth_clustering.sublime-workspace
+
+/bin/
+
+/lib/
+
+/data/
+
+/doc/html/
+
+/doc/latex/

@@ -1,0 +1,1 @@
+add_library(image_labeler SHARED abstract_image_labeler.cpp)

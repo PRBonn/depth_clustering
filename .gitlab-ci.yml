@@ -1,0 +1,84 @@
+.job_template: &ros_job
+  image: ros:kinetic-perception
+  before_script:
+  - export TERM=xterm
+  - export SHELL=/bin/bash
+  - git submodule update --init
+  - apt-get update -yq
+  - apt-get install -yq python-catkin-tools libqt4-dev libqglviewer-dev gcovr
+  - mkdir build
+  - cd build
+  tags:
+  - docker
+
+.job_template: &rosless_job
+  image: ubuntu:16.04
+  # check the cache
+  cache:
+    key: apt-cache
+    paths:
+    - apt-cache/
+  before_script:
+  - export TERM=xterm
+  - export SHELL=/bin/bash
+  - export APT_CACHE_DIR=`pwd`/apt-cache && mkdir -pv $APT_CACHE_DIR
+  - sudo apt-get update -yq && sudo apt-get  install -y foo
+  - apt-get update -yq
+  - apt-get -o dir::cache::archives="$APT_CACHE_DIR" install -y
+      build-essential cmake python-pip python-empy git
+      libopencv-dev libboost-all-dev libgtest-dev libeigen3-dev
+      libqt4-dev libqglviewer-dev
+  - pip install catkin-tools
+  - git submodule update --init
+  - shopt -s extglob
+  - mkdir this_package
+  - mv !(this_package) this_package/
+  - mkdir src
+  - mv this_package src/
+  - git clone https://github.com/ros/catkin.git src/catkin/
+  - catkin init
+  - catkin build --no-status
+  tags:
+  - docker
+
+
+image: ros:kinetic-perception
+
+cache:
+  key: apt-cache
+  paths:
+  - apt-cache/
+
+stages:
+  - build
+  - test
+
+ros_build:
+  <<: *ros_job
+  stage: build
+  script:
+  - cmake .. -DBUILD_WITH_COVERAGE=YES
+  - make -j4
+  artifacts:
+    paths:
+      - ./
+    expire_in: 20 mins
+
+test:
+  # uses artifacts from ros build
+  stage: test
+  before_script:
+  - apt-get update -yq
+  - apt-get install gcovr
+  script:
+  - cd build
+  - ctest -VV
+  - gcovr -r ../src/ .
+
+rosless_build:
+  <<: *rosless_job
+  stage: build
+  script:
+  - catkin init
+  - catkin build --no-status --verbose
+

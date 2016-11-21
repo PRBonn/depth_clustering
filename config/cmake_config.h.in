@@ -1,0 +1,15 @@
+// Copyright Igor Bogoslavskyi, year 2016.
+// In case of any problems with the code please contact me.
+// Email: igor.bogoslavskyi@uni-bonn.de.
+
+#ifndef SRC_DEPTH_CLUSTERING_CONFIG_CMAKE_CONFIG_H_
+#define SRC_DEPTH_CLUSTERING_CONFIG_CMAKE_CONFIG_H_
+
+#ifndef USE_PCL
+#define USE_PCL @PCL_FOUND@
+#endif
+
+#include <string>
+const std::string SOURCE_PATH = "@PROJECT_SOURCE_DIR@";
+
+#endif  // SRC_DEPTH_CLUSTERING_CONFIG_CMAKE_CONFIG_H_
