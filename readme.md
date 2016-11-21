@@ -9,6 +9,7 @@ i.e. 16, 32 and 64 beam ones.
 
 ## How to build? ##
 ### Prerequisites ###
+- Catkin.
 - OpenCV: `sudo apt-get install libopencv-dev`
 - QGLViewer and Qt4:
     + `sudo apt-get install libqglviewer-dev`
@@ -17,17 +18,22 @@ i.e. 16, 32 and 64 beam ones.
 - (optional) ROS - needed for subscribing to topics
 
 ### Build script  ###
+This is a catkin package. So we assume that the code is in a catkin workspace
+and CMake knows about the existence of Catkin. Then you can build it from the
+project folder:
+
 - `mkdir build`
 - `cd build`
 - `cmake ..`
 - `make -j4`
 - (optional) `ctest -VV`
 
-It can also be built as a ROS package with:
-- `catkin build depth_clustering` if the code is inside catkin workspace.
+It can also be built with `catkin_tools` if the code is inside catkin
+workspace:
+- `catkin build depth_clustering`
 
 P.S. in case you don't use `catking build` you [should][catkin_tools_docs].
-Install it by `sudo apt-get install python-catkin-tools`.
+Install it by `sudo pip install catkin_tools`.
 
 ## How to run? ##
 See [examples](examples/). There are ROS nodes as well as standalone
