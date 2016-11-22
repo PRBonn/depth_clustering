@@ -1,7 +1,8 @@
 # Depth Clustering #
 
-[![Build Status](https://travis-ci.org/niosus/depth_clustering.svg?branch=github_travis)](https://travis-ci.org/niosus/depth_clustering)
-[![Coverage Status](https://coveralls.io/repos/github/niosus/depth_clustering/badge.svg?branch=master)](https://coveralls.io/github/niosus/depth_clustering?branch=master)
+[![Build Status][travis-img]][travis-link]
+[![Codacy Badge][codacy-img]][codacy-link]
+[![Coverage Status][coveralls-img]][coveralls-link]
 
 This is a fast and robust algorithm to segment point clouds taken with
 Velodyne sensor into objects. It works with all available Velodyne sensors,
@@ -82,6 +83,15 @@ Url = {http://www.ipb.uni-bonn.de/pdfs/bogoslavskyi16iros.pdf}
 }
 ```
 
+
+[travis-img]: https://travis-ci.org/niosus/depth_clustering.svg?branch=github_travis
+[travis-link]: https://travis-ci.org/niosus/depth_clustering
+
+[coveralls-img]: https://coveralls.io/repos/github/niosus/depth_clustering/badge.svg?branch=master
+[coveralls-link]: https://coveralls.io/github/niosus/depth_clustering?branch=master
+
+[codacy-img]: https://img.shields.io/codacy/grade/6ba7d6f0068944588ecaa5b6cd400c9a.svg
+[codacy-link]: https://www.codacy.com/app/zabugr/depth_clustering?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=niosus/depth_clustering&amp;utm_campaign=Badge_Grade
 
 [build-status-img]: https://gitlab.ipb.uni-bonn.de/igor/depth_clustering/badges/master/build.svg
 [coverage-img]: https://gitlab.ipb.uni-bonn.de/igor/depth_clustering/badges/master/coverage.svg
