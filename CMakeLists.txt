@@ -98,6 +98,7 @@ endif()
 catkin_package(
  INCLUDE_DIRS src
  LIBRARIES
+      cloud
       ground_remove
       image_labeler
       projections
