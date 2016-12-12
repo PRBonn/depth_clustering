@@ -105,6 +105,7 @@ catkin_package(
       ros_bridge
       velodyne_utils
       folder_reader
+      visualization
  CATKIN_DEPENDS roscpp sensor_msgs std_msgs nav_msgs message_filters tf
 )
 

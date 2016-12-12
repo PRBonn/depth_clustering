@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
   string topic_clouds = "/velodyne_points";
 
   CloudOdomRosSubscriber subscriber(&nh, *proj_params_ptr, topic_clouds);
-  Visualizer visualizer("visualizer");
+  Visualizer visualizer;
   visualizer.show();
 
   int min_cluster_size = 20;

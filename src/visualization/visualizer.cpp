@@ -20,6 +20,7 @@
 #include <vector>
 #include <ctime>
 #include <limits>
+#include <algorithm>
 
 namespace depth_clustering {
 
@@ -37,8 +38,8 @@ using std::lock_guard;
 
 static vector<array<int, 3>> COLORS;
 
-Visualizer::Visualizer(const string& window_name)
-    : AbstractClient<Cloud>(), _updated{false}, _window_name{window_name} {
+Visualizer::Visualizer(QWidget* parent)
+    : QGLViewer(parent), AbstractClient<Cloud>(), _updated{false} {
   _cloud_obj_storer.SetUpdateListener(this);
 }
 

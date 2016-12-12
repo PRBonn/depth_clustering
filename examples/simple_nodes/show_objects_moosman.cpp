@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
 
   QApplication application(argc, argv);
   // visualizer should be created from a gui thread
-  Visualizer visualizer("visualizer");
+  Visualizer visualizer;
   visualizer.show();
 
   // create and run loader thread

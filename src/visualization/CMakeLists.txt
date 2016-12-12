@@ -1,5 +1,6 @@
 add_library(visualization SHARED visualizer.cpp)
 target_link_libraries(visualization
+                      identifiable
                       ${PCL_LIBRARIES}
                       ${QGLVIEWER_LIBRARY}
                       ${QT_QTOPENGL_LIBRARY}

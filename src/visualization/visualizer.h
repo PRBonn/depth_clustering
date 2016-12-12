@@ -63,7 +63,7 @@ class Visualizer : public QGLViewer,
                    public AbstractClient<Cloud>,
                    public IUpdateListener {
  public:
-  explicit Visualizer(const std::string& window_name);
+  explicit Visualizer(QWidget* parent = 0);
   virtual ~Visualizer();
 
   void OnNewObjectReceived(const Cloud& cloud, const int id) override;
@@ -83,7 +83,6 @@ class Visualizer : public QGLViewer,
   bool _updated;
   ObjectPtrStorer _cloud_obj_storer;
   Cloud _cloud;
-  std::string _window_name;
   mutable std::mutex _cloud_mutex;
 };
 

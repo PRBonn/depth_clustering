@@ -11,8 +11,7 @@ target_link_libraries(velodyne_utils
                       ${PCL_LIBRARIES}
                       ${OpenCV_LIBS})
 
-
-find_package(Boost QUIET REQUIRED COMPONENTS regex)
+find_package(Boost REQUIRED COMPONENTS filesystem regex)
 add_library(folder_reader SHARED folder_reader.cpp)
 target_link_libraries(folder_reader
                       ${Boost_LIBRARIES})
