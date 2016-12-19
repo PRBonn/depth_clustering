@@ -21,14 +21,18 @@
 #include <limits>
 
 namespace depth_clustering {
+class Radians;
+}
 
 // this class provides user defined literals.
 // https://akrzemi1.wordpress.com/2012/08/12/user-defined-literals-part-i/
 // forward declare Radians class and literals
-class Radians;
-constexpr Radians operator"" _rad(long double angle);
-constexpr Radians operator"" _deg(unsigned long long int angle);
-constexpr Radians operator"" _deg(long double angle);
+constexpr depth_clustering::Radians operator"" _rad(long double angle);
+constexpr depth_clustering::Radians operator"" _deg(
+    unsigned long long int angle);
+constexpr depth_clustering::Radians operator"" _deg(long double angle);
+
+namespace depth_clustering {
 
 class Radians {
  public:
@@ -121,20 +125,22 @@ class Radians {
   bool _valid;
 };
 
-constexpr Radians operator"" _rad(long double angle) {
-  return Radians{Radians::IsRadians{}, static_cast<float>(angle)};
-}
-
-constexpr Radians operator"" _deg(unsigned long long int angle) {
-  return Radians{Radians::IsRadians{},
-                 static_cast<float>(angle * M_PI / 180.0)};
-}
-
-constexpr Radians operator"" _deg(long double angle) {
-  return Radians{Radians::IsRadians{},
-                 static_cast<float>(angle * M_PI / 180.0)};
-}
-
 }  // namespace depth_clustering
+
+constexpr depth_clustering::Radians operator"" _rad(long double angle) {
+  return depth_clustering::Radians{depth_clustering::Radians::IsRadians{},
+                                   static_cast<float>(angle)};
+}
+
+constexpr depth_clustering::Radians operator"" _deg(
+    unsigned long long int angle) {
+  return depth_clustering::Radians{depth_clustering::Radians::IsRadians{},
+                                   static_cast<float>(angle * M_PI / 180.0)};
+}
+
+constexpr depth_clustering::Radians operator"" _deg(long double angle) {
+  return depth_clustering::Radians{depth_clustering::Radians::IsRadians{},
+                                   static_cast<float>(angle * M_PI / 180.0)};
+}
 
 #endif  // SRC_UTILS_RADIANS_H_
