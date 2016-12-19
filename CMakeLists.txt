@@ -99,6 +99,7 @@ catkin_package(
  INCLUDE_DIRS src
  LIBRARIES
       cloud
+      identifiable
       ground_remove
       image_labeler
       projections
