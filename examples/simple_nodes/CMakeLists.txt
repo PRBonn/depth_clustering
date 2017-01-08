@@ -9,7 +9,6 @@ target_link_libraries(show_objects_kitti
                       visualization
                       ${Boost_LIBRARIES}
                       ${PCL_LIBRARIES}
-                      ${OpenCV_LIBS}
                       ${CMAKE_THREAD_LIBS_INIT})
 
 add_executable(show_objects_moosman show_objects_moosman.cpp)

@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(depth_clustering)
 
+include(DistVersion.cmake)
+system_info(DISTRO)
+message(STATUS "We are running: ${DISTRO}")
+
 if(NOT CMAKE_BUILD_TYPE)
   set(POSSIBLE_BUILD_TYPES "Debug Release RelWithDebInfo MinSizeRel")
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING
@@ -56,10 +60,33 @@ find_package(Threads REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(Qt4 REQUIRED)
-find_package(QGLViewer REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system filesystem regex program_options)
 find_package(PCL QUIET COMPONENTS common io)
+find_package(QGLViewer REQUIRED)
+
+# find correct qt version
+if(${DISTRO} MATCHES "14.04")
+  find_package(Qt4 REQUIRED COMPONENTS QtCore QtXml QtOpenGL QtGui)
+  include_directories(${QT_INCLUDES})
+  set(MY_QT_LIBRARIES ${QT_LIBRARIES})
+elseif(${DISTRO} MATCHES "16.04")
+  find_package(Qt5 REQUIRED COMPONENTS Core Xml OpenGL Gui Widgets)
+  include_directories(${Qt5Core_INCLUDE_DIRS}
+                      ${Qt5Xml_INCLUDE_DIRS}
+                      ${Qt5Gui_INCLUDE_DIRS}
+                      ${Qt5Widgets_INCLUDE_DIRS}
+                      ${Qt5OpenGL_INCLUDE_DIRS})
+  set(MY_QT_LIBRARIES
+      ${Qt5Widgets_LIBRARIES}
+      ${Qt5Core_LIBRARIES}
+      ${Qt5Gui_LIBRARIES}
+      ${Qt5Xml_LIBRARIES}
+      ${Qt5OpenGL_LIBRARIES})
+endif()
+
+# some status messages
+message(STATUS "Linking against Qt libs: ${MY_QT_LIBRARIES}")
+message(STATUS "Linking against QGlViewer lib: ${QGLVIEWER_LIBRARY}")
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -116,8 +143,6 @@ include_directories(
   SYSTEM ${Boost_INCLUDE_DIRS}
   SYSTEM ${PCL_INCLUDE_DIRS}
   SYSTEM ${OpenCV_INCLUDE_DIRS}
-  SYSTEM ${OPENGL_INCLUDE}
-  SYSTEM ${QT_INCLUDES}
   SYSTEM ${QGLVIEWER_INCLUDE_DIR}
   SYSTEM ${catkin_INCLUDE_DIRS}
 )

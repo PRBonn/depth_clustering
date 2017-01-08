@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <package>
   <name>depth_clustering</name>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <description>The depth_clustering package</description>
 
-  <maintainer email="igor.bogoslavskyi@uni-bonn.de">igor</maintainer>
+  <maintainer email="igor.bogoslavskyi@uni-bonn.de">Igor Bogoslavskyi</maintainer>
 
   <license>GPLv3</license>
 
