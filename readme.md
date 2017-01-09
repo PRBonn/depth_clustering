@@ -75,11 +75,11 @@ Please cite related paper if you use this code:
 
 ```
 @InProceedings{bogoslavskyi16iros,
-Title = {Fast Range Image-Based Segmentation of Sparse 3D Laser Scans for Online Operation},
-Author = {I. Bogoslavskyi and C. Stachniss},
+Title     = {Fast Range Image-Based Segmentation of Sparse 3D Laser Scans for Online Operation},
+Author    = {I. Bogoslavskyi and C. Stachniss},
 Booktitle = {Proc. of The International Conference on Intelligent Robots and Systems (IROS)},
-Year = {2016},
-Url = {http://www.ipb.uni-bonn.de/pdfs/bogoslavskyi16iros.pdf}
+Year      = {2016},
+Url       = {http://www.ipb.uni-bonn.de/pdfs/bogoslavskyi16iros.pdf}
 }
 ```
 
