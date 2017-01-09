@@ -12,10 +12,11 @@ i.e. 16, 32 and 64 beam ones.
 ### Prerequisites ###
 - Catkin.
 - OpenCV: `sudo apt-get install libopencv-dev`
-- QGLViewer and Qt4:
-    + `sudo apt-get install libqglviewer-dev`
-    + `sudo apt-get install libqt4-dev`
-- (optional) PCL - needed for saving clouds node
+- QGLViewer: `sudo apt-get install libqglviewer-dev`
+- Qt (4 or 5 depending on system):
+    + **Ubuntu 14.04:** `sudo apt-get install libqt4-dev`
+    + **Ubuntu 16.04:** `sudo apt-get install libqt5-dev`
+- (optional) PCL - needed for saving clouds to disk
 - (optional) ROS - needed for subscribing to topics
 
 ### Build script  ###
