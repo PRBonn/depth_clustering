@@ -7,6 +7,7 @@ target_link_libraries(show_objects_kitti
                       ground_remove
                       folder_reader
                       visualization
+                      ${MY_QT_LIBRARIES}
                       ${Boost_LIBRARIES}
                       ${PCL_LIBRARIES}
                       ${CMAKE_THREAD_LIBS_INIT})
@@ -20,6 +21,7 @@ target_link_libraries(show_objects_moosman
                       ground_remove
                       folder_reader
                       visualization
+                      ${MY_QT_LIBRARIES}
                       ${Boost_LIBRARIES}
                       ${PCL_LIBRARIES}
                       ${OpenCV_LIBS}

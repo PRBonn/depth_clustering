@@ -5,6 +5,7 @@ target_link_libraries(show_objects_node
                       projections
                       ground_remove
                       visualization
+                      ${MY_QT_LIBRARIES}
                       ${Boost_LIBRARIES}
                       ${catkin_LIBRARIES}
                       ${PCL_LIBRARIES}

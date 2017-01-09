@@ -68,7 +68,11 @@ find_package(QGLViewer REQUIRED)
 if(${DISTRO} MATCHES "14.04")
   find_package(Qt4 REQUIRED COMPONENTS QtCore QtXml QtOpenGL QtGui)
   include_directories(${QT_INCLUDES})
-  set(MY_QT_LIBRARIES ${QT_LIBRARIES})
+  set(MY_QT_LIBRARIES
+      Qt4::QtCore
+      Qt4::QtXml
+      Qt4::QtOpenGL
+      Qt4::QtGui)
 elseif(${DISTRO} MATCHES "16.04")
   find_package(Qt5 REQUIRED COMPONENTS Core Xml OpenGL Gui Widgets)
   include_directories(${Qt5Core_INCLUDE_DIRS}
