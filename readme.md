@@ -8,6 +8,9 @@ This is a fast and robust algorithm to segment point clouds taken with
 Velodyne sensor into objects. It works with all available Velodyne sensors,
 i.e. 16, 32 and 64 beam ones.
 
+[![Segmentation illustration](https://i.ytimg.com/vi/mi-Z__B1yyE/1.jpg?time=1484042978870)](https://www.youtube.com/watch?v=mi-Z__B1yyE "Segmentation")
+
+
 ## How to build? ##
 ### Prerequisites ###
 - Catkin.
