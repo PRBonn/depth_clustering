@@ -3,14 +3,14 @@ project(depth_clustering)
 
 include(DistVersion.cmake)
 system_info(DISTRO)
-message(STATUS "We are running: ${DISTRO}")
+message(STATUS "DISTRO: ${DISTRO}")
 
 if(NOT CMAKE_BUILD_TYPE)
   set(POSSIBLE_BUILD_TYPES "Debug Release RelWithDebInfo MinSizeRel")
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING
       "Choose the type of build, options are: ${POSSIBLE_BUILD_TYPES}." FORCE)
 endif(NOT CMAKE_BUILD_TYPE)
-message(STATUS "Building with build type: " ${CMAKE_BUILD_TYPE})
+message(STATUS "CMAKE_BUILD_TYPE: " ${CMAKE_BUILD_TYPE})
 
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
@@ -113,6 +113,14 @@ include_directories(config)
 
 if (${PCL_FOUND})
   message(STATUS "PCL is found. PCL-related code will be built.")
+  if (${CMAKE_BUILD_TYPE} MATCHES "Debug" AND ${DISTRO} MATCHES "14.04")
+    message(FATAL_ERROR
+            "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+            "You are building PCL in Debug mode with C++11 enabled.\n"
+            "This causes segmentation fault due to a bug in PCL.\n"
+            "Build in RELEASE mode to avoid this bug.\n"
+            "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+  endif()
   add_definitions(-DPCL_FOUND)
 else()
   message(WARNING "PCL NOT FOUND! PCL-related code WILL NOT be built")
