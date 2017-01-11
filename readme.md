@@ -9,7 +9,7 @@ Velodyne sensor into objects. It works with all available Velodyne sensors,
 i.e. 16, 32 and 64 beam ones.
 
 Check out a video that shows all objects which have a bounding box of less than 10 squared meters:
-[![Segmentation illustration](http://img.youtube.com/vi/mi-Z__B1yyE/1.jpg)](https://www.youtube.com/watch?v=mi-Z__B1yyE "Segmentation")
+[![Segmentation illustration](http://img.youtube.com/vi/mi-Z__B1yyE/0.jpg)](https://www.youtube.com/watch?v=mi-Z__B1yyE "Segmentation")
 
 
 ## How to build? ##
