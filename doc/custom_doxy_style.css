@@ -1163,7 +1163,7 @@ dl.section dd {
   margin: 0px;
   padding: 2px 0px;
 }
-    
+
 #projectbrief
 {
   font: 120% Tahoma, Arial,sans-serif;
@@ -1188,7 +1188,7 @@ dl.section dd {
 
 .image
 {
-        text-align: center;
+        text-align: left;
 }
 
 .dotgraph
