@@ -21,6 +21,7 @@
 #include <memory>
 
 #include "utils/radians.h"
+#include "utils/useful_typedefs.h"
 
 namespace depth_clustering {
 
@@ -29,6 +30,8 @@ namespace depth_clustering {
  */
 class ProjectionParams {
  public:
+  using Ptr = shared_ptr<ProjectionParams>;
+  using ConstPtr = const shared_ptr<const ProjectionParams>;
   enum class Direction { HORIZONTAL, VERTICAL };
   enum class Set { COLS, ROWS };
   ProjectionParams() {}

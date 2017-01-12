@@ -118,7 +118,7 @@ if (${PCL_FOUND})
             "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
             "You are building PCL in Debug mode with C++11 enabled.\n"
             "This causes segmentation fault due to a bug in PCL.\n"
-            "Build in RELEASE mode to avoid this bug.\n"
+            "Build in Release mode to avoid this bug.\n"
             "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
   endif()
   add_definitions(-DPCL_FOUND)

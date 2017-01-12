@@ -19,6 +19,7 @@ add_executable(depth_clustering_test
                  test_radians.cpp
                  test_proj_params.cpp
                  test_cloud_projection.cpp
+                 test_diff_helper.cpp
                  test_ground_remove.cpp)
 
 target_link_libraries(depth_clustering_test

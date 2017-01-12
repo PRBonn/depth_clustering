@@ -105,7 +105,7 @@ class LinearImageLabeler : public AbstractImageLabeler {
           continue;
         }
         // if we just went over the borders in horiz direction - wrap around
-        WrapCols(neighbor.col);
+        neighbor.col = WrapCols(neighbor.col);
         uint16_t& neigh_label = RefToLabelAt(neighbor);
         if (neigh_label > 0) {
           // we have already labeled this one
@@ -144,16 +144,15 @@ class LinearImageLabeler : public AbstractImageLabeler {
   /**
    * @brief      Wrap columns around image
    */
-  void WrapCols(int16_t& col) const {
+  int16_t WrapCols(int16_t col) const {
     // we allow our space to fold around cols
     if (col < 0) {
-      col += _label_image.cols;
-      return;
+      return col + _label_image.cols;
     }
     if (col >= _label_image.cols) {
-      col -= _label_image.cols;
-      return;
+      return col - _label_image.cols;
     }
+    return col;
   }
 
   /**
@@ -176,7 +175,6 @@ class LinearImageLabeler : public AbstractImageLabeler {
           // depth is zero, not interested
           continue;
         }
-
         LabelOneComponent(label, PixelCoord(row, col), &diff_helper);
         // we have finished labeling this connected component. We now need to
         // label the next one, so we increment the label
