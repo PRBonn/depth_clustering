@@ -102,6 +102,117 @@ class AngleDiff : public AbstractDiff {
   AngleDiff(const cv::Mat* source_image, const ProjectionParams* params)
       : AbstractDiff{source_image}, _params{params} {
     PreComputeAlphaVecs();
+  }
+
+  /**
+   * @brief      Compute angle-based difference. See paper for details.
+   *
+   * @param[in]  from  Pixel from which to compute difference
+   * @param[in]  to    Pixel to which to compute difference
+   *
+   * @return     Angle difference between the values
+   */
+  float DiffAt(const PixelCoord& from, const PixelCoord& to) const override {
+    const float& current_depth = _source_image->at<float>(from.row, from.col);
+    const float& neighbor_depth = _source_image->at<float>(to.row, to.col);
+    float alpha = ComputeAlpha(from, to);
+    if (alpha > _params->h_span().val() - 0.05) {
+      // we are over the border
+      const float span = _params->h_span().val();
+      if (alpha > span) {
+        alpha -= span;
+      } else {
+        alpha = span - alpha;
+      }
+    }
+    float d1 = std::max(current_depth, neighbor_depth);
+    float d2 = std::min(current_depth, neighbor_depth);
+    float beta = std::atan2((d2 * sin(alpha)), (d1 - d2 * cos(alpha)));
+    return fabs(beta);
+  }
+
+  /**
+   * @brief      Threshold is satisfied if angle is BIGGER than threshold
+   */
+  bool SatisfiesThreshold(float angle, float threshold) const override {
+    return angle > threshold;
+  }
+
+ private:
+  /**
+   * @brief      Pre-compute values for angles for all cols and rows
+   */
+  void PreComputeAlphaVecs() {
+    _row_alphas.reserve(_params->rows());
+    for (size_t r = 0; r < _params->rows() - 1; ++r) {
+      _row_alphas.push_back(fabs(
+          (_params->AngleFromRow(r + 1) - _params->AngleFromRow(r)).val()));
+    }
+    // add last row alpha
+    _row_alphas.push_back(0.0f);
+    // now handle the cols
+    _col_alphas.reserve(_params->cols());
+    for (size_t c = 0; c < _params->cols() - 1; ++c) {
+      _col_alphas.push_back(fabs(
+          (_params->AngleFromCol(c + 1) - _params->AngleFromCol(c)).val()));
+    }
+    // handle last angle where we wrap columns
+    float last_alpha = fabs(
+        (_params->AngleFromCol(0) - _params->AngleFromCol(_params->cols() - 1))
+            .val());
+    last_alpha -= _params->h_span().val();
+    _col_alphas.push_back(last_alpha);
+  }
+
+  /**
+   * @brief      Calculates the alpha.
+   *
+   * @param[in]  current   The current
+   * @param[in]  neighbor  The neighbor
+   *
+   * @return     The alpha.
+   */
+  float ComputeAlpha(const PixelCoord& current,
+                     const PixelCoord& neighbor) const {
+    if ((current.col == 0 &&
+         neighbor.col == static_cast<int>(_params->cols() - 1)) ||
+        (neighbor.col == 0 &&
+         current.col == static_cast<int>(_params->cols() - 1))) {
+      // this means we wrap around
+      return _col_alphas.back();
+    }
+    if (current.row < neighbor.row) {
+      return _row_alphas[current.row];
+    } else if (current.row > neighbor.row) {
+      return _row_alphas[neighbor.row];
+    } else if (current.col < neighbor.col) {
+      return _col_alphas[current.col];
+    } else if (current.col > neighbor.col) {
+      return _col_alphas[neighbor.col];
+    }
+    return 0;
+  }
+
+  const ProjectionParams* _params = nullptr;
+  std::vector<float> _row_alphas;
+  std::vector<float> _col_alphas;
+};
+
+/**
+ * @brief      Class for angle difference.
+ */
+class AngleDiffPrecomputed : public AbstractDiff {
+ public:
+  /**
+   * @brief      Precompute the angles to avoid losing time on that.
+   *
+   * @param[in]  source_image  The source image
+   * @param[in]  params        The projection parameters
+   */
+  AngleDiffPrecomputed(const cv::Mat* source_image,
+                       const ProjectionParams* params)
+      : AbstractDiff{source_image}, _params{params} {
+    PreComputeAlphaVecs();
     PreComputeBetaAngles();
   }
 
@@ -178,8 +289,9 @@ class AngleDiff : public AbstractDiff {
           (_params->AngleFromCol(c + 1) - _params->AngleFromCol(c)).val()));
     }
     // handle last angle where we wrap columns
-    float last_alpha = fabs((_params->AngleFromCol(0) -
-                             _params->AngleFromCol(_params->cols() - 1)).val());
+    float last_alpha = fabs(
+        (_params->AngleFromCol(0) - _params->AngleFromCol(_params->cols() - 1))
+            .val());
     last_alpha -= _params->h_span().val();
     _col_alphas.push_back(fabs(last_alpha));
   }

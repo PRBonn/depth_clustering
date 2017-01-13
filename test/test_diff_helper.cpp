@@ -11,11 +11,12 @@
 
 using namespace depth_clustering;
 using namespace cv;
+using namespace std;
 
-class TestAngleDiff : public AngleDiff {
+class TestAngleDiff : public AngleDiffPrecomputed {
  public:
   TestAngleDiff(const cv::Mat* source_image, const ProjectionParams* params)
-      : AngleDiff{source_image, params} {}
+      : AngleDiffPrecomputed{source_image, params} {}
   ~TestAngleDiff() {}
 
   vector<float> GetRowAlphas() const { return _row_alphas; }
@@ -108,7 +109,7 @@ TEST(AngleDiff, Start) {
                  ProjectionParams::Direction::VERTICAL);
   params.SetSpan(0_deg, 1_deg * size, size,
                  ProjectionParams::Direction::HORIZONTAL);
-  AngleDiff angle_diff_helper(&depth_image, &params);
+  AngleDiffPrecomputed angle_diff_helper(&depth_image, &params);
   auto eps = 0.01f;
   EXPECT_NEAR(M_PI / 2,
               angle_diff_helper.DiffAt(PixelCoord(0, 0), PixelCoord(1, 0)),
@@ -132,7 +133,7 @@ TEST(AngleDiff, Middle) {
                  ProjectionParams::Direction::VERTICAL);
   params.SetSpan(0_deg, 1_deg * size, size,
                  ProjectionParams::Direction::HORIZONTAL);
-  AngleDiff angle_diff_helper(&depth_image, &params);
+  AngleDiffPrecomputed angle_diff_helper(&depth_image, &params);
   auto eps = 0.01f;
   for (int r = 1; r < size - 1; ++r) {
     for (int c = 1; c < size - 1; ++c) {
@@ -171,7 +172,7 @@ TEST(AngleDiff, OverBorder) {
                  ProjectionParams::Direction::VERTICAL);
   params.SetSpan(0_deg, 1_deg * size, size,
                  ProjectionParams::Direction::HORIZONTAL);
-  AngleDiff angle_diff_helper(&depth_image, &params);
+  AngleDiffPrecomputed angle_diff_helper(&depth_image, &params);
   auto eps = 0.01f;
   EXPECT_NEAR(M_PI / 2,
               angle_diff_helper.DiffAt(PixelCoord(3, 3), PixelCoord(3, 0)),
