@@ -312,6 +312,9 @@ class AngleDiffPrecomputed : public AbstractDiff {
     for (size_t r = 0; r < _params->rows(); ++r) {
       float angle_rows = _row_alphas[r];
       for (size_t c = 0; c < _params->cols(); ++c) {
+        if (_source_image->at<float>(r, c) < 0.001) {
+          continue;
+        }
         float angle_cols = _col_alphas[c];
         float curr = _source_image->at<float>(r, c);
         // Compute beta in horizontal (col) direction. Note wrapping around.
