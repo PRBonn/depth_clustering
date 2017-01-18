@@ -284,7 +284,7 @@ class AngleDiffPrecomputed : public AbstractDiff {
         auto col_angle = Radians::FromRadians(_beta_cols.at<float>(r, c));
         uint8_t row_color = 255 * (row_angle.ToDegrees() / 90.);
         uint8_t col_color = 255 * (col_angle.ToDegrees() / 90.);
-        cv::Vec3b color(row_color, col_color, 0);
+        cv::Vec3b color(255 - row_color, 255 - col_color, 0);
         colors.at<cv::Vec3b>(r, c) = color;
       }
     }

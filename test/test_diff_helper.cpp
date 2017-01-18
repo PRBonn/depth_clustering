@@ -185,3 +185,23 @@ TEST(AngleDiff, OverBorder) {
   EXPECT_NEAR(0, angle_diff_helper.DiffAt(PixelCoord(0, 3), PixelCoord(3, 3)),
               eps);
 }
+
+TEST(AngleDiff, ColorVisualization) {
+  int size = 4;
+  Mat depth_image = cv::Mat::ones(size, size, DataType<float>::type);
+  ProjectionParams params;
+  params.SetSpan(0_deg, 1_deg * size, size,
+                 ProjectionParams::Direction::VERTICAL);
+  params.SetSpan(0_deg, 1_deg * size, size,
+                 ProjectionParams::Direction::HORIZONTAL);
+  AngleDiffPrecomputed angle_diff_helper(&depth_image, &params);
+  cv::Mat colors = angle_diff_helper.Visualize();
+  auto eps = 0.1f;
+  EXPECT_NEAR(255, colors.at<cv::Vec3b>(3, 3)[0], eps);
+  EXPECT_NEAR(2, colors.at<cv::Vec3b>(3, 3)[1], eps);
+  EXPECT_NEAR(0, colors.at<cv::Vec3b>(3, 3)[2], eps);
+
+  EXPECT_NEAR(2, colors.at<cv::Vec3b>(0, 0)[0], eps);
+  EXPECT_NEAR(2, colors.at<cv::Vec3b>(0, 0)[1], eps);
+  EXPECT_NEAR(0, colors.at<cv::Vec3b>(0, 0)[2], eps);
+}
