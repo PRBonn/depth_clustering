@@ -157,9 +157,8 @@ class AngleDiff : public AbstractDiff {
           (_params->AngleFromCol(c + 1) - _params->AngleFromCol(c)).val()));
     }
     // handle last angle where we wrap columns
-    float last_alpha = fabs(
-        (_params->AngleFromCol(0) - _params->AngleFromCol(_params->cols() - 1))
-            .val());
+    float last_alpha = fabs((_params->AngleFromCol(0) -
+                             _params->AngleFromCol(_params->cols() - 1)).val());
     last_alpha -= _params->h_span().val();
     _col_alphas.push_back(last_alpha);
   }
@@ -270,6 +269,28 @@ class AngleDiffPrecomputed : public AbstractDiff {
     return angle > threshold;
   }
 
+  /**
+   * @brief      Visualize \f$\beta\f$ angles as a `cv::Mat` color image.
+   *
+   * @return     `cv::Mat` color image with red channel showing \f$\beta\f$
+   *              angles in row direction and green channel in col direction.
+   */
+  cv::Mat Visualize() const {
+    cv::Mat colors = cv::Mat::zeros(_beta_rows.rows, _beta_rows.cols, CV_8UC3);
+
+    for (int r = 0; r < _beta_rows.rows; ++r) {
+      for (int c = 0; c < _beta_rows.cols; ++c) {
+        auto row_angle = Radians::FromRadians(_beta_rows.at<float>(r, c));
+        auto col_angle = Radians::FromRadians(_beta_cols.at<float>(r, c));
+        uint8_t row_color = 255 * (row_angle.ToDegrees() / 90.);
+        uint8_t col_color = 255 * (col_angle.ToDegrees() / 90.);
+        cv::Vec3b color(row_color, col_color, 0);
+        colors.at<cv::Vec3b>(r, c) = color;
+      }
+    }
+    return colors;
+  }
+
  protected:
   /**
    * @brief      Pre-compute values for angles for all cols and rows
@@ -289,9 +310,8 @@ class AngleDiffPrecomputed : public AbstractDiff {
           (_params->AngleFromCol(c + 1) - _params->AngleFromCol(c)).val()));
     }
     // handle last angle where we wrap columns
-    float last_alpha = fabs(
-        (_params->AngleFromCol(0) - _params->AngleFromCol(_params->cols() - 1))
-            .val());
+    float last_alpha = fabs((_params->AngleFromCol(0) -
+                             _params->AngleFromCol(_params->cols() - 1)).val());
     last_alpha -= _params->h_span().val();
     _col_alphas.push_back(fabs(last_alpha));
   }
