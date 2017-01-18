@@ -38,7 +38,7 @@ It can also be built with `catkin_tools` if the code is inside catkin
 workspace:
 - `catkin build depth_clustering`
 
-P.S. in case you don't use `catking build` you [should][catkin_tools_docs].
+P.S. in case you don't use `catkin build` you [should][catkin_tools_docs].
 Install it by `sudo pip install catkin_tools`.
 
 ## How to run? ##
