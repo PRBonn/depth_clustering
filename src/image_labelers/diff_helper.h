@@ -280,6 +280,7 @@ class AngleDiffPrecomputed : public AbstractDiff {
 
     for (int r = 0; r < _beta_rows.rows; ++r) {
       for (int c = 0; c < _beta_rows.cols; ++c) {
+        if (_source_image->at<float>(r, c) < 0.01f) { continue; }
         auto row_angle = Radians::FromRadians(_beta_rows.at<float>(r, c));
         auto col_angle = Radians::FromRadians(_beta_cols.at<float>(r, c));
         uint8_t row_color = 255 * (row_angle.ToDegrees() / 90.);
