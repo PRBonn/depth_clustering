@@ -140,6 +140,7 @@ catkin_package(
       cloud
       identifiable
       ground_remove
+      difference
       image_labeler
       projections
       ros_bridge

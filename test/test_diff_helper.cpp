@@ -7,7 +7,7 @@
 #include <limits>
 #include <vector>
 
-#include "image_labelers/diff_helper.h"
+#include "image_labelers/diff_helpers/angle_diff.h"
 
 using namespace depth_clustering;
 using namespace cv;

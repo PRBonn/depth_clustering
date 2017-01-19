@@ -22,8 +22,8 @@
 #include <algorithm>
 
 #include "image_labelers/abstract_image_labeler.h"
-#include "image_labelers/diff_helper.h"
 #include "image_labelers/pixel_coords.h"
+#include "image_labelers/diff_helpers/angle_diff.h"
 
 namespace depth_clustering {
 

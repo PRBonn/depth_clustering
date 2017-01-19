@@ -1,1 +1,4 @@
+add_subdirectory(diff_helpers)
+
 add_library(image_labeler SHARED abstract_image_labeler.cpp)
+target_link_libraries(image_labeler difference)

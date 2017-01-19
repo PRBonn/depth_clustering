@@ -21,7 +21,8 @@
 
 #include "utils/velodyne_utils.h"
 #include "image_labelers/linear_image_labeler.h"
-#include "image_labelers/diff_helper.h"
+#include "image_labelers/diff_helpers/angle_diff.h"
+#include "image_labelers/diff_helpers/simple_diff.h"
 #include "utils/timer.h"
 
 namespace depth_clustering {
