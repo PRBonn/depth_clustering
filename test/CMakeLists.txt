@@ -28,6 +28,7 @@ target_link_libraries(depth_clustering_test
                     projections
                     image_labeler
                     ground_remove
+                    difference
                     ${catkin_LIBRARIES}
                     ${PCL_LIBRARIES}
                     ${OpenCV_LIBS}
