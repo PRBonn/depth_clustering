@@ -278,13 +278,14 @@ class AngleDiffPrecomputed : public AbstractDiff {
   cv::Mat Visualize() const {
     cv::Mat colors = cv::Mat::zeros(_beta_rows.rows, _beta_rows.cols, CV_8UC3);
 
+    float max_angle_deg = 90.0f;
     for (int r = 0; r < _beta_rows.rows; ++r) {
       for (int c = 0; c < _beta_rows.cols; ++c) {
         if (_source_image->at<float>(r, c) < 0.01f) { continue; }
         auto row_angle = Radians::FromRadians(_beta_rows.at<float>(r, c));
         auto col_angle = Radians::FromRadians(_beta_cols.at<float>(r, c));
-        uint8_t row_color = 255 * (row_angle.ToDegrees() / 90.);
-        uint8_t col_color = 255 * (col_angle.ToDegrees() / 90.);
+        uint8_t row_color = 255 * (row_angle.ToDegrees() / max_angle_deg);
+        uint8_t col_color = 255 * (col_angle.ToDegrees() / max_angle_deg);
         cv::Vec3b color(255 - row_color, 255 - col_color, 0);
         colors.at<cv::Vec3b>(r, c) = color;
       }

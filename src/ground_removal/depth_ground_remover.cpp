@@ -88,7 +88,7 @@ Mat DepthGroundRemover::ZeroOutGroundBFS(const cv::Mat& image,
       --r;
     }
     auto current_coord = PixelCoord(r, c);
-    uint16_t current_label = image_labeler.RefToLabelAt(current_coord);
+    uint16_t current_label = image_labeler.LabelAt(current_coord);
     if (current_label > 0) {
       // this coord was already labeled, skip
       continue;

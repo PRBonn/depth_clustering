@@ -84,16 +84,16 @@ class LinearImageLabeler : public AbstractImageLabeler {
       // copy the current coordinate
       const PixelCoord current = labeling_queue.front();
       labeling_queue.pop();
-      uint16_t& current_label = RefToLabelAt(current);
+      uint16_t current_label = LabelAt(current);
       if (current_label > 0) {
         // we have already labeled this point. No need to add it.
         continue;
       }
       // set the label of this point to current label
-      current_label = label;
+      SetLabel(current, label);
 
       // check the depth
-      auto current_depth = RefToDepthAt(current);
+      auto current_depth = DepthAt(current);
       if (current_depth < 0.001f) {
         // depth of this point is wrong, so don't bother adding it to queue
         continue;
@@ -106,7 +106,7 @@ class LinearImageLabeler : public AbstractImageLabeler {
         }
         // if we just went over the borders in horiz direction - wrap around
         neighbor.col = WrapCols(neighbor.col);
-        uint16_t& neigh_label = RefToLabelAt(neighbor);
+        uint16_t neigh_label = LabelAt(neighbor);
         if (neigh_label > 0) {
           // we have already labeled this one
           continue;
@@ -120,25 +120,34 @@ class LinearImageLabeler : public AbstractImageLabeler {
   }
 
   /**
-   * @brief      Gets reference to depth value at pixel
+   * @brief      Gets depth value at pixel
    *
    * @param[in]  coord  Pixel coordinate
    *
-   * @return     depth reference
+   * @return     depth at pixel
    */
-  const float& RefToDepthAt(const PixelCoord& coord) {
+  inline float DepthAt(const PixelCoord& coord) const {
     return _depth_image_ptr->at<float>(coord.row, coord.col);
   }
 
   /**
-   * @brief      Gets reference to depth value at pixel
+   * @brief      Gets label of a given pixel
    *
    * @param[in]  coord  Pixel coordinate
    *
-   * @return     depth reference
+   * @return     label for pixel
    */
-  uint16_t& RefToLabelAt(const PixelCoord& coord) {
+  inline uint16_t LabelAt(const PixelCoord& coord) const {
     return _label_image.at<uint16_t>(coord.row, coord.col);
+  }
+
+  /**
+   * @brief      Sets label of a given pixel
+   *
+   * @param[in]  coord  Pixel coordinate
+   */
+  inline void SetLabel(const PixelCoord& coord, uint16_t label) {
+    _label_image.at<uint16_t>(coord.row, coord.col) = label;
   }
 
   /**
