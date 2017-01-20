@@ -16,7 +16,7 @@
 #ifndef SRC_IMAGE_LABELERS_DIFF_HELPERS_SIMPLE_DIFF_H_
 #define SRC_IMAGE_LABELERS_DIFF_HELPERS_SIMPLE_DIFF_H_
 
-#include "image_labelers/diff_helpers/abstract_diff_helper.h"
+#include "image_labelers/diff_helpers/abstract_diff.h"
 
 namespace depth_clustering {
 

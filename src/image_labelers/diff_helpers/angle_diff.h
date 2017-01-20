@@ -20,7 +20,7 @@
 #include <vector>
 #include <algorithm>
 
-#include "image_labelers/diff_helpers/abstract_diff_helper.h"
+#include "image_labelers/diff_helpers/abstract_diff.h"
 
 namespace depth_clustering {
 
