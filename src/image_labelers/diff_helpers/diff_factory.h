@@ -20,6 +20,7 @@
 
 #include "image_labelers/diff_helpers/abstract_diff.h"
 #include "image_labelers/diff_helpers/angle_diff.h"
+#include "image_labelers/diff_helpers/line_dist_diff.h"
 #include "image_labelers/diff_helpers/simple_diff.h"
 #include "utils/mem_utils.h"
 
@@ -27,7 +28,14 @@ namespace depth_clustering {
 
 class DiffFactory {
  public:
-  enum class DiffType { SIMPLE, ANGLES, ANGLED_PRECOMPUTED, NONE };
+  enum class DiffType {
+    SIMPLE,
+    ANGLES,
+    ANGLES_PRECOMPUTED,
+    LINE_DIST,
+    LINE_DIST_PRECOMPUTED,
+    NONE
+  };
 
   static std::unique_ptr<AbstractDiff> Build(
       DiffType type, const cv::Mat* source_image,
@@ -42,9 +50,19 @@ class DiffFactory {
             new AngleDiff(source_image, params));
         break;
       }
-      case DiffType::ANGLED_PRECOMPUTED: {
+      case DiffType::ANGLES_PRECOMPUTED: {
         return std::unique_ptr<AbstractDiff>(
             new AngleDiffPrecomputed(source_image, params));
+        break;
+      }
+      case DiffType::LINE_DIST: {
+        return std::unique_ptr<AbstractDiff>(
+            new LineDistDiff(source_image, params));
+        break;
+      }
+      case DiffType::LINE_DIST_PRECOMPUTED: {
+        return std::unique_ptr<AbstractDiff>(
+            new LineDistDiffPrecomputed(source_image, params));
         break;
       }
       case DiffType::NONE: {
