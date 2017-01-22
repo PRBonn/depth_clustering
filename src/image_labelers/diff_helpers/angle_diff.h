@@ -17,8 +17,8 @@
 #define SRC_IMAGE_LABELERS_DIFF_HELPERS_ANGLE_DIFF_H_
 
 #include <math.h>
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 #include "image_labelers/diff_helpers/abstract_diff.h"
 
@@ -145,6 +145,17 @@ class AngleDiffPrecomputed : public AbstractDiff {
    */
   void PreComputeBetaAngles();
 
+  /**
+   * @brief      Compute the angle \f$\beta\f$ of incline of the line spawned
+   *             by two given beams.
+   *
+   * @param[in]  alpha           The angle \f$\alpha\f$ between the beams.
+   * @param[in]  current_depth   The reading of the first beam in meters.
+   * @param[in]  neighbor_depth  The reading of the second beam in meters.
+   *
+   * @return     The angle of incidence of the line spawned by endpoints of
+   *             two given beams.
+   */
   float GetBeta(float alpha, float current_depth, float neighbor_depth) const;
 
   const ProjectionParams* _params = nullptr;

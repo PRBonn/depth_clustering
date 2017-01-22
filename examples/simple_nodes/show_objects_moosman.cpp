@@ -10,15 +10,16 @@
 #include <thread>
 
 #include "clusterers/image_based_clusterer.h"
+#include "image_labelers/diff_helpers/diff_factory.h"
 
-#include "utils/cloud.h"
-#include "utils/timer.h"
-#include "utils/folder_reader.h"
-#include "utils/radians.h"
-#include "utils/velodyne_utils.h"
-#include "visualization/visualizer.h"
 #include "ground_removal/depth_ground_remover.h"
 #include "projections/projection_params.h"
+#include "utils/cloud.h"
+#include "utils/folder_reader.h"
+#include "utils/radians.h"
+#include "utils/timer.h"
+#include "utils/velodyne_utils.h"
+#include "visualization/visualizer.h"
 
 #include "tclap/CmdLine.h"
 
@@ -51,6 +52,7 @@ void ReadData(const Radians& angle_tollerance, const string& in_path,
 
   ImageBasedClusterer<LinearImageLabeler<>> clusterer(
       angle_tollerance, min_cluster_size, max_cluster_size);
+  clusterer.SetDiffType(DiffFactory::DiffType::ANGLES);
 
   depth_ground_remover.AddClient(&clusterer);
   clusterer.AddClient(visualizer->object_clouds_client());

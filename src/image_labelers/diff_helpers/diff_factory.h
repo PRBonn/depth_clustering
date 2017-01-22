@@ -19,31 +19,36 @@
 #include <memory>
 
 #include "image_labelers/diff_helpers/abstract_diff.h"
-#include "image_labelers/diff_helpers/simple_diff.h"
 #include "image_labelers/diff_helpers/angle_diff.h"
+#include "image_labelers/diff_helpers/simple_diff.h"
 #include "utils/mem_utils.h"
 
 namespace depth_clustering {
 
 class DiffFactory {
  public:
-  enum class DiffType { SIMPLE, ANGLES, ANGLED_PRECOMPUTED };
+  enum class DiffType { SIMPLE, ANGLES, ANGLED_PRECOMPUTED, NONE };
 
-  std::unique_ptr<AbstractDiff> Build(
+  static std::unique_ptr<AbstractDiff> Build(
       DiffType type, const cv::Mat* source_image,
       const ProjectionParams* params = nullptr) {
     switch (type) {
       case DiffType::SIMPLE: {
-        return make_unique<AbstractDiff>(SimpleDiff(source_image));
+        return std::unique_ptr<AbstractDiff>(new SimpleDiff(source_image));
         break;
       }
       case DiffType::ANGLES: {
-        return make_unique<AbstractDiff>(AngleDiff(source_image, params));
+        return std::unique_ptr<AbstractDiff>(
+            new AngleDiff(source_image, params));
         break;
       }
       case DiffType::ANGLED_PRECOMPUTED: {
-        return make_unique<AbstractDiff>(
-            AngleDiffPrecomputed(source_image, params));
+        return std::unique_ptr<AbstractDiff>(
+            new AngleDiffPrecomputed(source_image, params));
+        break;
+      }
+      case DiffType::NONE: {
+        fprintf(stderr, "ERROR: DiffType is NONE. Please set it.\n");
         break;
       }
     }

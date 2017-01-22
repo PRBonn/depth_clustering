@@ -8,8 +8,8 @@
 #include <string>
 #include <vector>
 
-#include "image_labelers/linear_image_labeler.h"
 #include "image_labelers/dijkstra_image_labeler.h"
+#include "image_labelers/linear_image_labeler.h"
 
 using std::string;
 using std::vector;
@@ -76,7 +76,7 @@ TEST(LinearImageLabeler, UniformDepth) {
   params.SetSpan(0_deg, 1_deg * size, size,
                  ProjectionParams::Direction::HORIZONTAL);
   LinearImageLabeler<> labeler(depth_image, params, threshold);
-  labeler.ComputeLabels();
+  labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
   for (int r = 0; r < size; ++r) {
     for (int c = 0; c < size; ++c) {
@@ -109,7 +109,7 @@ TEST(LinearImageLabeler, GradientDepth) {
   params.SetSpan(0_deg, 1_deg * size, size,
                  ProjectionParams::Direction::HORIZONTAL);
   LinearImageLabeler<> labeler(depth_image, params, threshold);
-  labeler.ComputeLabels();
+  labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
   for (int r = 0; r < size; ++r) {
     for (int c = 0; c < size; ++c) {
@@ -139,7 +139,7 @@ TEST(LinearImageLabeler, TwoLabelImageVertical) {
   params.SetSpan(0_deg, 1_deg * size, size,
                  ProjectionParams::Direction::HORIZONTAL);
   LinearImageLabeler<1, 1> labeler(depth_image, params, threshold);
-  labeler.ComputeLabels();
+  labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
   EXPECT_EQ(2, label_image->at<uint16_t>(0, 2));
   EXPECT_EQ(2, label_image->at<uint16_t>(4, 2));
@@ -175,7 +175,7 @@ TEST(LinearImageLabeler, TwoLabelImageHorizontal) {
   params.SetSpan(0_deg, 1_deg * size, size,
                  ProjectionParams::Direction::HORIZONTAL);
   LinearImageLabeler<1, 1> labeler(depth_image, params, threshold);
-  labeler.ComputeLabels();
+  labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
   ASSERT_EQ(2, label_image->at<uint16_t>(2, 0));
   ASSERT_EQ(2, label_image->at<uint16_t>(2, 4));
@@ -216,7 +216,7 @@ TEST(LinearImageLabeler, MultiClassHard) {
   params.SetSpan(0_deg, 1_deg * size, size,
                  ProjectionParams::Direction::HORIZONTAL);
   LinearImageLabeler<1, 1> labeler(depth_image, params, threshold);
-  labeler.ComputeLabels();
+  labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
 
   ASSERT_EQ(1, label_image->at<uint16_t>(0, 0));
@@ -257,7 +257,7 @@ TEST(DijkstraImageLabeler, TwoLabelImageVertical) {
   params.SetSpan(0_deg, 1_deg * size, size,
                  ProjectionParams::Direction::HORIZONTAL);
   LinearImageLabeler<1, 1> labeler(depth_image, params, threshold);
-  labeler.ComputeLabels();
+  labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
   EXPECT_EQ(2, label_image->at<uint16_t>(0, 2));
   EXPECT_EQ(2, label_image->at<uint16_t>(4, 2));
@@ -293,7 +293,7 @@ TEST(DijkstraImageLabeler, TwoLabelImageHorizontal) {
   params.SetSpan(0_deg, 1_deg * size, size,
                  ProjectionParams::Direction::HORIZONTAL);
   LinearImageLabeler<1, 1> labeler(depth_image, params, threshold);
-  labeler.ComputeLabels();
+  labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
   ASSERT_EQ(2, label_image->at<uint16_t>(2, 0));
   ASSERT_EQ(2, label_image->at<uint16_t>(2, 4));
@@ -334,7 +334,7 @@ TEST(DijkstraImageLabeler, MultiClassHard) {
   params.SetSpan(0_deg, 1_deg * size, size,
                  ProjectionParams::Direction::HORIZONTAL);
   LinearImageLabeler<1, 1> labeler(depth_image, params, threshold);
-  labeler.ComputeLabels();
+  labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
 
   ASSERT_EQ(1, label_image->at<uint16_t>(0, 0));
