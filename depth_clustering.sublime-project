@@ -14,16 +14,13 @@
       "path": "."
     }
   ],
-  "flags_sources": [
-    {
-      "file": "CMakeLists.txt",
-      "prefix_paths":
-      [
-        "/opt/ros/kinetic"
-        "~/Code/catkin_ws/devel",
-      ]
-    },
-    {"file": "compile_commands.json"},
-    {"file": ".clang_complete"},
-  ],
+  "settings": 
+  {
+    "ecc_flags_sources": [
+      {
+        "file": "CMakeLists.txt",
+        "prefix_paths": ["/opt/ros/kinetic", "~/Code/catkin_ws/devel"]
+      }
+    ]
+  }
 }
