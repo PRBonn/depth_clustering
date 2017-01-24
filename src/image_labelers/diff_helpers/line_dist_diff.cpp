@@ -134,7 +134,7 @@ float LineDistDiffPrecomputed::DiffAt(const PixelCoord& from,
 cv::Mat LineDistDiffPrecomputed::Visualize() const {
   cv::Mat colors = cv::Mat::zeros(_dists_row.rows, _dists_row.cols, CV_8UC3);
 
-  float max_dist = 50.0f;
+  float max_dist = 20.0f;
   for (int r = 0; r < _dists_row.rows; ++r) {
     for (int c = 0; c < _dists_row.cols; ++c) {
       if (_source_image->at<float>(r, c) < 0.01f) {
