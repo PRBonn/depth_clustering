@@ -17,21 +17,22 @@
 #define SRC_CLUSTERERS_IMAGE_BASED_CLUSTERER_H_
 
 #include <opencv/cv.h>
-#include <vector>
-#include <string>
-#include <map>
-#include <unordered_map>
-#include <ctime>
 #include <chrono>
+#include <ctime>
+#include <map>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 #include "communication/abstract_client.h"
 #include "communication/abstract_sender.h"
-#include "utils/useful_typedefs.h"
 #include "utils/cloud.h"
 #include "utils/radians.h"
 #include "utils/timer.h"
+#include "utils/useful_typedefs.h"
 
 #include "clusterers/abstract_clusterer.h"
+#include "image_labelers/diff_helpers/diff_factory.h"
 #include "image_labelers/linear_image_labeler.h"
 #include "projections/cloud_projection.h"
 
@@ -66,6 +67,13 @@ class ImageBasedClusterer : public AbstractClusterer {
   virtual ~ImageBasedClusterer() {}
 
   /**
+   * @brief      Sets the difference type.
+   *
+   * @param[in]  diff_type  The difference type
+   */
+  void SetDiffType(DiffFactory::DiffType diff_type) { _diff_type = diff_type; }
+
+  /**
    * @brief      Sets the label image client.
    *
    * @param      client  The client to receive color images with labels
@@ -90,7 +98,7 @@ class ImageBasedClusterer : public AbstractClusterer {
     time_utils::Timer timer;
     LabelerT image_labeler(cloud.projection_ptr()->depth_image(),
                            cloud.projection_ptr()->params(), _angle_tollerance);
-    image_labeler.ComputeLabels();
+    image_labeler.ComputeLabels(_diff_type);
     const cv::Mat* labels_ptr = image_labeler.GetLabelImage();
     fprintf(stderr, "INFO: image based labeling took: %lu us\n",
             timer.measure());
@@ -143,6 +151,8 @@ class ImageBasedClusterer : public AbstractClusterer {
   Radians _angle_tollerance;
 
   AbstractClient<cv::Mat>* _label_client;
+
+  DiffFactory::DiffType _diff_type = DiffFactory::DiffType::NONE;
 };
 
 }  // namespace depth_clustering

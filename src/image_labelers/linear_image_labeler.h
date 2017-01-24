@@ -18,12 +18,11 @@
 
 #include <opencv2/opencv.hpp>
 
-#include <queue>
 #include <algorithm>
+#include <queue>
 
 #include "image_labelers/abstract_image_labeler.h"
 #include "image_labelers/pixel_coords.h"
-#include "image_labelers/diff_helpers/angle_diff.h"
 
 namespace depth_clustering {
 
@@ -167,10 +166,11 @@ class LinearImageLabeler : public AbstractImageLabeler {
   /**
    * @brief      Calculates the labels running over the whole image.
    */
-  void ComputeLabels() override {
+  void ComputeLabels(DiffFactory::DiffType diff_type) override {
     _label_image =
         cv::Mat::zeros(_depth_image_ptr->size(), cv::DataType<uint16_t>::type);
-    AngleDiff diff_helper(_depth_image_ptr, &_params);
+    auto diff_helper_ptr =
+        DiffFactory::Build(diff_type, _depth_image_ptr, &_params);
     // initialize the label
     uint16_t label = 1;
 
@@ -184,7 +184,7 @@ class LinearImageLabeler : public AbstractImageLabeler {
           // depth is zero, not interested
           continue;
         }
-        LabelOneComponent(label, PixelCoord(row, col), &diff_helper);
+        LabelOneComponent(label, PixelCoord(row, col), diff_helper_ptr.get());
         // we have finished labeling this connected component. We now need to
         // label the next one, so we increment the label
         label++;

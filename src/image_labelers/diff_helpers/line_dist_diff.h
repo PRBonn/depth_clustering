@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along
 // with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SRC_IMAGE_LABELERS_DIFF_HELPERS_ANGLE_DIFF_H_
-#define SRC_IMAGE_LABELERS_DIFF_HELPERS_ANGLE_DIFF_H_
+#ifndef SRC_IMAGE_LABELERS_DIFF_HELPERS_LINE_DIST_DIFF_H_
+#define SRC_IMAGE_LABELERS_DIFF_HELPERS_LINE_DIST_DIFF_H_
 
 #include <math.h>
 #include <algorithm>
@@ -25,17 +25,20 @@
 namespace depth_clustering {
 
 /**
- * @brief      Class for angle difference.
+ * @brief      Class for line-based difference. It is very alike to AngleDiff
+ *             class, just that after we have computed the angle, we compute
+ *             \f$d_1 sin(\beta)\f$ to get the distance to the line spawned
+ *             with two measurements.
  */
-class AngleDiff : public AbstractDiff {
+class LineDistDiff : public AbstractDiff {
  public:
   /**
-   * @brief      Precompute the angles to avoid losing time on that.
+   * @brief      Precompute the line distances to avoid losing time on that.
    *
    * @param[in]  source_image  The source image
    * @param[in]  params        The projection parameters
    */
-  AngleDiff(const cv::Mat* source_image, const ProjectionParams* params);
+  LineDistDiff(const cv::Mat* source_image, const ProjectionParams* params);
 
   /**
    * @brief      Compute angle-based difference. See paper for details.
@@ -87,7 +90,7 @@ class AngleDiff : public AbstractDiff {
 /**
  * @brief      Class for angle difference.
  */
-class AngleDiffPrecomputed : public AbstractDiff {
+class LineDistDiffPrecomputed : public AbstractDiff {
  public:
   /**
    * @brief      Precompute the angles to avoid losing time on that.
@@ -95,8 +98,8 @@ class AngleDiffPrecomputed : public AbstractDiff {
    * @param[in]  source_image  The source image
    * @param[in]  params        The projection parameters
    */
-  AngleDiffPrecomputed(const cv::Mat* source_image,
-                       const ProjectionParams* params);
+  LineDistDiffPrecomputed(const cv::Mat* source_image,
+                          const ProjectionParams* params);
 
   /**
    * @brief      Compute angle-based difference. See paper for details. Only one
@@ -143,7 +146,7 @@ class AngleDiffPrecomputed : public AbstractDiff {
    *             image and the first one.
    * @image html precompute_betas.png
    */
-  void PreComputeBetaAngles();
+  void PreComputeLineDists();
 
   /**
    * @brief      Compute the angle \f$\beta\f$ of incline of the line spawned
@@ -156,15 +159,16 @@ class AngleDiffPrecomputed : public AbstractDiff {
    * @return     The angle of incidence of the line spawned by endpoints of
    *             two given beams.
    */
-  float GetBeta(float alpha, float current_depth, float neighbor_depth) const;
+  float GetLineDist(float alpha, float current_depth,
+                    float neighbor_depth) const;
 
   const ProjectionParams* _params = nullptr;
   std::vector<float> _row_alphas;
   std::vector<float> _col_alphas;
-  cv::Mat _beta_rows;
-  cv::Mat _beta_cols;
+  cv::Mat _dists_row;
+  cv::Mat _dists_col;
 };
 
 }  // namespace depth_clustering
 
-#endif  // SRC_IMAGE_LABELERS_DIFF_HELPERS_ANGLE_DIFF_H_
+#endif  // SRC_IMAGE_LABELERS_DIFF_HELPERS_LINE_DIST_DIFF_H_

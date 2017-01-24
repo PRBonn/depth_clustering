@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along
 // with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SRC_IMAGE_LABELERS_DIFF_HELPERS_ABSTRACT_DIFF_HELPER_H_
-#define SRC_IMAGE_LABELERS_DIFF_HELPERS_ABSTRACT_DIFF_HELPER_H_
+#ifndef SRC_IMAGE_LABELERS_DIFF_HELPERS_ABSTRACT_DIFF_H_
+#define SRC_IMAGE_LABELERS_DIFF_HELPERS_ABSTRACT_DIFF_H_
 
 #include <opencv2/opencv.hpp>
 
@@ -69,4 +69,4 @@ class AbstractDiff {
 };
 }  // namespace depth_clustering
 
-#endif  // SRC_IMAGE_LABELERS_DIFF_HELPERS_ABSTRACT_DIFF_HELPER_H_
+#endif  // SRC_IMAGE_LABELERS_DIFF_HELPERS_ABSTRACT_DIFF_H_

@@ -1,17 +1,26 @@
 {
-	"build_systems":
-	[
-		{
-			"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
-			"name": "Anaconda Python Builder",
-			"selector": "source.python",
-			"shell_cmd": "\"python\" -u \"$file\""
-		}
-	],
-	"folders":
-	[
-		{
-			"path": "."
-		}
-	]
+  "build_systems":
+  [
+    {
+      "file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+      "name": "Anaconda Python Builder",
+      "selector": "source.python",
+      "shell_cmd": "\"python\" -u \"$file\""
+    }
+  ],
+  "folders":
+  [
+    {
+      "path": "."
+    }
+  ],
+  "settings": 
+  {
+    "ecc_flags_sources": [
+      {
+        "file": "CMakeLists.txt",
+        "prefix_paths": ["/opt/ros/kinetic", "~/Code/catkin_ws/devel"]
+      }
+    ]
+  }
 }
