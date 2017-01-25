@@ -15,16 +15,16 @@
 
 #include "utils/velodyne_utils.h"
 
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 
+#include <cassert>
+#include <fstream>
 #include <string>
 #include <vector>
-#include <fstream>
-#include <cassert>
 
 #include "utils/cloud.h"
 
@@ -58,9 +58,9 @@ Cloud::Ptr CloudFromMat(const cv::Mat& image, const ProjectionParams& config) {
   auto cloud_ptr = Cloud::Ptr(new Cloud);
   for (int row = 0; row < image.rows; ++row) {
     for (int col = 0; col < image.cols; ++col) {
-      double meters = static_cast<double>(image.at<float>(row, col));
-      double angle_xy = config.AngleFromCol(col).val();
-      double angle_z = config.AngleFromRow(row).val();
+      float meters = image.at<float>(row, col);
+      float angle_xy = config.AngleFromCol(col).val();
+      float angle_z = config.AngleFromRow(row).val();
       RichPoint point;
       point.x() = meters * cos(angle_z) * cos(angle_xy);
       point.y() = meters * cos(angle_z) * sin(angle_xy);
@@ -92,11 +92,25 @@ Cloud::Ptr ReadKittiCloud(const string& path) {
   return cloud;
 }
 
+cv::Mat FixKITTIDepth(const cv::Mat& original) {
+  cv::Mat fixed = original;
+  for (int r = 0; r < fixed.rows; ++r) {
+    auto correction = MOOSMAN_CORRECTIONS[r];
+    for (int c = 0; c < fixed.cols; ++c) {
+      if (fixed.at<float>(r, c) < 0.001f) {
+        continue;
+      }
+      fixed.at<float>(r, c) -= correction;
+    }
+  }
+  return fixed;
+}
+
 cv::Mat MatFromDepthPng(const string& path) {
   cv::Mat depth_image = cv::imread(path, CV_LOAD_IMAGE_ANYDEPTH);
   depth_image.convertTo(depth_image, CV_32F);
   depth_image /= 500.;
-  return depth_image;
+  return FixKITTIDepth(depth_image);
 }
 
 }  // namespace depth_clustering
