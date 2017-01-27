@@ -34,6 +34,7 @@ using std::string;
 using std::vector;
 
 Cloud::Ptr ReadKittiCloudTxt(const string& path) {
+  std::locale::global(std::locale("en_US.UTF-8"));
   fprintf(stderr, "Reading cloud from %s.\n", path.c_str());
   auto cloud_ptr = Cloud::Ptr(new Cloud);
   std::ifstream file(path.c_str());
@@ -46,9 +47,9 @@ Cloud::Ptr ReadKittiCloudTxt(const string& path) {
       continue;
     }
     RichPoint point;
-    point.x() = std::stod(coords_str[0]);
-    point.y() = std::stod(coords_str[1]);
-    point.z() = std::stod(coords_str[2]);
+    point.x() = std::stof(coords_str[0]);
+    point.y() = std::stof(coords_str[1]);
+    point.z() = std::stof(coords_str[2]);
     cloud_ptr->push_back(point);
   }
   return cloud_ptr;
