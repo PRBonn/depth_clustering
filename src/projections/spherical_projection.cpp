@@ -40,6 +40,7 @@ void SphericalProjection::InitFromPoints(const std::vector<RichPoint>& points) {
       current_written_depth = dist_to_sensor;
     }
   }
+  FixDepthSystematicErrorIfNeeded();
 }
 
 typename CloudProjection::Ptr SphericalProjection::Clone() const {

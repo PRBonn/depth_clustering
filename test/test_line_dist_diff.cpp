@@ -29,9 +29,9 @@ TEST(LineDistDiff, AlphasRows) {
   int size = 4;
   Mat depth_image = cv::Mat::ones(size, size, DataType<float>::type);
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::HORIZONTAL);
   TestLineDistDiff angle_diff_helper(&depth_image, &params);
   auto alphas_rows = angle_diff_helper.GetRowAlphas();
@@ -46,9 +46,9 @@ TEST(LineDistDiff, AlphasCols) {
   int size = 4;
   Mat depth_image = cv::Mat::ones(size, size, DataType<float>::type);
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::HORIZONTAL);
   TestLineDistDiff angle_diff_helper(&depth_image, &params);
   auto alphas_cols = angle_diff_helper.GetColAlphas();
@@ -63,9 +63,9 @@ TEST(LineDistDiff, LineDistCols) {
   int size = 4;
   Mat depth_image = cv::Mat::ones(size, size, DataType<float>::type);
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::HORIZONTAL);
   TestLineDistDiff angle_diff_helper(&depth_image, &params);
   auto beta_cols = angle_diff_helper.GetDistsCol();
@@ -82,9 +82,9 @@ TEST(LineDistDiff, LineDistRows) {
   int size = 4;
   Mat depth_image = cv::Mat::ones(size, size, DataType<float>::type);
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::HORIZONTAL);
   TestLineDistDiff angle_diff_helper(&depth_image, &params);
   auto beta_rows = angle_diff_helper.GetDistsRow();
@@ -105,9 +105,9 @@ TEST(LineDistDiff, Start) {
   int size = 4;
   Mat depth_image = cv::Mat::ones(size, size, DataType<float>::type);
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::HORIZONTAL);
   LineDistDiffPrecomputed angle_diff_helper(&depth_image, &params);
   auto eps = 0.01f;
@@ -125,9 +125,9 @@ TEST(LineDistDiff, Middle) {
   int size = 4;
   Mat depth_image = cv::Mat::ones(size, size, DataType<float>::type);
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::HORIZONTAL);
   LineDistDiffPrecomputed angle_diff_helper(&depth_image, &params);
   auto eps = 0.01f;
@@ -160,9 +160,9 @@ TEST(LineDistDiff, OverBorder) {
   int size = 4;
   Mat depth_image = cv::Mat::ones(size, size, DataType<float>::type);
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::HORIZONTAL);
   LineDistDiffPrecomputed angle_diff_helper(&depth_image, &params);
   auto eps = 0.01f;
@@ -180,9 +180,9 @@ TEST(LineDistDiff, ColorVisualization) {
   int size = 4;
   Mat depth_image = cv::Mat::ones(size, size, DataType<float>::type);
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
                  ProjectionParams::Direction::HORIZONTAL);
   LineDistDiffPrecomputed angle_diff_helper(&depth_image, &params);
   cv::Mat colors = angle_diff_helper.Visualize();

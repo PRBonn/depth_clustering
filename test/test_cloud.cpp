@@ -127,10 +127,11 @@ TEST(CloudTest, InitProjectionTwice) {
   }
 
   ProjectionParams params;
-  params.SetSpan(-vertical_span / 2, vertical_span / 2, ver_step,
+  params.SetSpan(SpanParams(-vertical_span / 2, vertical_span / 2, ver_step),
                  Dir::VERTICAL);
-  params.SetSpan(-horizontal_span / 2, horizontal_span / 2, hor_step,
-                 Dir::HORIZONTAL);
+  params.SetSpan(
+      SpanParams(-horizontal_span / 2, horizontal_span / 2, hor_step),
+      Dir::HORIZONTAL);
   cloud_ptr->InitProjection(params);
   try {
     cloud_ptr->InitProjection(params);
@@ -165,10 +166,11 @@ TEST(CloudTest, ProjectionFullSphere) {
   }
 
   ProjectionParams params;
-  params.SetSpan(-vertical_span / 2, vertical_span / 2, ver_step,
+  params.SetSpan(SpanParams(-vertical_span / 2, vertical_span / 2, ver_step),
                  Dir::VERTICAL);
-  params.SetSpan(-horizontal_span / 2, horizontal_span / 2, hor_step,
-                 Dir::HORIZONTAL);
+  params.SetSpan(
+      SpanParams(-horizontal_span / 2, horizontal_span / 2, hor_step),
+      Dir::HORIZONTAL);
 
   cloud_ptr->InitProjection(params);
   EXPECT_TRUE(cloud_ptr->projection_ptr() != nullptr);

@@ -16,14 +16,51 @@
 #ifndef SRC_PROJECTIONS_PROJECTION_PARAMS_H_
 #define SRC_PROJECTIONS_PROJECTION_PARAMS_H_
 
-#include <vector>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
 
 #include "utils/radians.h"
 #include "utils/useful_typedefs.h"
 
 namespace depth_clustering {
+
+class SpanParams {
+ public:
+  SpanParams() {}
+  SpanParams(const Radians& start_angle, const Radians& end_angle,
+             const Radians& step) {
+    _start_angle = start_angle;
+    _end_angle = end_angle;
+    _step = step;
+    _num_beams = floor((_end_angle - _start_angle) / _step);
+    _span = Radians::Abs(end_angle - start_angle);
+  }
+
+  SpanParams(const Radians& start_angle, const Radians& end_angle,
+             int num_beams) {
+    _start_angle = start_angle;
+    _end_angle = end_angle;
+    _num_beams = num_beams;
+    _step = (_end_angle - _start_angle) / _num_beams;
+    _span = Radians::Abs(end_angle - start_angle);
+  }
+
+  const Radians& start_angle() const { return _start_angle; }
+  const Radians& end_angle() const { return _end_angle; }
+  const Radians& step() const { return _step; }
+  const Radians& span() const { return _span; }
+  int num_beams() const { return _num_beams; }
+
+  bool valid() const { return _num_beams > 0 && _span > 0_deg; }
+
+ private:
+  Radians _start_angle = 0_deg;
+  Radians _end_angle = 0_deg;
+  Radians _step = 0_deg;
+  Radians _span = 0_deg;
+  int _num_beams = 0;
+};
 
 /**
  * @brief      Class for projection parameters.
@@ -45,27 +82,23 @@ class ProjectionParams {
    * @param[in]  step         The step
    * @param[in]  direction    The direction
    */
-  void SetSpan(const Radians& start_angle, const Radians& end_angle,
-               const Radians& step, const Direction& direction);
+  void SetSpan(const SpanParams& span_params, const Direction& direction);
 
-  /**
-   * @brief      Sets the span.
-   *
-   * @param[in]  start_angle  The start angle
-   * @param[in]  end_angle    The end angle
-   * @param[in]  num_bins     The number bins
-   * @param[in]  direction    The direction
-   */
-  void SetSpan(const Radians& start_angle, const Radians& end_angle,
-               const int num_bins, const Direction& direction);
+  inline const Radians& v_start_angle() const {
+    return _v_span_params.start_angle();
+  }
+  inline const Radians& v_end_angle() const {
+    return _v_span_params.end_angle();
+  }
+  inline const Radians& v_span() const { return _v_span_params.span(); }
 
-  inline const Radians& v_start_angle() const { return _v_start_angle; }
-  inline const Radians& v_end_angle() const { return _v_end_angle; }
-  inline const Radians& v_span() const { return _v_span; }
-
-  inline const Radians& h_start_angle() const { return _h_start_angle; }
-  inline const Radians& h_end_angle() const { return _h_start_angle; }
-  inline const Radians& h_span() const { return _h_span; }
+  inline const Radians& h_start_angle() const {
+    return _h_span_params.start_angle();
+  }
+  inline const Radians& h_end_angle() const {
+    return _h_span_params.end_angle();
+  }
+  inline const Radians& h_span() const { return _h_span_params.span(); }
   inline size_t rows() const { return _row_angles.size(); }
   inline size_t cols() const { return _col_angles.size(); }
   inline size_t size() const { return rows() * cols(); }
@@ -89,13 +122,21 @@ class ProjectionParams {
   const Radians AngleFromCol(int col) const;
 
   /**
-   * @brief      { function_description }
+   * @brief      Get row number from angle
    *
    * @param[in]  angle  The angle
    *
-   * @return     { description_of_the_return_value }
+   * @return     Row number
    */
   size_t RowFromAngle(const Radians& angle) const;
+
+  /**
+   * @brief      Get col number from angle
+   *
+   * @param[in]  angle  The angle
+   *
+   * @return     Col number
+   */
   size_t ColFromAngle(const Radians& angle) const;
 
   const std::vector<float>& RowAngleCosines() const;
@@ -139,22 +180,15 @@ class ProjectionParams {
       const Radians& discretization = 5_deg);
 
  private:
-  std::vector<Radians> FillVector(const Radians& start_angle,
-                                  const Radians& end_angle,
-                                  const Radians& step);
+  std::vector<Radians> FillVector(const SpanParams& span_params);
 
   static size_t FindClosest(const std::vector<Radians>& vec,
                             const Radians& val);
 
   void FillCosSin();
 
-  Radians _v_start_angle;
-  Radians _v_end_angle;
-  Radians _v_span;
-
-  Radians _h_start_angle;
-  Radians _h_end_angle;
-  Radians _h_span;
+  SpanParams _v_span_params;
+  SpanParams _h_span_params;
 
   std::vector<Radians> _col_angles;
   std::vector<Radians> _row_angles;

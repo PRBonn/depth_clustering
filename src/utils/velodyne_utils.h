@@ -18,15 +18,15 @@
 
 #include <opencv2/opencv.hpp>
 
-#include <array>
 #include <string>
+#include <vector>
 
 #include "projections/projection_params.h"
 #include "utils/cloud.h"
 
 namespace depth_clustering {
 
-std::array<float, 64> MOOSMAN_CORRECTIONS{
+std::vector<float> MOOSMAN_CORRECTIONS{
     {0.02587499999999987,   -0.0061250000000001581, 0.031874999999999876,
      0.001874999999999849,  0.029874999999999874,   -0.1961250000000001,
      0.049874999999999892,  -0.034125000000000183,  0.0038749999999998508,
