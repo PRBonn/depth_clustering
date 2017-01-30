@@ -15,13 +15,13 @@
 
 #include "projections/projection_params.h"
 
-#include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 
-#include <vector>
-#include <string>
-#include <fstream>
 #include <algorithm>
+#include <fstream>
+#include <string>
+#include <vector>
 
 #include "utils/mem_utils.h"
 
@@ -194,6 +194,7 @@ std::unique_ptr<ProjectionParams> ProjectionParams::FullSphere(
 
 std::unique_ptr<ProjectionParams> ProjectionParams::FromConfigFile(
     const std::string& path) {
+  std::locale::global(std::locale("en_US.UTF-8"));
   fprintf(stderr, "INFO: Reading config.\n");
   ProjectionParams params;
   // we need to fill this thing. Parsing text files again. Is that what PhD in

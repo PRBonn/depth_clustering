@@ -39,13 +39,13 @@ void ReadData(const Radians& angle_tollerance, const string& in_path,
   int max_cluster_size = 100000;
 
   int smooth_window_size = 5;
-  Radians ground_remove_angle = 5_deg;
+  Radians ground_remove_angle = 9_deg;
 
   auto image_reader =
       FolderReader(in_path, ".png", FolderReader::Order::SORTED);
   auto config_reader = FolderReader(in_path, "img.cfg");
-  auto proj_params_ptr = ProjectionParams::HDL_64();
-      // ProjectionParams::FromConfigFile(config_reader.GetNextFilePath());
+  auto proj_params_ptr =
+      ProjectionParams::FromConfigFile(config_reader.GetNextFilePath());
 
   auto depth_ground_remover = DepthGroundRemover(
       *proj_params_ptr, ground_remove_angle, smooth_window_size);
