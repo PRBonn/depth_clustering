@@ -1,14 +1,14 @@
-// Copyright Igor Bogoslavskyi, year 2016.
+// Copyright Igor Bogoslavskyi, year 2017.
 // In case of any problems with the code please contact me.
 // Email: igor.bogoslavskyi@uni-bonn.de.
 
 #include <gtest/gtest.h>
 #include <Eigen/Core>
 #include <string>
-#include "utils/pose.h"
-#include "communication/identifiable.h"
 #include "communication/abstract_client.h"
 #include "communication/abstract_sender.h"
+#include "communication/identifiable.h"
+#include "utils/pose.h"
 
 using std::string;
 

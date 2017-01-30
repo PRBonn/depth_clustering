@@ -1,11 +1,11 @@
-// Copyright Igor Bogoslavskyi, year 2016.
+// Copyright Igor Bogoslavskyi, year 2017.
 // In case of any problems with the code please contact me.
 // Email: igor.bogoslavskyi@uni-bonn.de.
 
 #include <gtest/gtest.h>
 
-#include "projections/projection_params.h"
 #include "cmake_config.h"
+#include "projections/projection_params.h"
 
 using namespace depth_clustering;
 

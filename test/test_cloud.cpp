@@ -1,4 +1,4 @@
-// Copyright Igor Bogoslavskyi, year 2016.
+// Copyright Igor Bogoslavskyi, year 2017.
 // In case of any problems with the code please contact me.
 // Email: igor.bogoslavskyi@uni-bonn.de.
 
@@ -7,8 +7,8 @@
 
 #include <limits>
 
-#include "utils/pose.h"
 #include "utils/cloud.h"
+#include "utils/pose.h"
 #include "utils/rich_point.h"
 
 using Eigen::Vector3f;
