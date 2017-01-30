@@ -1,6 +1,17 @@
-// Copyright Igor Bogoslavskyi, year 2016.
-// In case of any problems with the code please contact me.
-// Email: igor.bogoslavskyi@uni-bonn.de.
+// Copyright (C) 2017  I. Bogoslavskyi, C. Stachniss, University of Bonn
+
+// This program is free software: you can redistribute it and/or modify it
+// under the terms of the GNU General Public License as published by the Free
+// Software Foundation, either version 3 of the License, or (at your option)
+// any later version.
+
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+// more details.
+
+// You should have received a copy of the GNU General Public License along
+// with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <ros/ros.h>
 
@@ -11,12 +22,12 @@
 #include "ros_bridge/cloud_odom_ros_subscriber.h"
 
 #include "clusterers/image_based_clusterer.h"
+#include "ground_removal/depth_ground_remover.h"
+#include "projections/ring_projection.h"
+#include "projections/spherical_projection.h"
 #include "utils/radians.h"
 #include "visualization/cloud_saver.h"
 #include "visualization/visualizer.h"
-#include "projections/spherical_projection.h"
-#include "projections/ring_projection.h"
-#include "ground_removal/depth_ground_remover.h"
 
 #include "tclap/CmdLine.h"
 
