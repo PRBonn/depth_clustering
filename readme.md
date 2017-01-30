@@ -53,15 +53,15 @@ Go to folder with binaries:
 cd <path_to_project>/build/devel/lib/depth_clustering
 ```
 
-#### Frank Moosman Velodyne SLAM - Dataset ####
+#### Frank Moosmann's "Velodyne SLAM" Dataset ####
 Get the data:
 ```
-mkdir data/; wget http://www.mrt.kit.edu/z/publ/download/velodyneslam/data/scenario1.zip -O data/moosman.zip; unzip data/moosman.zip -d data/; rm data/moosman.zip
+mkdir data/; wget http://www.mrt.kit.edu/z/publ/download/velodyneslam/data/scenario1.zip -O data/moosmann.zip; unzip data/moosmann.zip -d data/; rm data/moosmann.zip
 ```
 
 Run a binary to show detected objects:
 ```
-./show_objects_moosman --path data/scenario1/
+./show_objects_moosmann --path data/scenario1/
 ```
 
 #### Other data ####

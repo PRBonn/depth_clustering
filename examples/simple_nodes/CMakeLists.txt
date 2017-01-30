@@ -12,8 +12,8 @@ target_link_libraries(show_objects_kitti
                       ${PCL_LIBRARIES}
                       ${CMAKE_THREAD_LIBS_INIT})
 
-add_executable(show_objects_moosman show_objects_moosman.cpp)
-target_link_libraries(show_objects_moosman
+add_executable(show_objects_moosmann show_objects_moosmann.cpp)
+target_link_libraries(show_objects_moosmann
                       identifiable
                       image_labeler
                       velodyne_utils

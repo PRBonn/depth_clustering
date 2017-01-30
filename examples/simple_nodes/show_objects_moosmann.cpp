@@ -78,8 +78,8 @@ void ReadData(const Radians& angle_tollerance, const string& in_path,
 
 int main(int argc, char* argv[]) {
   TCLAP::CmdLine cmd(
-      "Loads clouds from Frans Moosman's data and performs clustering on them.",
-      ' ', "1.0");
+      "Loads clouds from Frank Moosmann's data and clusters each of them.", ' ',
+      "1.0");
   TCLAP::ValueArg<int> angle_arg(
       "", "angle",
       "Threshold angle. Below this value, the objects are separated", false, 10,
