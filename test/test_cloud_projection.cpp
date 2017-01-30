@@ -16,7 +16,7 @@ using cv::Mat;
 
 using namespace depth_clustering;
 
-using Dir = depth_clustering::ProjectionParams::Direction;
+using Dir = depth_clustering::SpanParams::Direction;
 
 TEST(CloudProjectionTest, SingleLine) {
   Radians horiz_span = 10_deg;

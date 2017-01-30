@@ -87,9 +87,9 @@ TEST(TestDepthGroundRemoverDeath, get_sav_gol_kernel_bad_window_size) {
 TEST(TestDepthGroundRemover, trivial_depth_image) {
   ProjectionParams proj_params;
   proj_params.SetSpan(SpanParams(0_deg, 5_deg, 1_deg),
-                      ProjectionParams::Direction::VERTICAL);
+                      SpanParams::Direction::VERTICAL);
   proj_params.SetSpan(SpanParams(0_deg, 5_deg, 1_deg),
-                      ProjectionParams::Direction::HORIZONTAL);
+                      SpanParams::Direction::HORIZONTAL);
   TestDepthGroundRemover remover{proj_params};
   auto depth_image = cv::Mat::zeros(5, 5, CV_32F);
   auto res = remover.CreateAngleImage(depth_image);
@@ -107,9 +107,9 @@ TEST(TestDepthGroundRemover, trivial_depth_image_vertical) {
   Radians end_angle = 5_deg;
   Radians step = 1_deg;
   proj_params.SetSpan(SpanParams(start_angle, end_angle, step),
-                      ProjectionParams::Direction::VERTICAL);
+                      SpanParams::Direction::VERTICAL);
   proj_params.SetSpan(SpanParams(start_angle, end_angle, step),
-                      ProjectionParams::Direction::HORIZONTAL);
+                      SpanParams::Direction::HORIZONTAL);
   TestDepthGroundRemover remover{proj_params};
   cv::Mat depth_image =
       cv::Mat::zeros(proj_params.rows(), proj_params.cols(), CV_32F);

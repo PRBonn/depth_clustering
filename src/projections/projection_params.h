@@ -27,6 +27,11 @@ namespace depth_clustering {
 
 class SpanParams {
  public:
+  /**
+   * Enum for the direction of the span.
+   */
+  enum class Direction { HORIZONTAL, VERTICAL };
+
   SpanParams() {}
   SpanParams(const Radians& start_angle, const Radians& end_angle,
              const Radians& step) {
@@ -69,20 +74,30 @@ class ProjectionParams {
  public:
   using Ptr = shared_ptr<ProjectionParams>;
   using ConstPtr = const shared_ptr<const ProjectionParams>;
-  enum class Direction { HORIZONTAL, VERTICAL };
+
   enum class Set { COLS, ROWS };
   ProjectionParams() {}
   ~ProjectionParams() {}
 
   /**
-   * @brief      Sets the span.
+   * @brief      Set the angle span in a given direction.
    *
-   * @param[in]  start_angle  The start angle
-   * @param[in]  end_angle    The end angle
-   * @param[in]  step         The step
-   * @param[in]  direction    The direction
+   * @param[in]  span_params  The span parameters packad into ::SpanParams.
+   * @param[in]  direction    The direction. Must be one of
+   *                          SpanParams::Direction.
    */
-  void SetSpan(const SpanParams& span_params, const Direction& direction);
+  void SetSpan(const SpanParams& span_params,
+               const SpanParams::Direction& direction);
+
+  /**
+   * @brief      Set the angle spans in a given direction.
+   *
+   * @param[in]  span_params  The span parameters packad into ::SpanParams
+   * @param[in]  direction    The direction. Must be one of
+   *                          SpanParams::Direction.
+   */
+  void SetSpan(const std::vector<SpanParams>& span_params,
+               const SpanParams::Direction& direction);
 
   inline const Radians& v_start_angle() const {
     return _v_span_params.start_angle();
@@ -181,6 +196,7 @@ class ProjectionParams {
 
  private:
   std::vector<Radians> FillVector(const SpanParams& span_params);
+  std::vector<Radians> FillVector(const std::vector<SpanParams>& span_params);
 
   static size_t FindClosest(const std::vector<Radians>& vec,
                             const Radians& val);

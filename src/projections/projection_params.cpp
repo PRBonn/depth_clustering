@@ -33,28 +33,46 @@ using std::upper_bound;
 using boost::algorithm::starts_with;
 
 void ProjectionParams::SetSpan(const SpanParams& span_params,
-                               const ProjectionParams::Direction& direction) {
+                               const SpanParams::Direction& direction) {
+  vector<SpanParams> params_vec = {{span_params}};
+  this->SetSpan(params_vec, direction);
+}
+
+void ProjectionParams::SetSpan(const vector<SpanParams>& span_params,
+                               const SpanParams::Direction& direction) {
+  int num_beams = 0;
+  for (const auto& span : span_params) {
+    num_beams += span.num_beams();
+  }
   switch (direction) {
-    case Direction::HORIZONTAL:
-      _h_span_params = span_params;
-      _col_angles = FillVector(_h_span_params);
+    case SpanParams::Direction::HORIZONTAL:
+      _h_span_params = SpanParams(span_params.front().start_angle(),
+                                  span_params.back().end_angle(), num_beams);
+      _col_angles = FillVector(span_params);
       break;
-    case Direction::VERTICAL:
-      _v_span_params = span_params;
-      _row_angles = FillVector(_v_span_params);
+    case SpanParams::Direction::VERTICAL:
+      _v_span_params = SpanParams(span_params.front().start_angle(),
+                                  span_params.back().end_angle(), num_beams);
+      _row_angles = FillVector(span_params);
       break;
   }
   FillCosSin();
 }
 
 vector<Radians> ProjectionParams::FillVector(const SpanParams& span_params) {
-  vector<Radians> res;
-  res.reserve(span_params.num_beams());
+  vector<SpanParams> params_vec = {{span_params}};
+  return this->FillVector(params_vec);
+}
 
-  Radians rad = span_params.start_angle();
-  for (int i = 0; i < span_params.num_beams(); ++i) {
-    res.push_back(rad);
-    rad += span_params.step();
+vector<Radians> ProjectionParams::FillVector(
+    const vector<SpanParams>& span_params) {
+  vector<Radians> res;
+  for (const auto span_param : span_params) {
+    Radians rad = span_param.start_angle();
+    for (int i = 0; i < span_param.num_beams(); ++i) {
+      res.push_back(rad);
+      rad += span_param.step();
+    }
   }
   return res;
 }
@@ -126,8 +144,10 @@ size_t ProjectionParams::FindClosest(const vector<Radians>& vec,
 
 std::unique_ptr<ProjectionParams> ProjectionParams::VLP_16() {
   auto params = ProjectionParams();
-  params.SetSpan(SpanParams(-180_deg, 180_deg, 870), Direction::HORIZONTAL);
-  params.SetSpan(SpanParams(15_deg, -15_deg, 16), Direction::VERTICAL);
+  params.SetSpan(SpanParams(-180_deg, 180_deg, 870),
+                 SpanParams::Direction::HORIZONTAL);
+  params.SetSpan(SpanParams(15_deg, -15_deg, 16),
+                 SpanParams::Direction::VERTICAL);
   params.FillCosSin();
   if (!params.valid()) {
     fprintf(stderr, "ERROR: params are not valid!\n");
@@ -138,8 +158,10 @@ std::unique_ptr<ProjectionParams> ProjectionParams::VLP_16() {
 
 std::unique_ptr<ProjectionParams> ProjectionParams::HDL_32() {
   auto params = ProjectionParams();
-  params.SetSpan(SpanParams(-180_deg, 180_deg, 870), Direction::HORIZONTAL);
-  params.SetSpan(SpanParams(10.0_deg, -30.0_deg, 32), Direction::VERTICAL);
+  params.SetSpan(SpanParams(-180_deg, 180_deg, 870),
+                 SpanParams::Direction::HORIZONTAL);
+  params.SetSpan(SpanParams(10.0_deg, -30.0_deg, 32),
+                 SpanParams::Direction::VERTICAL);
   params.FillCosSin();
   if (!params.valid()) {
     fprintf(stderr, "ERROR: params are not valid!\n");
@@ -150,8 +172,12 @@ std::unique_ptr<ProjectionParams> ProjectionParams::HDL_32() {
 
 std::unique_ptr<ProjectionParams> ProjectionParams::HDL_64() {
   auto params = ProjectionParams();
-  params.SetSpan(SpanParams(-180_deg, 180_deg, 870), Direction::HORIZONTAL);
-  params.SetSpan(SpanParams(2.0_deg, -24.0_deg, 64), Direction::VERTICAL);
+  params.SetSpan(SpanParams(-180_deg, 180_deg, 870),
+                 SpanParams::Direction::HORIZONTAL);
+  SpanParams span_top(2.0_deg, -8.5_deg, 32);
+  SpanParams span_bottom(-8.87_deg, -24.87_deg, 32);
+  vector<SpanParams> spans = {{span_top, span_bottom}};
+  params.SetSpan(spans, SpanParams::Direction::VERTICAL);
   params.FillCosSin();
   if (!params.valid()) {
     fprintf(stderr, "ERROR: params are not valid!\n");
@@ -164,9 +190,9 @@ std::unique_ptr<ProjectionParams> ProjectionParams::FullSphere(
     const Radians& discretization) {
   auto params = ProjectionParams();
   params.SetSpan(SpanParams(-180_deg, 180_deg, discretization),
-                 Direction::HORIZONTAL);
+                 SpanParams::Direction::HORIZONTAL);
   params.SetSpan(SpanParams(-90_deg, 90_deg, discretization),
-                 Direction::VERTICAL);
+                 SpanParams::Direction::VERTICAL);
   params.FillCosSin();
   if (!params.valid()) {
     fprintf(stderr, "ERROR: params are not valid!\n");

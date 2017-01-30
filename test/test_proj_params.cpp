@@ -23,9 +23,9 @@ TEST(TestProjParams, test_init) {
 TEST(TestProjParams, from_angle) {
   ProjectionParams params;
   params.SetSpan(SpanParams(0_deg, 10_deg, 1_deg),
-                 ProjectionParams::Direction::VERTICAL);
+                 SpanParams::Direction::VERTICAL);
   params.SetSpan(SpanParams(0_deg, 10_deg, 1_deg),
-                 ProjectionParams::Direction::HORIZONTAL);
+                 SpanParams::Direction::HORIZONTAL);
   EXPECT_EQ(true, params.valid());
   EXPECT_EQ(0, params.ColFromAngle(0_deg));
   EXPECT_EQ(1, params.ColFromAngle(1_deg));

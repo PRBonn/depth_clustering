@@ -104,7 +104,7 @@ TEST(CloudTest, Transform) {
 }
 
 TEST(CloudTest, InitProjectionTwice) {
-  using Dir = depth_clustering::ProjectionParams::Direction;
+  using Dir = depth_clustering::SpanParams::Direction;
 
   Radians horizontal_span = 360_deg;
   Radians vertical_span = 180_deg;
@@ -143,7 +143,7 @@ TEST(CloudTest, InitProjectionTwice) {
 }
 
 TEST(CloudTest, ProjectionFullSphere) {
-  using Dir = depth_clustering::ProjectionParams::Direction;
+  using Dir = depth_clustering::SpanParams::Direction;
 
   Radians horizontal_span = 360_deg;
   Radians vertical_span = 180_deg;
