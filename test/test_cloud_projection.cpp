@@ -237,7 +237,7 @@ TEST(CloudProjectionTest, WrongStorage) {
   try {
     SphericalProjection storage(params);
   } catch (std::runtime_error& e) {
-    std::string error_msg = "_params not valid for projection.";
+    std::string error_msg = "Projection parameters invalid.";
     EXPECT_EQ(error_msg, e.what());
   }
 }
