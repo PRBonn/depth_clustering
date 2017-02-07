@@ -19,20 +19,20 @@
 #include <Eigen/Core>
 
 #if PCL_FOUND
-#include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
 #endif  // PCL_FOUND
 
-#include <memory>
 #include <algorithm>
 #include <list>
+#include <memory>
 #include <vector>
 
-#include "utils/pose.h"
-#include "utils/useful_typedefs.h"
 #include "projections/cloud_projection.h"
 #include "projections/ring_projection.h"
 #include "projections/spherical_projection.h"
+#include "utils/pose.h"
+#include "utils/useful_typedefs.h"
 
 namespace depth_clustering {
 
@@ -98,7 +98,14 @@ class Cloud {
   typename pcl::PointCloud<pcl::PointXYZL>::Ptr ToPcl() const;
 
   template <class PointT>
-  static Cloud::Ptr FromPcl(const pcl::PointCloud<PointT>& pcl_cloud);
+  static Cloud::Ptr FromPcl(const pcl::PointCloud<PointT>& pcl_cloud) {
+    Cloud cloud;
+    for (const auto& pcl_point : pcl_cloud) {
+      RichPoint point(pcl_point.x, pcl_point.y, pcl_point.z);
+      cloud.push_back(point);
+    }
+    return make_shared<Cloud>(cloud);
+  }
 #endif  // PCL_FOUND
 
  protected:

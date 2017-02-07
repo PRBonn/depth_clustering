@@ -121,15 +121,6 @@ Cloud::Ptr Cloud::FromPcl(const pcl::PointCloud<pcl::PointXYZL>& pcl_cloud) {
   return make_shared<Cloud>(cloud);
 }
 
-template <class PointT>
-Cloud::Ptr Cloud::FromPcl(const pcl::PointCloud<PointT>& pcl_cloud) {
-  Cloud cloud;
-  for (const auto& pcl_point : pcl_cloud) {
-    RichPoint point(pcl_point.x, pcl_point.y, pcl_point.z);
-    cloud.push_back(point);
-  }
-  return make_shared<Cloud>(cloud);
-}
 #endif  // PCL_FOUND
 
 }  // namespace depth_clustering
