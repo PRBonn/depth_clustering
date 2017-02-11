@@ -51,7 +51,7 @@ class Cloud {
   explicit Cloud(const Cloud& cloud);
   explicit Cloud(const Pose& pose) : _pose(pose), _sensor_pose() {}
 
-  ~Cloud() {}
+  virtual ~Cloud() {}
 
   inline const std::vector<RichPoint>& points() const { return _points; }
 
