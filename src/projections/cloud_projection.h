@@ -22,9 +22,9 @@
 #include <Eigen/Core>
 
 #include <list>
-#include <vector>
-#include <stdexcept>
 #include <memory>
+#include <stdexcept>
+#include <vector>
 
 #include "projections/projection_params.h"
 
