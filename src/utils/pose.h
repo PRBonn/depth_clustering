@@ -87,19 +87,19 @@ class Pose : public Eigen::Affine3f {
     _likelihood = likelihood;
   }
 
-  void MoveToLocalFrameOf(const Pose& other) {
+  void ToLocalFrameOf(const Pose& other) {
     this->matrix() = other.matrix().inverse() * this->matrix();
   }
 
-  Pose CopyToLocalFrameOf(const Pose& other) const {
+  Pose InLocalFrameOf(const Pose& other) const {
     Pose pose(*this);
-    pose.MoveToLocalFrameOf(other);
+    pose.ToLocalFrameOf(other);
     return pose;
   }
 
-  Pose::Ptr CopyToLocalFrameOf(const Pose::Ptr& other) const {
+  Pose::Ptr InLocalFrameOf(const Pose::Ptr& other) const {
     Pose::Ptr pose(new Pose(*this));
-    pose->MoveToLocalFrameOf(*other);
+    pose->ToLocalFrameOf(*other);
     return pose;
   }
 

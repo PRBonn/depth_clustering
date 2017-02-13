@@ -172,33 +172,33 @@ TEST(PoseTest, ToTransform) {
   EXPECT_NEAR(m_move_rot(2, 2), m_res(2, 2), eps);
 }
 
-TEST(PoseTest, MoveToLocalFrameOf) {
+TEST(PoseTest, ToLocalFrameOf) {
   double eps = 0.000001;
   Pose pose1(1, 0, 0);
   Pose pose2(2, 1, M_PI / 2);
-  pose2.MoveToLocalFrameOf(pose1);
+  pose2.ToLocalFrameOf(pose1);
   EXPECT_NEAR(1, pose2.x(), eps);
   EXPECT_NEAR(1, pose2.y(), eps);
   EXPECT_NEAR(M_PI / 2, pose2.theta(), eps);
 
   pose2 = Pose(2, 1, M_PI / 2);
-  pose1.MoveToLocalFrameOf(pose2);
+  pose1.ToLocalFrameOf(pose2);
   EXPECT_NEAR(-1, pose1.x(), eps);
   EXPECT_NEAR(1, pose1.y(), eps);
   EXPECT_NEAR(-M_PI / 2, pose1.theta(), eps);
 }
 
-TEST(PoseTest, MoveToLocalFrameOfPtr) {
+TEST(PoseTest, ToLocalFrameOfPtr) {
   double eps = 0.000001;
   Pose::Ptr pose1(new Pose(1, 0, 0));
   Pose::Ptr pose2(new Pose(2, 1, M_PI / 2));
-  pose2->MoveToLocalFrameOf(*pose1);
+  pose2->ToLocalFrameOf(*pose1);
   EXPECT_NEAR(1, pose2->x(), eps);
   EXPECT_NEAR(1, pose2->y(), eps);
   EXPECT_NEAR(M_PI / 2, pose2->theta(), eps);
 
   pose2.reset(new Pose(2, 1, M_PI / 2));
-  pose1->MoveToLocalFrameOf(*pose2);
+  pose1->ToLocalFrameOf(*pose2);
   EXPECT_NEAR(-1, pose1->x(), eps);
   EXPECT_NEAR(1, pose1->y(), eps);
   EXPECT_NEAR(-M_PI / 2, pose1->theta(), eps);

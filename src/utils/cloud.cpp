@@ -46,6 +46,8 @@ void Cloud::TransformInPlace(const Pose& pose) {
   for (auto& point : _points) {
     point = pose * point.AsEigenVector();
   }
+  // the projection makes no sense anymore after the coords of points changed.
+  this->_projection.reset();
 }
 
 Cloud::Ptr Cloud::Transform(const Pose& pose) const {
