@@ -160,7 +160,7 @@ class Pose : public Eigen::Affine3f {
     return T;
   }
 
-  inline Vector6f ToVector6f() {
+  inline Vector6f ToVector6f() const {
     Vector6f v;
     v.head<3>() = this->translation();
     Eigen::Quaternionf q(this->linear());
