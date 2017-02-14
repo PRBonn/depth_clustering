@@ -232,6 +232,31 @@ TEST(PoseTest, TestOperatorUnaryMinus) {
   EXPECT_NEAR(pose.z(), -inverted.z(), eps);
 }
 
+TEST(PoseTest, T2V) {
+  float eps = std::numeric_limits<float>::epsilon();
+  Pose pose;
+  pose.SetX(1);
+  pose.SetY(1);
+  pose.SetZ(1);
+  auto vec = pose.ToVector6f();
+  EXPECT_NEAR(1, vec[0], eps);
+  EXPECT_NEAR(1, vec[1], eps);
+  EXPECT_NEAR(1, vec[2], eps);
+  EXPECT_NEAR(0, vec[3], eps);
+  EXPECT_NEAR(0, vec[4], eps);
+  EXPECT_NEAR(0, vec[5], eps);
+}
+
+TEST(PoseTest, V2T) {
+  float eps = std::numeric_limits<float>::epsilon();
+  Pose::Vector6f vec;
+  vec << 1, 1, 1, 0, 0, 0;
+  Pose pose = Pose::FromVector6f(vec);
+  EXPECT_NEAR(1, pose.x(), eps);
+  EXPECT_NEAR(1, pose.y(), eps);
+  EXPECT_NEAR(1, pose.z(), eps);
+}
+
 // IMPORTANT!!! This will only die if NDEBUG is not defined!
 // More: http://en.cppreference.com/w/cpp/error/assert
 #ifndef NDEBUG

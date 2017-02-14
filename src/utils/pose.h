@@ -31,6 +31,8 @@ class Pose : public Eigen::Affine3f {
  public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
+  using Vector6f = Eigen::Matrix<float, 6, 1>;
+
   using Ptr = shared_ptr<Pose>;
   using ConstPtr = shared_ptr<const Pose>;
   using Base = Eigen::Affine3f;
@@ -142,6 +144,31 @@ class Pose : public Eigen::Affine3f {
 
   inline void Print3D() const {
     fprintf(stderr, "[%f, %f, %f]\n", this->x(), this->y(), this->z());
+  }
+
+  static inline Pose FromVector6f(const Vector6f& v) {
+    Pose T;
+    T.setIdentity();
+    T.translation() = v.head<3>();
+    float w = v.block<3, 1>(3, 0).squaredNorm();
+    if (w < 1) {
+      w = sqrt(1 - w);
+      T.linear() = Eigen::Quaternionf(w, v(3), v(4), v(5)).toRotationMatrix();
+    } else {
+      T.linear().setIdentity();
+    }
+    return T;
+  }
+
+  inline Vector6f ToVector6f() {
+    Vector6f v;
+    v.head<3>() = this->translation();
+    Eigen::Quaternionf q(this->linear());
+    v.block<3, 1>(3, 0) = q.matrix().block<3, 1>(1, 0);
+    if (q.w() < 0) {
+      v.block<3, 1>(3, 0) *= -1.0f;
+    }
+    return v;
   }
 
  private:
