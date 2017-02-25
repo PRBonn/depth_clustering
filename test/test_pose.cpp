@@ -2,9 +2,9 @@
 // In case of any problems with the code please contact me.
 // Email: igor.bogoslavskyi@uni-bonn.de.
 
-#include <gtest/gtest.h>
-#include <Eigen/Core>
 #include "utils/pose.h"
+#include <Eigen/Core>
+#include <gtest/gtest.h>
 
 using Eigen::Vector3f;
 
@@ -255,6 +255,20 @@ TEST(PoseTest, V2T) {
   EXPECT_NEAR(1, pose.x(), eps);
   EXPECT_NEAR(1, pose.y(), eps);
   EXPECT_NEAR(1, pose.z(), eps);
+}
+
+TEST(PoseTest, V2T2V) {
+  float eps = std::numeric_limits<float>::epsilon();
+  Pose::Vector6f vec;
+  vec << 1, 2, 3, M_PI / 3, M_PI / 4, M_PI / 2;
+  Pose pose = Pose::FromVector6f(vec);
+  auto vec_res = pose.ToVector6f();
+  EXPECT_NEAR(vec[0], vec_res[0], eps);
+  EXPECT_NEAR(vec[1], vec_res[1], eps);
+  EXPECT_NEAR(vec[2], vec_res[2], eps);
+  EXPECT_NEAR(vec[3], vec_res[3], eps);
+  EXPECT_NEAR(vec[4], vec_res[4], eps);
+  EXPECT_NEAR(vec[5], vec_res[5], eps);
 }
 
 // IMPORTANT!!! This will only die if NDEBUG is not defined!

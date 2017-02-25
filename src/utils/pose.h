@@ -147,27 +147,23 @@ class Pose : public Eigen::Affine3f {
   }
 
   static inline Pose FromVector6f(const Vector6f& v) {
+    using Eigen::Vector3f;
+    using Eigen::AngleAxisf;
     Pose T;
     T.setIdentity();
     T.translation() = v.head<3>();
-    float w = v.block<3, 1>(3, 0).squaredNorm();
-    if (w < 1) {
-      w = sqrt(1 - w);
-      T.linear() = Eigen::Quaternionf(w, v(3), v(4), v(5)).toRotationMatrix();
-    } else {
-      T.linear().setIdentity();
-    }
+    Eigen::Matrix3f m;
+    m = AngleAxisf(v(3), Vector3f::UnitX()) *
+        AngleAxisf(v(4), Vector3f::UnitY()) *
+        AngleAxisf(v(5), Vector3f::UnitZ());
+    T.linear() = m;
     return T;
   }
 
   inline Vector6f ToVector6f() const {
     Vector6f v;
     v.head<3>() = this->translation();
-    Eigen::Quaternionf q(this->linear());
-    v.block<3, 1>(3, 0) = q.matrix().block<3, 1>(1, 0);
-    if (q.w() < 0) {
-      v.block<3, 1>(3, 0) *= -1.0f;
-    }
+    v.block<3, 1>(3, 0) = this->linear().eulerAngles(0, 1, 2);
     return v;
   }
 
