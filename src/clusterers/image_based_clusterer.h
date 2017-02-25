@@ -16,10 +16,10 @@
 #ifndef SRC_CLUSTERERS_IMAGE_BASED_CLUSTERER_H_
 #define SRC_CLUSTERERS_IMAGE_BASED_CLUSTERER_H_
 
-#include <opencv/cv.h>
 #include <chrono>
 #include <ctime>
 #include <map>
+#include <opencv/cv.h>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -133,14 +133,15 @@ class ImageBasedClusterer : public AbstractClusterer {
     auto labels_color = AbstractImageLabeler::LabelsToColor(*labels_ptr);
     _counter++;
     std::vector<Cloud> clusters_to_send;
-    for (const auto& kv : clusters) {
+    for (auto& kv : clusters) {
       // if (counter > num_clusters_max) { break; }
-      const auto& cluster = kv.second;
+      auto& cluster = kv.second;
       if (cluster.size() < this->_min_cluster_size ||
           cluster.size() > this->_max_cluster_size) {
         // cluster is too small or too big, forget it.
         continue;
       }
+      cluster.InitProjection(cloud.projection_ptr()->params());
       clusters_to_send.push_back(cluster);
     }
     this->ShareDataWithAllClients(clusters_to_send);
