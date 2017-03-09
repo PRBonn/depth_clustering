@@ -88,6 +88,17 @@ Url       = {http://www.ipb.uni-bonn.de/pdfs/bogoslavskyi16iros.pdf}
 }
 ```
 
+```
+@Article{bogoslavskyi17pfg,
+author  = {Bogoslavskyi, Igor and Stachniss, Cyrill},
+title   = {Efficient Online Segmentation for Sparse 3D Laser Scans},
+journal = {PFG -- Journal of Photogrammetry, Remote Sensing and Geoinformation Science},
+year    = {2017},
+pages   = {1--12},
+url     = {https://link.springer.com/article/10.1007%2Fs41064-016-0003-y},
+}
+```
+
 
 [travis-img]: https://travis-ci.org/niosus/depth_clustering.svg?branch=github_travis
 [travis-link]: https://travis-ci.org/niosus/depth_clustering
