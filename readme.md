@@ -76,7 +76,7 @@ doxygen Doxyfile.conf
 ```
 
 ## Related publications ##
-Please cite related paper if you use this code:
+Please cite related papers if you use this code:
 
 ```
 @InProceedings{bogoslavskyi16iros,
