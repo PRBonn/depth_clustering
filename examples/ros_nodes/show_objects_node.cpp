@@ -95,6 +95,7 @@ int main(int argc, char* argv[]) {
       *proj_params_ptr, ground_remove_angle, smooth_window_size);
 
   ClustererT clusterer(angle_tollerance, min_cluster_size, max_cluster_size);
+  clusterer.SetDiffType(DiffFactory::DiffType::ANGLES);
 
   subscriber.AddClient(&depth_ground_remover);
   depth_ground_remover.AddClient(&clusterer);
