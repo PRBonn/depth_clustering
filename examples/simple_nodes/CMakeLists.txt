@@ -26,3 +26,19 @@ target_link_libraries(show_objects_moosmann
                       ${PCL_LIBRARIES}
                       ${OpenCV_LIBS}
                       ${CMAKE_THREAD_LIBS_INIT})
+
+
+add_executable(show_objects_pcap show_objects_pcap.cpp)
+target_link_libraries(show_objects_pcap
+                      identifiable
+                      image_labeler
+                      velodyne_utils
+                      projections
+                      ground_remove
+                      folder_reader
+                      visualization
+                      ${MY_QT_LIBRARIES}
+                      ${Boost_LIBRARIES}
+                      ${PCL_LIBRARIES}
+                      ${OpenCV_LIBS}
+                      ${CMAKE_THREAD_LIBS_INIT})
