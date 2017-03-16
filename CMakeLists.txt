@@ -63,7 +63,7 @@ find_package(OpenGL REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system filesystem regex program_options)
 find_package(PCL 1.8 REQUIRED
              COMPONENTS common io visualization
-             PATHS /home/igor/External/pcl-pcl-1.8.0/cmake)
+             PATHS /home/igor/External/pcl-pcl-1.8.0/build)
 find_package(QGLViewer REQUIRED)
 
 # find correct qt version

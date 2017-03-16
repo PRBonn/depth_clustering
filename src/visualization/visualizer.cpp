@@ -15,12 +15,12 @@
 
 #include "./visualizer.h"
 
+#include <algorithm>
 #include <chrono>
-#include <string>
-#include <vector>
 #include <ctime>
 #include <limits>
-#include <algorithm>
+#include <string>
+#include <vector>
 
 namespace depth_clustering {
 
@@ -80,8 +80,9 @@ void Visualizer::init() {
 
 void Visualizer::DrawCloud(const Cloud& cloud) {
   glPushMatrix();
+  glPointSize(2.0f);
   glBegin(GL_POINTS);
-  glColor3f(1.0f, 1.0f, 1.0f);
+  glColor3f(0.9f, 0.9f, 0.9f);
   for (const auto& point : cloud.points()) {
     glVertex3f(point.x(), point.y(), point.z());
   }
@@ -95,9 +96,10 @@ void Visualizer::DrawCube(const Eigen::Vector3f& center,
   glTranslatef(center.x(), center.y(), center.z());
   glScalef(scale.x(), scale.y(), scale.z());
   float volume = scale.x() * scale.y() * scale.z();
-  if (volume < 30.0f && scale.x() < 6 && scale.y() < 6 && scale.z() < 6) {
+  if (volume < 20.0f && scale.x() < 6 && scale.y() < 6 && scale.z() < 6 &&
+      scale.z() > 0.5f) {
     glColor3f(0.0f, 0.2f, 0.9f);
-    glLineWidth(4.0f);
+    glLineWidth(5.0f);
   } else {
     glColor3f(0.3f, 0.3f, 0.3f);
     glLineWidth(1.0f);

@@ -16,6 +16,7 @@
 #include <stdio.h>
 
 #include <pcl/io/hdl_grabber.h>
+#include <pcl/io/pcd_io.h>
 #include <qapplication.h>
 
 #include <string>
@@ -32,6 +33,7 @@
 #include "utils/timer.h"
 #include "utils/velodyne_utils.h"
 #include "visualization/visualizer.h"
+#include "visualization/cloud_saver.h"
 
 #include "tclap/CmdLine.h"
 
@@ -44,18 +46,12 @@ using CloudConstPtr = typename PclCloud::ConstPtr;
 using namespace depth_clustering;
 
 struct PcapBridge {
-  PcapBridge(const Radians& angle_tollerance, const string& calib_file,
-             const string& pcap_file, Visualizer* visualizer,
-             ProjectionParams* proj_params_ptr)
+  PcapBridge(const string& calib_file, const string& pcap_file,
+             Visualizer* visualizer, ProjectionParams* proj_params_ptr)
       : visualizer(visualizer),
         proj_params_ptr(proj_params_ptr),
         grabber(calib_file, pcap_file),
-        clusterer(angle_tollerance, 50, 100000),
-        depth_ground_remover(*proj_params_ptr, 9_deg, 5) {
-    clusterer.SetDiffType(DiffFactory::DiffType::ANGLES);
-    depth_ground_remover.AddClient(&clusterer);
-    clusterer.AddClient(visualizer->object_clouds_client());
-  }
+        cloud_saver("pcap") {}
 
   void CloudCallback(const CloudConstPtr& pcl_cloud_ptr) {
     // do smth here
@@ -63,7 +59,8 @@ struct PcapBridge {
     auto cloud_ptr = Cloud::FromPcl(*pcl_cloud_ptr);
     cloud_ptr->InitProjection(*proj_params_ptr);
     visualizer->OnNewObjectReceived(*cloud_ptr, 0);
-    depth_ground_remover.OnNewObjectReceived(*cloud_ptr, 0);
+    cloud_saver.OnNewObjectReceived(*cloud_ptr, 0);
+    visualizer->update();
   }
 
   void ReadData() {
@@ -88,28 +85,21 @@ struct PcapBridge {
   Visualizer* visualizer;
   ProjectionParams* proj_params_ptr;
   pcl::HDLGrabber grabber;
-  ImageBasedClusterer<LinearImageLabeler<>> clusterer;
-  DepthGroundRemover depth_ground_remover;
+  CloudSaver cloud_saver;
 };
 
 int main(int argc, char* argv[]) {
   TCLAP::CmdLine cmd("Visualize segmentation based on a pcap file.", ' ',
                      "1.0");
-  TCLAP::ValueArg<int> angle_arg(
-      "", "angle",
-      "Threshold angle. Below this value, the objects are separated", false, 20,
-      "int");
   TCLAP::ValueArg<string> path_to_pcap_file(
       "p", "pcap_file_path", "Path to a pcap file", true, "", "string");
   TCLAP::ValueArg<string> path_to_calibraion_file(
       "c", "calib_file_path", "Path to a calibration file", true, "", "string");
 
-  cmd.add(angle_arg);
   cmd.add(path_to_pcap_file);
   cmd.add(path_to_calibraion_file);
   cmd.parse(argc, argv);
 
-  Radians angle_tollerance = Radians::FromDegrees(angle_arg.getValue());
   string pcap_path = path_to_pcap_file.getValue();
   string calib_path = path_to_calibraion_file.getValue();
   fprintf(stderr, "INFO: Reading from: %s; calibration file: %s \n",
@@ -122,7 +112,7 @@ int main(int argc, char* argv[]) {
 
   // create and run loader thread
   auto proj_params_ptr = ProjectionParams::HDL_32();
-  PcapBridge pcap_bridge(angle_tollerance, calib_path, pcap_path, &visualizer,
+  PcapBridge pcap_bridge(calib_path, pcap_path, &visualizer,
                          proj_params_ptr.get());
   std::thread loader_thread(&PcapBridge::ReadData, &pcap_bridge);
 
