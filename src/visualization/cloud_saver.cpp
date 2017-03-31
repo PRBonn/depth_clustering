@@ -19,8 +19,8 @@
 
 namespace depth_clustering {
 
-void VectorCloudSaver::OnNewObjectReceived(const std::vector<Cloud>& clouds,
-                                           const int id) {
+void VectorCloudSaver::OnNewObjectReceived(
+    const std::unordered_map<uint16_t, Cloud>& clouds, const int id) {
   if (_folder_counter++ % _save_every > 0) {
     // nope, skip this one
     return;
@@ -31,7 +31,8 @@ void VectorCloudSaver::OnNewObjectReceived(const std::vector<Cloud>& clouds,
 
   if (boost::filesystem::create_directory(dir)) {
     size_t cloud_counter = 0;
-    for (const auto& cloud : clouds) {
+    for (const auto& kv : clouds) {
+      const auto& cloud = kv.second;
       auto cloud_name = dir.string() + "/cloud_" +
                         WithLeadingZerosStr(cloud_counter++) + ".pcd";
       pcl::io::savePCDFileBinary(cloud_name, *(cloud.ToPcl()));

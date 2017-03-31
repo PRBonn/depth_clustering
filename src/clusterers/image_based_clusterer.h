@@ -47,7 +47,7 @@ template <typename LabelerT>
 class ImageBasedClusterer : public AbstractClusterer {
  public:
   using Receiver = AbstractClient<Cloud>;
-  using Sender = AbstractSender<std::vector<Cloud>>;
+  using Sender = AbstractSender<std::unordered_map<uint16_t, Cloud>>;
 
   /**
    * @brief      Construct an image-based clusterer.
@@ -108,6 +108,9 @@ class ImageBasedClusterer : public AbstractClusterer {
       _label_client->OnNewObjectReceived(*labels_ptr, this->id());
     }
 
+    fprintf(stderr, "INFO: labels image sent to clients in: %lu us\n",
+            timer.measure());
+
     // create 3d clusters from image labels
     std::unordered_map<uint16_t, Cloud> clusters;
     for (int row = 0; row < labels_ptr->rows; ++row) {
@@ -129,22 +132,23 @@ class ImageBasedClusterer : public AbstractClusterer {
       }
     }
 
-    // now send clusters to clients. They can't wait to get a new cloud.
-    auto labels_color = AbstractImageLabeler::LabelsToColor(*labels_ptr);
-    _counter++;
-    std::vector<Cloud> clusters_to_send;
-    for (auto& kv : clusters) {
-      // if (counter > num_clusters_max) { break; }
-      auto& cluster = kv.second;
+    // filter out unfitting clusters
+    std::vector<uint16_t> labels_to_erase;
+    for (const auto& kv : clusters) {
+      const auto& cluster = kv.second;
       if (cluster.size() < this->_min_cluster_size ||
           cluster.size() > this->_max_cluster_size) {
-        // cluster is too small or too big, forget it.
-        continue;
+        labels_to_erase.push_back(kv.first);
       }
-      cluster.InitProjection(cloud.projection_ptr()->params());
-      clusters_to_send.push_back(cluster);
     }
-    this->ShareDataWithAllClients(clusters_to_send);
+    for (auto label : labels_to_erase) {
+      clusters.erase(label);
+    }
+
+    fprintf(stderr, "INFO: prepared clusters in: %lu us\n", timer.measure());
+
+    this->ShareDataWithAllClients(clusters);
+    fprintf(stderr, "INFO: clusters shared: %lu us\n", timer.measure());
   }
 
  private:

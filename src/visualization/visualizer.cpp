@@ -15,12 +15,12 @@
 
 #include "./visualizer.h"
 
+#include <algorithm>
 #include <chrono>
-#include <string>
-#include <vector>
 #include <ctime>
 #include <limits>
-#include <algorithm>
+#include <string>
+#include <vector>
 
 namespace depth_clustering {
 
@@ -35,6 +35,7 @@ using std::string;
 using std::vector;
 using std::thread;
 using std::lock_guard;
+using std::unordered_map;
 
 static vector<array<int, 3>> COLORS;
 
@@ -46,7 +47,8 @@ Visualizer::Visualizer(QWidget* parent)
 void Visualizer::draw() {
   lock_guard<mutex> guard(_cloud_mutex);
   DrawCloud(_cloud);
-  for (const auto& cluster : _cloud_obj_storer.object_clouds()) {
+  for (const auto& kv : _cloud_obj_storer.object_clouds()) {
+    const auto& cluster = kv.second;
     Eigen::Vector3f center = Eigen::Vector3f::Zero();
     Eigen::Vector3f extent = Eigen::Vector3f::Zero();
     Eigen::Vector3f max_point(std::numeric_limits<float>::lowest(),
@@ -148,19 +150,15 @@ void Visualizer::OnNewObjectReceived(const Cloud& cloud, const int id) {
 
 void Visualizer::onUpdate() { this->update(); }
 
-vector<Cloud> ObjectPtrStorer::object_clouds() const {
+unordered_map<uint16_t, Cloud> ObjectPtrStorer::object_clouds() const {
   lock_guard<mutex> guard(_cluster_mutex);
   return _obj_clouds;
 }
 
-void ObjectPtrStorer::OnNewObjectReceived(const std::vector<Cloud>& clouds,
-                                          const int id) {
+void ObjectPtrStorer::OnNewObjectReceived(
+    const unordered_map<uint16_t, Cloud>& clouds, const int id) {
   lock_guard<mutex> guard(_cluster_mutex);
-  _obj_clouds.clear();
-  _obj_clouds.reserve(clouds.size());
-  for (const auto& obj : clouds) {
-    _obj_clouds.push_back(obj);
-  }
+  _obj_clouds = clouds;
 
   if (_update_listener) {
     _update_listener->onUpdate();
