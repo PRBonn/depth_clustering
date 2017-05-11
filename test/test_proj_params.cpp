@@ -64,3 +64,40 @@ TEST(TestProjParams, from_file) {
   EXPECT_NEAR(-1.9367, params_ptr->AngleFromRow(0).ToDegrees(), eps);
   EXPECT_NEAR(24.9992, params_ptr->AngleFromRow(63).ToDegrees(), eps);
 }
+
+TEST(TestProjParams, velodyne_16) {
+  auto params_ptr = ProjectionParams::VLP_16();
+  EXPECT_EQ(true, params_ptr->valid());
+  EXPECT_EQ(16, params_ptr->rows());
+  EXPECT_EQ(870, params_ptr->cols());
+}
+
+TEST(TestProjParams, velodyne_64) {
+  auto params_ptr = ProjectionParams::HDL_64();
+  EXPECT_EQ(true, params_ptr->valid());
+  EXPECT_EQ(64, params_ptr->rows());
+  EXPECT_EQ(870, params_ptr->cols());
+}
+
+TEST(TestProjParams, velodyne_32) {
+  auto params_ptr = ProjectionParams::HDL_32();
+  EXPECT_EQ(true, params_ptr->valid());
+  EXPECT_EQ(32, params_ptr->rows());
+  EXPECT_EQ(870, params_ptr->cols());
+}
+
+TEST(TestProjParams, velodyne_64_equal) {
+  auto params_ptr = ProjectionParams::HDL_64_EQUAL();
+  EXPECT_EQ(true, params_ptr->valid());
+  EXPECT_EQ(64, params_ptr->rows());
+  EXPECT_EQ(870, params_ptr->cols());
+}
+
+
+TEST(TestProjParams, full_sphere) {
+  auto params_ptr = ProjectionParams::FullSphere(1_deg);
+  EXPECT_EQ(true, params_ptr->valid());
+  EXPECT_EQ(180, params_ptr->rows());
+  EXPECT_EQ(360, params_ptr->cols());
+}
+
