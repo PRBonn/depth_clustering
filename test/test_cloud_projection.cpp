@@ -9,14 +9,14 @@
 
 #include "projections/cloud_projection.h"
 #include "projections/spherical_projection.h"
-#include "utils/radians.h"
 #include "utils/cloud.h"
+#include "utils/radians.h"
 
 using cv::Mat;
 
 using namespace depth_clustering;
 
-using Dir = depth_clustering::ProjectionParams::Direction;
+using Dir = depth_clustering::SpanParams::Direction;
 
 TEST(CloudProjectionTest, SingleLine) {
   Radians horiz_span = 10_deg;
@@ -32,8 +32,9 @@ TEST(CloudProjectionTest, SingleLine) {
   }
 
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg, 1_deg, Dir::VERTICAL);
-  params.SetSpan(-horiz_span / 2, horiz_span / 2, horiz_step, Dir::HORIZONTAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg, 1_deg), Dir::VERTICAL);
+  params.SetSpan(SpanParams(-horiz_span / 2, horiz_span / 2, horiz_step),
+                 Dir::HORIZONTAL);
   cloud_ptr->InitProjection(params);
   auto projection = cloud_ptr->projection_ptr();
 
@@ -69,8 +70,9 @@ TEST(CloudProjectionTest, PlanePatch) {
   }
 
   ProjectionParams params;
-  params.SetSpan(-vertical_span / 2, vertical_span / 2, step, Dir::VERTICAL);
-  params.SetSpan(-horizontal_span / 2, horizontal_span / 2, step,
+  params.SetSpan(SpanParams(-vertical_span / 2, vertical_span / 2, step),
+                 Dir::VERTICAL);
+  params.SetSpan(SpanParams(-horizontal_span / 2, horizontal_span / 2, step),
                  Dir::HORIZONTAL);
   SphericalProjection storage(params);
   storage.InitFromPoints(cloud_ptr->points());
@@ -122,8 +124,9 @@ TEST(CloudProjectionTest, Circle) {
   }
 
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg, 1_deg, Dir::VERTICAL);
-  params.SetSpan(-horiz_span / 2, horiz_span / 2, horiz_step, Dir::HORIZONTAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg, 1_deg), Dir::VERTICAL);
+  params.SetSpan(SpanParams(-horiz_span / 2, horiz_span / 2, horiz_step),
+                 Dir::HORIZONTAL);
   SphericalProjection storage(params);
   storage.InitFromPoints(cloud_ptr->points());
 
@@ -163,10 +166,11 @@ TEST(CloudProjectionTest, BigCylinder) {
   }
 
   ProjectionParams params;
-  params.SetSpan(-vertical_span / 2, vertical_span / 2, ver_step,
+  params.SetSpan(SpanParams(-vertical_span / 2, vertical_span / 2, ver_step),
                  Dir::VERTICAL);
-  params.SetSpan(-horizontal_span / 2, horizontal_span / 2, hor_step,
-                 Dir::HORIZONTAL);
+  params.SetSpan(
+      SpanParams(-horizontal_span / 2, horizontal_span / 2, hor_step),
+      Dir::HORIZONTAL);
   SphericalProjection storage(params);
   storage.InitFromPoints(cloud_ptr->points());
 
@@ -203,10 +207,11 @@ TEST(CloudProjectionTest, FullSphere) {
   }
 
   ProjectionParams params;
-  params.SetSpan(-vertical_span / 2, vertical_span / 2, ver_step,
+  params.SetSpan(SpanParams(-vertical_span / 2, vertical_span / 2, ver_step),
                  Dir::VERTICAL);
-  params.SetSpan(-horizontal_span / 2, horizontal_span / 2, hor_step,
-                 Dir::HORIZONTAL);
+  params.SetSpan(
+      SpanParams(-horizontal_span / 2, horizontal_span / 2, hor_step),
+      Dir::HORIZONTAL);
   SphericalProjection storage(params);
   storage.InitFromPoints(cloud_ptr->points());
   Mat image = storage.depth_image();
@@ -232,15 +237,15 @@ TEST(CloudProjectionTest, WrongStorage) {
   try {
     SphericalProjection storage(params);
   } catch (std::runtime_error& e) {
-    std::string error_msg = "_params not valid for projection.";
+    std::string error_msg = "Projection parameters invalid.";
     EXPECT_EQ(error_msg, e.what());
   }
 }
 
 TEST(CloudProjectionTest, WrongCloud) {
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg, 1_deg, Dir::VERTICAL);
-  params.SetSpan(0_deg, 1_deg, 1_deg, Dir::HORIZONTAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg, 1_deg), Dir::VERTICAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg, 1_deg), Dir::HORIZONTAL);
   SphericalProjection storage(params);
   Cloud cloud;
   try {
@@ -258,8 +263,8 @@ TEST(CloudProjectionTest, FromDepthImage) {
   cv::Mat image = cv::Mat::ones(10, 10, CV_32F) * dist;
 
   ProjectionParams params;
-  params.SetSpan(0_deg, span, step, Dir::VERTICAL);
-  params.SetSpan(0_deg, span, step, Dir::HORIZONTAL);
+  params.SetSpan(SpanParams(0_deg, span, step), Dir::VERTICAL);
+  params.SetSpan(SpanParams(0_deg, span, step), Dir::HORIZONTAL);
   auto cloud = Cloud::FromImage(image, params);
   auto projection = cloud->projection_ptr();
   cv::Mat image_res = projection->depth_image();

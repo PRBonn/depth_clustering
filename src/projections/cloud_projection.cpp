@@ -69,6 +69,26 @@ void CloudProjection::CheckImageAndStorage(const cv::Mat& image) {
   }
 }
 
+void CloudProjection::FixDepthSystematicErrorIfNeeded() {
+  if (_depth_image.rows < 1) {
+    fprintf(stderr, "[INFO]: image of wrong size, not correcting depth\n");
+    return;
+  }
+  if (_corrections.size() != static_cast<size_t>(_depth_image.rows)) {
+    fprintf(stderr, "[INFO]: Not correcting depth data.\n");
+    return;
+  }
+  for (int r = 0; r < _depth_image.rows; ++r) {
+    auto correction = _corrections[r];
+    for (int c = 0; c < _depth_image.cols; ++c) {
+      if (_depth_image.at<float>(r, c) < 0.001f) {
+        continue;
+      }
+      _depth_image.at<float>(r, c) -= correction;
+    }
+  }
+}
+
 const cv::Mat& CloudProjection::depth_image() const {
   return this->_depth_image;
 }

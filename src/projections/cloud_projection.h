@@ -110,6 +110,21 @@ class CloudProjection {
   virtual RichPoint UnprojectPoint(const cv::Mat& image, const int row,
                                    const int col) const;
 
+  /**
+  * @brief      Set corrections for systematic error in a dataset (see
+  *             notebooks in the repo)
+  *
+  * @param[in]  corrections  A vector of correction in depth for every beam.
+  */
+  inline void SetCorrections(const std::vector<float>& corrections) {
+    _corrections = corrections;
+  }
+
+  /**
+   * @brief      Fix systematic error. See notebooks in the repo for details.
+   */
+  void FixDepthSystematicErrorIfNeeded();
+
  protected:
   // just stores addresses of the points. Does not own them.
   PointMatrix _data;
@@ -117,6 +132,8 @@ class CloudProjection {
   ProjectionParams _params;
 
   cv::Mat _depth_image;
+
+  std::vector<float> _corrections;
 };
 
 /**

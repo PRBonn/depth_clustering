@@ -71,10 +71,10 @@ TEST(LinearImageLabeler, UniformDepth) {
   Mat depth_image = cv::Mat::ones(size, size, DataType<float>::type);
   Radians threshold = 20_deg;
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::HORIZONTAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::VERTICAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::HORIZONTAL);
   LinearImageLabeler<> labeler(depth_image, params, threshold);
   labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
@@ -104,10 +104,10 @@ TEST(LinearImageLabeler, GradientDepth) {
   }
   Radians threshold = 20_deg;
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::HORIZONTAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::VERTICAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::HORIZONTAL);
   LinearImageLabeler<> labeler(depth_image, params, threshold);
   labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
@@ -134,10 +134,10 @@ TEST(LinearImageLabeler, TwoLabelImageVertical) {
   }
   Radians threshold = 20_deg;
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::HORIZONTAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::VERTICAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::HORIZONTAL);
   LinearImageLabeler<1, 1> labeler(depth_image, params, threshold);
   labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
@@ -170,10 +170,10 @@ TEST(LinearImageLabeler, TwoLabelImageHorizontal) {
   }
   Radians threshold = 20_deg;
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::HORIZONTAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::VERTICAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::HORIZONTAL);
   LinearImageLabeler<1, 1> labeler(depth_image, params, threshold);
   labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
@@ -211,10 +211,10 @@ TEST(LinearImageLabeler, MultiClassHard) {
 
   Radians threshold = 20_deg;
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::HORIZONTAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::VERTICAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::HORIZONTAL);
   LinearImageLabeler<1, 1> labeler(depth_image, params, threshold);
   labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
@@ -252,10 +252,10 @@ TEST(DijkstraImageLabeler, TwoLabelImageVertical) {
   }
   Radians threshold = 20_deg;
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::HORIZONTAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::VERTICAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::HORIZONTAL);
   LinearImageLabeler<1, 1> labeler(depth_image, params, threshold);
   labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
@@ -288,10 +288,10 @@ TEST(DijkstraImageLabeler, TwoLabelImageHorizontal) {
   }
   Radians threshold = 20_deg;
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::HORIZONTAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::VERTICAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::HORIZONTAL);
   LinearImageLabeler<1, 1> labeler(depth_image, params, threshold);
   labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();
@@ -329,10 +329,10 @@ TEST(DijkstraImageLabeler, MultiClassHard) {
 
   Radians threshold = 20_deg;
   ProjectionParams params;
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 1_deg * size, size,
-                 ProjectionParams::Direction::HORIZONTAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::VERTICAL);
+  params.SetSpan(SpanParams(0_deg, 1_deg * size, size),
+                 SpanParams::Direction::HORIZONTAL);
   LinearImageLabeler<1, 1> labeler(depth_image, params, threshold);
   labeler.ComputeLabels(DiffFactory::DiffType::ANGLES);
   auto label_image = labeler.GetLabelImage();

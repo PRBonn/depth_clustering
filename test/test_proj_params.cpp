@@ -11,13 +11,21 @@ using namespace depth_clustering;
 
 TEST(TestProjParams, test_init) {
   ProjectionParams params;
-  EXPECT_EQ(false, params.valid());
+  try {
+    params.valid();
+    FAIL();
+  } catch (const std::runtime_error& error) {
+    std::string expected = "Projection parameters invalid.";
+    EXPECT_EQ(expected, error.what());
+  }
 }
 
 TEST(TestProjParams, from_angle) {
   ProjectionParams params;
-  params.SetSpan(0_deg, 10_deg, 1_deg, ProjectionParams::Direction::VERTICAL);
-  params.SetSpan(0_deg, 10_deg, 1_deg, ProjectionParams::Direction::HORIZONTAL);
+  params.SetSpan(SpanParams(0_deg, 10_deg, 1_deg),
+                 SpanParams::Direction::VERTICAL);
+  params.SetSpan(SpanParams(0_deg, 10_deg, 1_deg),
+                 SpanParams::Direction::HORIZONTAL);
   EXPECT_EQ(true, params.valid());
   EXPECT_EQ(0, params.ColFromAngle(0_deg));
   EXPECT_EQ(1, params.ColFromAngle(1_deg));
@@ -56,3 +64,40 @@ TEST(TestProjParams, from_file) {
   EXPECT_NEAR(-1.9367, params_ptr->AngleFromRow(0).ToDegrees(), eps);
   EXPECT_NEAR(24.9992, params_ptr->AngleFromRow(63).ToDegrees(), eps);
 }
+
+TEST(TestProjParams, velodyne_16) {
+  auto params_ptr = ProjectionParams::VLP_16();
+  EXPECT_EQ(true, params_ptr->valid());
+  EXPECT_EQ(16, params_ptr->rows());
+  EXPECT_EQ(870, params_ptr->cols());
+}
+
+TEST(TestProjParams, velodyne_64) {
+  auto params_ptr = ProjectionParams::HDL_64();
+  EXPECT_EQ(true, params_ptr->valid());
+  EXPECT_EQ(64, params_ptr->rows());
+  EXPECT_EQ(870, params_ptr->cols());
+}
+
+TEST(TestProjParams, velodyne_32) {
+  auto params_ptr = ProjectionParams::HDL_32();
+  EXPECT_EQ(true, params_ptr->valid());
+  EXPECT_EQ(32, params_ptr->rows());
+  EXPECT_EQ(870, params_ptr->cols());
+}
+
+TEST(TestProjParams, velodyne_64_equal) {
+  auto params_ptr = ProjectionParams::HDL_64_EQUAL();
+  EXPECT_EQ(true, params_ptr->valid());
+  EXPECT_EQ(64, params_ptr->rows());
+  EXPECT_EQ(870, params_ptr->cols());
+}
+
+
+TEST(TestProjParams, full_sphere) {
+  auto params_ptr = ProjectionParams::FullSphere(1_deg);
+  EXPECT_EQ(true, params_ptr->valid());
+  EXPECT_EQ(180, params_ptr->rows());
+  EXPECT_EQ(360, params_ptr->cols());
+}
+
