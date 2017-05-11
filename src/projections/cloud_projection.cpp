@@ -70,7 +70,11 @@ void CloudProjection::CheckImageAndStorage(const cv::Mat& image) {
 }
 
 void CloudProjection::FixDepthSystematicErrorIfNeeded() {
-  if (_corrections.size() != _depth_image.rows) {
+  if (_depth_image.rows < 1) {
+    fprintf(stderr, "[INFO]: image of wrong size, not correcting depth\n");
+    return;
+  }
+  if (_corrections.size() != static_cast<size_t>(_depth_image.rows)) {
     fprintf(stderr, "[INFO]: Not correcting depth data.\n");
     return;
   }
