@@ -180,6 +180,13 @@ class ProjectionParams {
    */
   static std::unique_ptr<ProjectionParams> HDL_64();
   /**
+   * @brief      Parameters for 64 beam velodyne assuming equal spacing between
+   *             the lasers.
+   *
+   * @return     A pointer to parameters
+   */
+  static std::unique_ptr<ProjectionParams> HDL_64_EQUAL();
+  /**
    * @brief      Default parameters for Velodyne from config file
    *
    * @return     A pointer to parameters
