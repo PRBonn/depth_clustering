@@ -16,7 +16,9 @@
 #ifndef SRC_CLUSTERERS_ABSTRACT_CLUSTERER_H_
 #define SRC_CLUSTERERS_ABSTRACT_CLUSTERER_H_
 
+#include <unordered_map>
 #include <vector>
+
 #include "communication/abstract_client.h"
 #include "communication/abstract_sender.h"
 #include "utils/cloud.h"
@@ -26,11 +28,12 @@ namespace depth_clustering {
 /**
  * @brief      Class for abstract clusterer.
  */
-class AbstractClusterer : public AbstractClient<Cloud>,
-                          public AbstractSender<std::vector<Cloud>> {
+class AbstractClusterer
+    : public AbstractClient<Cloud>,
+      public AbstractSender<std::unordered_map<uint16_t, Cloud>> {
  public:
   using Receiver = AbstractClient<Cloud>;
-  using Sender = AbstractSender<std::vector<Cloud>>;
+  using Sender = AbstractSender<std::unordered_map<uint16_t, Cloud>>;
 
   /**
    * @brief      Construct a clusterer.

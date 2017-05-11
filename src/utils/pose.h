@@ -31,6 +31,8 @@ class Pose : public Eigen::Affine3f {
  public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
+  using Vector6f = Eigen::Matrix<float, 6, 1>;
+
   using Ptr = shared_ptr<Pose>;
   using ConstPtr = shared_ptr<const Pose>;
   using Base = Eigen::Affine3f;
@@ -87,19 +89,19 @@ class Pose : public Eigen::Affine3f {
     _likelihood = likelihood;
   }
 
-  void MoveToLocalFrameOf(const Pose& other) {
+  void ToLocalFrameOf(const Pose& other) {
     this->matrix() = other.matrix().inverse() * this->matrix();
   }
 
-  Pose CopyToLocalFrameOf(const Pose& other) const {
+  Pose InLocalFrameOf(const Pose& other) const {
     Pose pose(*this);
-    pose.MoveToLocalFrameOf(other);
+    pose.ToLocalFrameOf(other);
     return pose;
   }
 
-  Pose::Ptr CopyToLocalFrameOf(const Pose::Ptr& other) const {
+  Pose::Ptr InLocalFrameOf(const Pose::Ptr& other) const {
     Pose::Ptr pose(new Pose(*this));
-    pose->MoveToLocalFrameOf(*other);
+    pose->ToLocalFrameOf(*other);
     return pose;
   }
 
@@ -142,6 +144,27 @@ class Pose : public Eigen::Affine3f {
 
   inline void Print3D() const {
     fprintf(stderr, "[%f, %f, %f]\n", this->x(), this->y(), this->z());
+  }
+
+  static inline Pose FromVector6f(const Vector6f& v) {
+    using Eigen::Vector3f;
+    using Eigen::AngleAxisf;
+    Pose T;
+    T.setIdentity();
+    T.translation() = v.head<3>();
+    Eigen::Matrix3f m;
+    m = AngleAxisf(v(3), Vector3f::UnitX()) *
+        AngleAxisf(v(4), Vector3f::UnitY()) *
+        AngleAxisf(v(5), Vector3f::UnitZ());
+    T.linear() = m;
+    return T;
+  }
+
+  inline Vector6f ToVector6f() const {
+    Vector6f v;
+    v.head<3>() = this->translation();
+    v.block<3, 1>(3, 0) = this->linear().eulerAngles(0, 1, 2);
+    return v;
   }
 
  private:
