@@ -90,6 +90,7 @@ int main(int argc, char* argv[]) {
 
   ImageBasedClusterer<LinearImageLabeler<>> clusterer(
       angle_tollerance, min_cluster_size, max_cluster_size);
+  clusterer.SetDiffType(DiffFactory::DiffType::ANGLES);
 
   subscriber.AddClient(&depth_ground_remover);
   depth_ground_remover.AddClient(&clusterer);

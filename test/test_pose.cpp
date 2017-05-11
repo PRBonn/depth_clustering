@@ -2,9 +2,9 @@
 // In case of any problems with the code please contact me.
 // Email: igor.bogoslavskyi@uni-bonn.de.
 
-#include <gtest/gtest.h>
-#include <Eigen/Core>
 #include "utils/pose.h"
+#include <Eigen/Core>
+#include <gtest/gtest.h>
 
 using Eigen::Vector3f;
 
@@ -172,33 +172,33 @@ TEST(PoseTest, ToTransform) {
   EXPECT_NEAR(m_move_rot(2, 2), m_res(2, 2), eps);
 }
 
-TEST(PoseTest, MoveToLocalFrameOf) {
+TEST(PoseTest, ToLocalFrameOf) {
   double eps = 0.000001;
   Pose pose1(1, 0, 0);
   Pose pose2(2, 1, M_PI / 2);
-  pose2.MoveToLocalFrameOf(pose1);
+  pose2.ToLocalFrameOf(pose1);
   EXPECT_NEAR(1, pose2.x(), eps);
   EXPECT_NEAR(1, pose2.y(), eps);
   EXPECT_NEAR(M_PI / 2, pose2.theta(), eps);
 
   pose2 = Pose(2, 1, M_PI / 2);
-  pose1.MoveToLocalFrameOf(pose2);
+  pose1.ToLocalFrameOf(pose2);
   EXPECT_NEAR(-1, pose1.x(), eps);
   EXPECT_NEAR(1, pose1.y(), eps);
   EXPECT_NEAR(-M_PI / 2, pose1.theta(), eps);
 }
 
-TEST(PoseTest, MoveToLocalFrameOfPtr) {
+TEST(PoseTest, ToLocalFrameOfPtr) {
   double eps = 0.000001;
   Pose::Ptr pose1(new Pose(1, 0, 0));
   Pose::Ptr pose2(new Pose(2, 1, M_PI / 2));
-  pose2->MoveToLocalFrameOf(*pose1);
+  pose2->ToLocalFrameOf(*pose1);
   EXPECT_NEAR(1, pose2->x(), eps);
   EXPECT_NEAR(1, pose2->y(), eps);
   EXPECT_NEAR(M_PI / 2, pose2->theta(), eps);
 
   pose2.reset(new Pose(2, 1, M_PI / 2));
-  pose1->MoveToLocalFrameOf(*pose2);
+  pose1->ToLocalFrameOf(*pose2);
   EXPECT_NEAR(-1, pose1->x(), eps);
   EXPECT_NEAR(1, pose1->y(), eps);
   EXPECT_NEAR(-M_PI / 2, pose1->theta(), eps);
@@ -230,6 +230,45 @@ TEST(PoseTest, TestOperatorUnaryMinus) {
   EXPECT_NEAR(pose.x(), -inverted.x(), eps);
   EXPECT_NEAR(pose.y(), -inverted.y(), eps);
   EXPECT_NEAR(pose.z(), -inverted.z(), eps);
+}
+
+TEST(PoseTest, T2V) {
+  float eps = std::numeric_limits<float>::epsilon();
+  Pose pose;
+  pose.SetX(1);
+  pose.SetY(1);
+  pose.SetZ(1);
+  auto vec = pose.ToVector6f();
+  EXPECT_NEAR(1, vec[0], eps);
+  EXPECT_NEAR(1, vec[1], eps);
+  EXPECT_NEAR(1, vec[2], eps);
+  EXPECT_NEAR(0, vec[3], eps);
+  EXPECT_NEAR(0, vec[4], eps);
+  EXPECT_NEAR(0, vec[5], eps);
+}
+
+TEST(PoseTest, V2T) {
+  float eps = std::numeric_limits<float>::epsilon();
+  Pose::Vector6f vec;
+  vec << 1, 1, 1, 0, 0, 0;
+  Pose pose = Pose::FromVector6f(vec);
+  EXPECT_NEAR(1, pose.x(), eps);
+  EXPECT_NEAR(1, pose.y(), eps);
+  EXPECT_NEAR(1, pose.z(), eps);
+}
+
+TEST(PoseTest, V2T2V) {
+  float eps = std::numeric_limits<float>::epsilon();
+  Pose::Vector6f vec;
+  vec << 1, 2, 3, M_PI / 3, M_PI / 4, M_PI / 2;
+  Pose pose = Pose::FromVector6f(vec);
+  auto vec_res = pose.ToVector6f();
+  EXPECT_NEAR(vec[0], vec_res[0], eps);
+  EXPECT_NEAR(vec[1], vec_res[1], eps);
+  EXPECT_NEAR(vec[2], vec_res[2], eps);
+  EXPECT_NEAR(vec[3], vec_res[3], eps);
+  EXPECT_NEAR(vec[4], vec_res[4], eps);
+  EXPECT_NEAR(vec[5], vec_res[5], eps);
 }
 
 // IMPORTANT!!! This will only die if NDEBUG is not defined!

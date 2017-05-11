@@ -59,9 +59,9 @@ class EuclideanClusterer : public AbstractClusterer {
    */
   void OnNewObjectReceived(const Cloud& cloud, const int sender_id) override {
     auto pcl_cloud_ptr = cloud.ToPcl();
+    std::unordered_map<uint16_t, Cloud> clusters;
     if (this->_counter++ % this->_skip != 0) {
       // share empty clusters
-      std::vector<Cloud> clusters;
       this->ShareDataWithAllClients(clusters);
       return;
     }
@@ -81,16 +81,16 @@ class EuclideanClusterer : public AbstractClusterer {
     auto end = high_resolution_clock::now();
     fprintf(stderr, "euclidian based labeling took: %lu us\n",
             std::chrono::duration_cast<microseconds>(end - start).count());
-    std::vector<Cloud> clusters;
     for (auto cluster_iter = cluster_indices.begin();
          cluster_iter != cluster_indices.end(); ++cluster_iter) {
+      int idx = std::distance(cluster_indices.begin(), cluster_iter);
       Cloud cloud_cluster(cloud.pose());
       cloud_cluster.reserve(cluster_iter->indices.size());
       for (auto point_iter = cluster_iter->indices.begin();
            point_iter != cluster_iter->indices.end(); ++point_iter) {
         cloud_cluster.push_back(cloud[*point_iter]);
       }
-      clusters.push_back(cloud_cluster);
+      clusters[idx] = cloud_cluster;
     }
     this->ShareDataWithAllClients(clusters);
   }

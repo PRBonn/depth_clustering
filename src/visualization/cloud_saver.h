@@ -16,24 +16,25 @@
 #ifndef SRC_VISUALIZATION_CLOUD_SAVER_H_
 #define SRC_VISUALIZATION_CLOUD_SAVER_H_
 
-#include <pcl/io/pcd_io.h>
 #include <opencv2/opencv.hpp>
+#include <pcl/io/pcd_io.h>
 
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 #include "communication/abstract_client.h"
 #include "utils/cloud.h"
 
 namespace depth_clustering {
 
-class VectorCloudSaver : public AbstractClient<std::vector<Cloud>> {
+class VectorCloudSaver
+    : public AbstractClient<std::unordered_map<uint16_t, Cloud>> {
  public:
   explicit VectorCloudSaver(const std::string& prefix,
                             const size_t save_every = 1)
       : _prefix(prefix), _save_every(save_every), _folder_counter(0) {}
-  void OnNewObjectReceived(const std::vector<Cloud>& clouds,
+  void OnNewObjectReceived(const std::unordered_map<uint16_t, Cloud>& clouds,
                            const int id) override;
   virtual ~VectorCloudSaver() {}
 

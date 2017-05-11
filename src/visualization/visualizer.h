@@ -18,11 +18,12 @@
 
 #include <QGLViewer/qglviewer.h>
 
-#include <thread>
+#include <map>
 #include <mutex>
 #include <string>
+#include <thread>
+#include <unordered_map>
 #include <vector>
-#include <map>
 
 #include "communication/abstract_client.h"
 #include "utils/cloud.h"
@@ -35,11 +36,12 @@ class IUpdateListener {
   virtual void onUpdate() = 0;
 };
 
-class ObjectPtrStorer : public AbstractClient<std::vector<Cloud>> {
+class ObjectPtrStorer
+    : public AbstractClient<std::unordered_map<uint16_t, Cloud>> {
  public:
-  ObjectPtrStorer() : AbstractClient<std::vector<Cloud>>() {}
+  ObjectPtrStorer() : AbstractClient<std::unordered_map<uint16_t, Cloud>>() {}
 
-  void OnNewObjectReceived(const std::vector<Cloud>& clouds,
+  void OnNewObjectReceived(const std::unordered_map<uint16_t, Cloud>& clouds,
                            const int id) override;
 
   void SetUpdateListener(IUpdateListener* update_listener) {
@@ -48,10 +50,10 @@ class ObjectPtrStorer : public AbstractClient<std::vector<Cloud>> {
 
   virtual ~ObjectPtrStorer() {}
 
-  std::vector<Cloud> object_clouds() const;
+  std::unordered_map<uint16_t, Cloud> object_clouds() const;
 
  private:
-  std::vector<Cloud> _obj_clouds;
+  std::unordered_map<uint16_t, Cloud> _obj_clouds;
   IUpdateListener* _update_listener;
   mutable std::mutex _cluster_mutex;
 };

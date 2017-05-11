@@ -76,15 +76,26 @@ doxygen Doxyfile.conf
 ```
 
 ## Related publications ##
-Please cite related paper if you use this code:
+Please cite related papers if you use this code:
 
 ```
 @InProceedings{bogoslavskyi16iros,
-Title     = {Fast Range Image-Based Segmentation of Sparse 3D Laser Scans for Online Operation},
-Author    = {I. Bogoslavskyi and C. Stachniss},
-Booktitle = {Proc. of The International Conference on Intelligent Robots and Systems (IROS)},
-Year      = {2016},
-Url       = {http://www.ipb.uni-bonn.de/pdfs/bogoslavskyi16iros.pdf}
+title     = {Fast Range Image-Based Segmentation of Sparse 3D Laser Scans for Online Operation},
+author    = {I. Bogoslavskyi and C. Stachniss},
+booktitle = {Proc. of The International Conference on Intelligent Robots and Systems (IROS)},
+year      = {2016},
+url       = {http://www.ipb.uni-bonn.de/pdfs/bogoslavskyi16iros.pdf}
+}
+```
+
+```
+@Article{bogoslavskyi17pfg,
+title   = {Efficient Online Segmentation for Sparse 3D Laser Scans},
+author  = {I. Bogoslavskyi and C. Stachniss},
+journal = {PFG -- Journal of Photogrammetry, Remote Sensing and Geoinformation Science},
+year    = {2017},
+pages   = {1--12},
+url     = {https://link.springer.com/article/10.1007%2Fs41064-016-0003-y},
 }
 ```
 
