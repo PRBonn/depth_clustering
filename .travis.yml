@@ -17,7 +17,7 @@ before_install:
 
 before_script:
   - sudo apt-get update -qq
-  - sudo apt-get install -y libqt4-dev libqglviewer-dev gcovr
+  - sudo apt-get install -y libqt4-dev libqglviewer-dev gcovr libglu1-mesa-dev
   - ls /usr/share/cmake-2.8/Modules | grep cmake
   - mkdir build
   - cd build
