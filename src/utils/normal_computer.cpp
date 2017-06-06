@@ -19,7 +19,7 @@ namespace depth_clustering {
 
 void NormalComputer::compute() {
   computeSimpleNormals();
-  blurNormals(_blur_cols, _blur_rows, 0);
+  blurNormals(1, 0);
   _normal_image = cv::Mat::zeros(_rows, _cols, CV_32FC3);
   // copy only the relevant part without borders into a new image
   _normal_image_smooth(cv::Rect(_col_gap, _row_gap, _cols, _rows))
@@ -28,7 +28,7 @@ void NormalComputer::compute() {
 
 void NormalComputer::computeSimpleNormals() {
   _normal_image_border = cv::Mat::zeros(_points_image_border.size(), CV_32FC3);
-  float sq_thresh = _max_distance * _max_distance;
+  float squared_max_distance = _max_distance * _max_distance;
   for (int r = _row_gap; r < _points_image_border.rows - _row_gap; ++r) {
     const cv::Vec3f* up_row_ptr =
         _points_image_border.ptr<const cv::Vec3f>(r - _row_gap);
@@ -42,21 +42,22 @@ void NormalComputer::computeSimpleNormals() {
       // if z is null, skip;
       if (p[2] == 0) continue;
 
-      const cv::Vec3f& px00 = row_ptr[c - _col_gap];
+      const cv::Vec3f& px00 = *(row_ptr - _col_gap);
       if (px00[2] == 0) continue;
 
-      const cv::Vec3f& px01 = row_ptr[c + _col_gap];
+      const cv::Vec3f& px01 = *(row_ptr + _col_gap);
       if (px01[2] == 0) continue;
 
-      const cv::Vec3f& py00 = up_row_ptr[c];
+      const cv::Vec3f& py00 = *up_row_ptr;
       if (py00[2] == 0) continue;
 
-      const cv::Vec3f& py01 = down_row_ptr[c];
-      if (py00[2] == 0) continue;
+      const cv::Vec3f& py01 = *down_row_ptr;
+      if (py01[2] == 0) continue;
 
       cv::Vec3f dx = px01 - px00;
       cv::Vec3f dy = py01 - py00;
-      if (norm(dx, CV_L2) > sq_thresh || norm(dy, CV_L2) > sq_thresh) {
+      if (dx.dot(dx) > squared_max_distance ||
+          dy.dot(dy) > squared_max_distance) {
         continue;
       }
 
@@ -65,35 +66,36 @@ void NormalComputer::computeSimpleNormals() {
       if (n.dot(p) > 0) {
         n = -n;
       }
-      dest_row_ptr[c] = n;
+      *dest_row_ptr = n;
     }
   }
 }
 
 // from srrg_nicp
-void NormalComputer::blurNormals(int window_cols, int window_rows, int start) {
+void NormalComputer::blurNormals(int window, int start) {
   _normal_image_smooth = cv::Mat::zeros(_normal_image_border.size(), CV_32FC3);
   int rows = _normal_image_smooth.rows;
   int cols = _normal_image_smooth.cols;
   cv::Mat normal_integral;
   cv::integral(_normal_image_border, normal_integral, CV_32F);
+  for (int r = start + window; r < rows - start - window; ++r) {
+    const cv::Vec3f* up_row_ptr =
+        normal_integral.ptr<const cv::Vec3f>(r - window);
+    const cv::Vec3f* down_row_ptr =
+        normal_integral.ptr<const cv::Vec3f>(r + window);
+    cv::Vec3f* dest_row_ptr = _normal_image_smooth.ptr<cv::Vec3f>(r);
 
-  for (int r = start + window_rows; r < rows - start - window_rows; ++r) {
-    for (int c = start + window_cols; c < cols - start - window_cols; ++c) {
-      cv::Vec3f m11 =
-          normal_integral.at<cv::Vec3f>(r + window_rows, c + window_cols);
-      cv::Vec3f m00 =
-          normal_integral.at<cv::Vec3f>(r - window_rows, c - window_cols);
-      cv::Vec3f m01 =
-          normal_integral.at<cv::Vec3f>(r - window_rows, c + window_cols);
-      cv::Vec3f m10 =
-          normal_integral.at<cv::Vec3f>(r + window_rows, c - window_cols);
+    for (int c = start + window; c < cols - start - window;
+         ++c, ++down_row_ptr, ++up_row_ptr, ++dest_row_ptr) {
+      cv::Vec3f m11 = *(down_row_ptr + window);
+      cv::Vec3f m00 = *(up_row_ptr - window);
+      cv::Vec3f m01 = *(down_row_ptr - window);
+      cv::Vec3f m10 = *(up_row_ptr + window);
       cv::Vec3f n_sum = m11 + m00 - m01 - m10;
-      if (norm(n_sum, CV_L2) > _max_distance) {
-        _normal_image_smooth.at<cv::Vec3f>(r, c) = normalize(n_sum);
-      } else {
-        _normal_image_smooth.at<cv::Vec3f>(r, c) = cv::Vec3f(0, 0, 0);
-      }
+      if (n_sum.dot(n_sum) > 0.2)
+        *dest_row_ptr = normalize(n_sum);
+      else
+        *dest_row_ptr = cv::Vec3f(0, 0, 0);
     }
   }
 }

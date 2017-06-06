@@ -256,7 +256,7 @@
      <item>
       <widget class="QComboBox" name="cmb_diff_type">
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <item>
         <property name="text">
@@ -276,6 +276,11 @@
        <item>
         <property name="text">
          <string>LineDistancePrecomputed</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Normals</string>
         </property>
        </item>
        <item>

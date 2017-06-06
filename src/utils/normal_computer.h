@@ -38,7 +38,7 @@ class NormalComputer {
  protected:
   // from srrg_nicp
   void computeSimpleNormals();
-  void blurNormals(int window_cols, int window_rows, int start);
+  void blurNormals(int window, int start);
   cv::Mat _points_image_border;
   cv::Mat _normal_image_border;
   cv::Mat _normal_image_smooth;

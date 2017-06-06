@@ -78,7 +78,7 @@ class NormalDiff : public AbstractDiff {
   cv::Mat _normals;
 
   // TODO(igor): fix this ugly initialization here
-  NormalComputer _normal_computer{10, 2, 10, 2, 1.0f};
+  NormalComputer _normal_computer{5, 5, 5, 5, 5.0f};
 };
 
 }  // namespace depth_clustering

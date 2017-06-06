@@ -22,6 +22,7 @@
 #include "image_labelers/diff_helpers/angle_diff.h"
 #include "image_labelers/diff_helpers/line_dist_diff.h"
 #include "image_labelers/diff_helpers/simple_diff.h"
+#include "image_labelers/diff_helpers/normal_diff.h"
 #include "utils/mem_utils.h"
 
 namespace depth_clustering {
@@ -34,6 +35,7 @@ class DiffFactory {
     ANGLES_PRECOMPUTED,
     LINE_DIST,
     LINE_DIST_PRECOMPUTED,
+    NORMALS,
     NONE
   };
 
@@ -63,6 +65,11 @@ class DiffFactory {
       case DiffType::LINE_DIST_PRECOMPUTED: {
         return std::unique_ptr<AbstractDiff>(
             new LineDistDiffPrecomputed(source_image, params));
+        break;
+      }
+      case DiffType::NORMALS: {
+        return std::unique_ptr<AbstractDiff>(
+            new NormalDiff(source_image, params));
         break;
       }
       case DiffType::NONE: {
