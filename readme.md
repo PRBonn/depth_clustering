@@ -9,7 +9,7 @@ Velodyne sensor into objects. It works with all available Velodyne sensors,
 i.e. 16, 32 and 64 beam ones.
 
 Check out a video that shows all objects which have a bounding box of less than 10 squared meters:
-[![Segmentation illustration](https://img.youtube.com/vi/mi-Z__B1yyE/0.jpg)](https://www.youtube.com/watch?v=mi-Z__B1yyE "Segmentation")
+[![Segmentation illustration](https://img.youtube.com/vi/MGkoUo3DbBs/0.jpg)](https://www.youtube.com/watch?v=MGkoUo3DbBs "Segmentation")
 
 
 ## How to build? ##
@@ -64,9 +64,20 @@ Run a binary to show detected objects:
 ./show_objects_moosmann --path data/scenario1/
 ```
 
+Alternatively, you can run the data from Qt GUI (as in video):
+```
+./qt_gui_app
+```
+Once the GUI is shown, click on <kbd>OpenFolder</kbd> button and choose the
+folder where you have unpacked the `png` files, e.g. `data/scenario1/`.
+Navigate the viewer with arrows and controls seen on screen.
+
 #### Other data ####
 There are also examples on how to run the processing on KITTI data and on ROS
 input. Follow the `--help` output of each of the examples for more details.
+
+Also you can load the data from the GUI. Make sure you are loading files with
+correct extension (`*.txt` and `*.bin` for KITTI, `*.png` for Moosmann's data).
 
 ## Documentation ##
 You should be able to get Doxygen documentation by running:

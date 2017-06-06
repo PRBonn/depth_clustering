@@ -16,4 +16,7 @@ add_library(folder_reader SHARED folder_reader.cpp)
 target_link_libraries(folder_reader
                       ${Boost_LIBRARIES})
 
+add_library(bbox bbox.cpp)
+target_link_libraries(bbox cloud)
+
 

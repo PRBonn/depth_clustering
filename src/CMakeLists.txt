@@ -4,6 +4,7 @@ add_subdirectory(image_labelers)
 add_subdirectory(visualization)
 add_subdirectory(projections)
 add_subdirectory(utils)
+add_subdirectory(qt)
 
 if(ROS_FOUND)
   add_subdirectory(ros_bridge)

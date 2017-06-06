@@ -14,8 +14,14 @@
       "path": "."
     }
   ],
-  "settings": 
+  "settings":
   {
+    "ecc_common_flags":
+    [
+      "-I/usr/include",
+      "-I/usr/lib/clang/$clang_version/include",
+      "-I~/Code/catkin_ws/build/$project_name/src"
+    ],
     "ecc_flags_sources": [
       {
         "file": "CMakeLists.txt",
