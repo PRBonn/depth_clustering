@@ -21,5 +21,3 @@ target_link_libraries(bbox cloud)
 
 add_library(normal_computer normal_computer.cpp)
 target_link_libraries(normal_computer ${OpenCV_LIBS})
-
-
