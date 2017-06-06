@@ -5,6 +5,6 @@ add_subdirectory(viewer)
 add_subdirectory(utils)
 add_subdirectory(widgets)
 
-add_executable(qt_main main.cpp)
-target_link_libraries(qt_main
+add_executable(qt_gui_app main.cpp)
+target_link_libraries(qt_gui_app
                       qt_widgets)
