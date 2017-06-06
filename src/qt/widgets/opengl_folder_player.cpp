@@ -53,6 +53,7 @@ OpenGlFolderPlayer::OpenGlFolderPlayer(QWidget *parent)
 
   _viewer = ui->gl_widget;
   _viewer->installEventFilter(this);
+  _viewer->setAutoFillBackground(true);
 
   connect(ui->btn_open_folder, SIGNAL(released()), this,
           SLOT(onOpenFolderToRead()));

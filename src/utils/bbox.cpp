@@ -6,8 +6,6 @@
 
 #include <algorithm>
 
-constexpr float Bbox::WRONG_VOLUME = -1.0f;
-
 Bbox::Bbox(const depth_clustering::Cloud& cloud) {
   for (const auto& point : cloud.points()) {
     _min_point << std::min(_min_point.x(), point.x()),

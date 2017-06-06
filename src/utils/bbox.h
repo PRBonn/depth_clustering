@@ -19,7 +19,7 @@ namespace dc = depth_clustering;
  */
 class Bbox {
  public:
-  static const float WRONG_VOLUME;
+  static constexpr float WRONG_VOLUME = -1.0f;
 
   Bbox() = default;
 
