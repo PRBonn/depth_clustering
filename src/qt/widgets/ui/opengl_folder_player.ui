@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1174</width>
-    <height>864</height>
+    <height>964</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -40,6 +40,9 @@
      </item>
      <item>
       <widget class="QComboBox" name="cmb_extension">
+       <property name="currentIndex">
+        <number>2</number>
+       </property>
        <item>
         <property name="text">
          <string>.txt</string>
@@ -87,7 +90,7 @@
     </layout>
    </item>
    <item row="1" column="0">
-    <layout class="QVBoxLayout" name="ver_layout_vis" stretch="0,0,0,0">
+    <layout class="QVBoxLayout" name="ver_layout_vis" stretch="1,30,4,4">
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,4">
        <property name="sizeConstraint">
@@ -137,7 +140,7 @@
      <item>
       <widget class="QGraphicsView" name="gfx_labels">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -150,16 +153,22 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>870</width>
-         <height>64</height>
+         <width>16777215</width>
+         <height>16777215</height>
         </size>
+       </property>
+       <property name="renderHints">
+        <set>QPainter::Antialiasing|QPainter::TextAntialiasing</set>
+       </property>
+       <property name="viewportUpdateMode">
+        <enum>QGraphicsView::SmartViewportUpdate</enum>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QGraphicsView" name="gfx_projection_view">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -172,8 +181,8 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>880</width>
-         <height>70</height>
+         <width>16777215</width>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -199,7 +208,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Segmentation Params</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Segmentation Params&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="textFormat">
         <enum>Qt::AutoText</enum>
@@ -240,12 +249,15 @@
      <item>
       <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>Difference type</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Difference type&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QComboBox" name="cmb_diff_type">
+       <property name="currentIndex">
+        <number>1</number>
+       </property>
        <item>
         <property name="text">
          <string>Angle</string>
@@ -283,7 +295,7 @@
      <item>
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Separation line dist [m]</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Separation line dist [m]&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#656565;&quot;&gt;used if DiffType is LineDistance&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -313,7 +325,7 @@
      <item>
       <widget class="QLabel" name="lbl_separation_angle">
        <property name="text">
-        <string>Separation angle [deg]</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Separation angle [deg]&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#656565;&quot;&gt;used if DiffType is Angle&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -340,7 +352,7 @@
      <item>
       <widget class="QLabel" name="lbl_ground_angle">
        <property name="text">
-        <string>Ground remove angle [deg]</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Ground remove angle [deg]&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -367,7 +379,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Min cluster size</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Min cluster size&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -391,7 +403,7 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Max cluster size</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Max cluster size&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -415,7 +427,7 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Smoothing window size</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Smoothing window size&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>

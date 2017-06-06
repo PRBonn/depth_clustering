@@ -163,6 +163,7 @@ void OpenGlFolderPlayer::OnNewObjectReceived(const cv::Mat &image,
   _scene_labels.reset(new QGraphicsScene);
   _scene_labels->addPixmap(QPixmap::fromImage(qimage));
   ui->gfx_labels->setScene(_scene_labels.get());
+  ui->gfx_labels->fitInView(_scene_labels->itemsBoundingRect());
 }
 
 void OpenGlFolderPlayer::onSegmentationParamUpdate() {
@@ -224,7 +225,9 @@ void OpenGlFolderPlayer::onSegmentationParamUpdate() {
 }
 
 void OpenGlFolderPlayer::onSliderMovedTo(int cloud_number) {
-  if (_file_names.empty()) { return; }
+  if (_file_names.empty()) {
+    return;
+  }
   fprintf(stderr, "slider moved to: %d\n", cloud_number);
   fprintf(stderr, "loading cloud from: %s\n",
           _file_names[cloud_number].c_str());
@@ -242,6 +245,7 @@ void OpenGlFolderPlayer::onSliderMovedTo(int cloud_number) {
   _scene.reset(new QGraphicsScene);
   _scene->addPixmap(QPixmap::fromImage(qimage));
   ui->gfx_projection_view->setScene(_scene.get());
+  ui->gfx_projection_view->fitInView(_scene->itemsBoundingRect());
   fprintf(stderr, "[TIMER]: depth image set to gui in %lu microsecs\n",
           timer.measure(Timer::Units::Micro));
   if (ui->radio_show_angles->isChecked()) {
@@ -275,17 +279,9 @@ void OpenGlFolderPlayer::onOpenFolderToRead() {
                             ui->cmb_extension->currentText().toStdString(),
                             order);
   _file_names = cloud_reader.GetAllFilePaths();
-  if (_file_names.empty()) { return; }
-
-  // FolderReader config_reader(folder_name.toStdString(), ".cfg");
-  // auto configs = config_reader.GetAllFilePaths();
-  // if (configs.size() == 1) {
-  //   fprintf(stderr, "Info: Setting params from file: %s\n",
-  //           configs.front().c_str());
-  //   _proj_params = ProjectionParams::FromConfigFile(configs.front());
-  // } else {
-  //   _proj_params = ProjectionParams::HDL_64();
-  // }
+  if (_file_names.empty()) {
+    return;
+  }
 
   // update the slider
   ui->sldr_navigate_clouds->setMaximum(_file_names.size() - 1);
