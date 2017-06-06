@@ -152,6 +152,9 @@ catkin_package(
 
 include_directories(
   src
+  # for QT moc files
+  ${PROJECT_BINARY_DIR}/src
+  # dependencies we have no control over
   SYSTEM ${EIGEN3_INCLUDE_DIR}
   SYSTEM ${Boost_INCLUDE_DIRS}
   SYSTEM ${PCL_INCLUDE_DIRS}
