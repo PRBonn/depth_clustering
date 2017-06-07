@@ -13,16 +13,14 @@
 // You should have received a copy of the GNU General Public License along
 // with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
-
-#include <math.h>
 #include <algorithm>
+#include <math.h>
 #include <vector>
 
-#include "utils/normal_computer.h"
 #include "image_labelers/diff_helpers/abstract_diff.h"
+#include "utils/normal_computer.h"
 
 namespace depth_clustering {
 
@@ -78,8 +76,12 @@ class NormalDiff : public AbstractDiff {
   cv::Mat _normals;
 
   // TODO(igor): fix this ugly initialization here
-  NormalComputer _normal_computer{5, 5, 5, 5, 5.0f};
+  NormalComputer _normal_computer{
+      2,    // column step
+      1,    // row step
+      2,    // blur_size
+      5.0f  // max_distance
+  };
 };
 
 }  // namespace depth_clustering
-

@@ -25,19 +25,15 @@ namespace depth_clustering {
  */
 class NormalComputer {
  public:
-  NormalComputer(int col_gap, int row_gap, int blur_cols, int blur_rows,
-                 float max_distance);
+  NormalComputer(int col_gap, int row_gap, int blur_size, float max_distance);
   void initPointImage(const cv::Mat& points_image);
 
   void compute();
 
-  inline const cv::Mat& normalImage() const {
-    return _normal_image;
-  }
+  inline const cv::Mat& normalImage() const { return _normal_image; }
 
  protected:
-  // from srrg_nicp
-  void computeSimpleNormals();
+  void computeNormals();
   void blurNormals(int window, int start);
   cv::Mat _points_image_border;
   cv::Mat _normal_image_border;
@@ -45,8 +41,7 @@ class NormalComputer {
   cv::Mat _normal_image;
   int _col_gap = 0;
   int _row_gap = 0;
-  int _blur_cols = 0;
-  int _blur_rows = 0;
+  int _blur_size = 0;
   int _rows = 0;
   int _cols = 0;
   float _max_distance = 0.0f;

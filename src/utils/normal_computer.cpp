@@ -17,56 +17,59 @@
 
 namespace depth_clustering {
 
+NormalComputer::NormalComputer(int col_gap,
+                               int row_gap,
+                               int blur_size,
+                               float max_distance) {
+  _col_gap = col_gap;
+  _row_gap = row_gap;
+  _blur_size = blur_size;
+  _max_distance = max_distance;
+}
+
 void NormalComputer::compute() {
-  computeSimpleNormals();
-  blurNormals(1, 0);
+  computeNormals();
+  blurNormals(_blur_size, 0);
   _normal_image = cv::Mat::zeros(_rows, _cols, CV_32FC3);
   // copy only the relevant part without borders into a new image
   _normal_image_smooth(cv::Rect(_col_gap, _row_gap, _cols, _rows))
       .copyTo(_normal_image);
 }
 
-void NormalComputer::computeSimpleNormals() {
+void NormalComputer::computeNormals() {
+  using cv::Vec3f;
   _normal_image_border = cv::Mat::zeros(_points_image_border.size(), CV_32FC3);
   float squared_max_distance = _max_distance * _max_distance;
   for (int r = _row_gap; r < _points_image_border.rows - _row_gap; ++r) {
-    const cv::Vec3f* up_row_ptr =
-        _points_image_border.ptr<const cv::Vec3f>(r - _row_gap);
-    const cv::Vec3f* row_ptr = _points_image_border.ptr<const cv::Vec3f>(r);
-    const cv::Vec3f* down_row_ptr =
-        _points_image_border.ptr<const cv::Vec3f>(r + _row_gap);
-    cv::Vec3f* dest_row_ptr = _normal_image_border.ptr<cv::Vec3f>(r);
-    for (int c = _col_gap; c < _points_image_border.cols - _col_gap;
-         ++c, ++up_row_ptr, ++row_ptr, ++down_row_ptr, ++dest_row_ptr) {
-      const cv::Vec3f& p = _points_image_border.at<cv::Vec3f>(r, c);
-      // if z is null, skip;
-      if (p[2] == 0) continue;
+    const auto& row_top = _points_image_border.row(r - _row_gap);
+    const auto& row_current = _points_image_border.row(r);
+    const auto& row_bottom = _points_image_border.row(r + _row_gap);
+    for (int c = _col_gap; c < _points_image_border.cols - _col_gap; ++c) {
+      const Vec3f& p = row_current.at<Vec3f>(c);
+      if (p[2] == 0) { continue; }
 
-      const cv::Vec3f& px00 = *(row_ptr - _col_gap);
-      if (px00[2] == 0) continue;
+      const cv::Vec3f& point_left = row_current.at<Vec3f>(c - _col_gap);
+      if (point_left[2] == 0) { continue; }
 
-      const cv::Vec3f& px01 = *(row_ptr + _col_gap);
-      if (px01[2] == 0) continue;
+      const cv::Vec3f& point_right = row_current.at<Vec3f>(c + _col_gap);
+      if (point_right[2] == 0) { continue; }
 
-      const cv::Vec3f& py00 = *up_row_ptr;
-      if (py00[2] == 0) continue;
+      const cv::Vec3f& point_top = row_top.at<Vec3f>(c);
+      if (point_top[2] == 0) { continue; }
 
-      const cv::Vec3f& py01 = *down_row_ptr;
-      if (py01[2] == 0) continue;
+      const cv::Vec3f& point_bottom = row_bottom.at<Vec3f>(c);
+      if (point_bottom[2] == 0) { continue; }
 
-      cv::Vec3f dx = px01 - px00;
-      cv::Vec3f dy = py01 - py00;
-      if (dx.dot(dx) > squared_max_distance ||
-          dy.dot(dy) > squared_max_distance) {
+      Vec3f dx = point_right - point_left;
+      Vec3f dy = point_bottom - point_top;
+      if (norm(dx, CV_L2) > squared_max_distance ||
+          norm(dy, CV_L2) > squared_max_distance) {
         continue;
       }
 
-      cv::Vec3f n = dy.cross(dx);
-      n = normalize(n);
-      if (n.dot(p) > 0) {
-        n = -n;
-      }
-      *dest_row_ptr = n;
+      Vec3f n = normalize(dy.cross(dx));
+      if (n.dot(p) > 0) { n = -n; }
+      _normal_image_border.at<Vec3f>(r, c) = n;
     }
   }
 }
@@ -99,16 +102,6 @@ void NormalComputer::blurNormals(int window, int start) {
     }
   }
 }
-
-NormalComputer::NormalComputer(int col_gap, int row_gap, int blur_cols,
-                               int blur_rows, float max_distance) {
-  _col_gap = col_gap;
-  _row_gap = row_gap;
-  _blur_cols = blur_cols;
-  _blur_rows = blur_rows;
-  _max_distance = max_distance;
-}
-
 void NormalComputer::initPointImage(const cv::Mat& points_image) {
   if (points_image.type() != CV_32FC3) {
     throw std::runtime_error(" NormalComputer: wrong point image type");
@@ -118,7 +111,7 @@ void NormalComputer::initPointImage(const cv::Mat& points_image) {
   _points_image_border.create(points_image.rows + 2 * _row_gap,
                               points_image.cols + 2 * _col_gap, CV_32FC3);
   copyMakeBorder(points_image, _points_image_border, _row_gap, _row_gap,
-                 _col_gap, _col_gap, cv::BORDER_REFLECT);
+                 _col_gap, _col_gap, cv::BORDER_REFLECT_101);
 }
 
 }  // namespace depth_clustering
