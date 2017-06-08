@@ -16,7 +16,7 @@
 #pragma once
 
 #include <algorithm>
-#include <math.h>
+#include <cmath>
 #include <vector>
 
 #include "image_labelers/diff_helpers/abstract_diff.h"
@@ -57,7 +57,7 @@ class NormalDiff : public AbstractDiff {
    * @return     true if threshold is satisfied
    */
   inline bool SatisfiesThreshold(float angle, float threshold) const override {
-    return angle > threshold;
+    return angle < threshold;
   }
 
   /**
@@ -66,20 +66,24 @@ class NormalDiff : public AbstractDiff {
    * @return     `cv::Mat` color float image where each component of the normals
    *             is stored in a single channel of `cv::Mat` image pixel
    */
-  cv::Mat Visualize() const override { return _normals; }
+  cv::Mat Visualize() const override { return _angles_image; }
 
  private:
+  void FillAngleImage();
+
   const ProjectionParams* _params = nullptr;
   std::vector<float> _row_alphas;
   std::vector<float> _col_alphas;
 
   cv::Mat _normals;
+  cv::Mat _point_image;
+  cv::Mat _angles_image;
 
   // TODO(igor): fix this ugly initialization here
   NormalComputer _normal_computer{
-      2,    // column step
+      1,    // column step
       1,    // row step
-      2,    // blur_size
+      1,    // blur_size
       5.0f  // max_distance
   };
 };
