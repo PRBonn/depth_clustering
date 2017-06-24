@@ -111,8 +111,8 @@ url     = {https://link.springer.com/article/10.1007%2Fs41064-016-0003-y},
 ```
 
 
-[travis-img]: https://travis-ci.org/niosus/depth_clustering.svg?branch=github_travis
-[travis-link]: https://travis-ci.org/niosus/depth_clustering
+[travis-img]: https://travis-ci.org/Photogrammetry-Robotics-Bonn/depth_clustering.svg?branch=github_travis
+[travis-link]: https://travis-ci.org/Photogrammetry-Robotics-Bonn/depth_clustering
 
 [coveralls-img]: https://coveralls.io/repos/github/niosus/depth_clustering/badge.svg?branch=master
 [coveralls-link]: https://coveralls.io/github/niosus/depth_clustering?branch=master
