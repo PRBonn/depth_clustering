@@ -17,6 +17,7 @@ Check out a video that shows all objects which have a bounding box with the volu
 - Catkin.
 - OpenCV: `sudo apt-get install libopencv-dev`
 - QGLViewer: `sudo apt-get install libqglviewer-dev`
+- GLUT: `sudo apt-get install freeglut3-dev`
 - Qt (4 or 5 depending on system):
     + **Ubuntu 14.04:** `sudo apt-get install libqt4-dev`
     + **Ubuntu 16.04:** `sudo apt-get install libqt5-dev`
