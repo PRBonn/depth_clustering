@@ -140,6 +140,11 @@ void OpenGlFolderPlayer::OnNewObjectReceived(const cv::Mat &image,
           diff_type = DiffFactory::DiffType::LINE_DIST_PRECOMPUTED;
           break;
         }
+        case 4: {
+          fprintf(stderr, "Using DiffFactory::DiffType::NORMALS\n");
+          diff_type = DiffFactory::DiffType::NORMALS;
+          break;
+        }
         default: {
           fprintf(stderr, "Using DiffFactory::DiffType::SIMPLE\n");
           diff_type = DiffFactory::DiffType::SIMPLE;
@@ -200,6 +205,11 @@ void OpenGlFolderPlayer::onSegmentationParamUpdate() {
     case 3: {
       fprintf(stderr, "Using DiffFactory::DiffType::LINE_DIST_PRECOMPUTED\n");
       diff_type = DiffFactory::DiffType::LINE_DIST_PRECOMPUTED;
+      break;
+    }
+    case 4: {
+      fprintf(stderr, "Using DiffFactory::DiffType::NORMALS\n");
+      diff_type = DiffFactory::DiffType::NORMALS;
       break;
     }
     default: {

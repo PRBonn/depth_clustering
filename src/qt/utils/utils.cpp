@@ -6,9 +6,11 @@
 
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_cloud.h>
+#include <projections/projection_params.h>
 #include <utils/folder_reader.h>
 #include <utils/velodyne_utils.h>
-#include <projections/projection_params.h>
+
+#include <QColor>
 
 using depth_clustering::Cloud;
 using depth_clustering::ProjectionParams;
@@ -22,7 +24,28 @@ QString appendPaths(const QString &path1, const QString &path2) {
 
 QImage MatToQImage(const cv::Mat &image) {
   auto qimage = QImage(image.cols, image.rows, QImage::Format_RGB888);
-  if (image.type() == CV_32F) {
+  if (image.type() == CV_32FC3) {
+    fprintf(stderr, "IT'S A COLOR IMAGE OH MY GOD!!!!\n");
+    for (int r = 0; r < image.rows; ++r) {
+      for (int c = 0; c < image.cols; ++c) {
+        const cv::Vec3f pix = image.at<cv::Vec3f>(r, c);
+        int red = static_cast<int>(pix[0] * 255);
+        int green = static_cast<int>(pix[1] * 255);
+        int blue = static_cast<int>(pix[2] * 255);
+        if (red < 0) {
+          red *= -1;
+        }
+        if (green < 0) {
+          green *= -1;
+        }
+        if (blue < 0) {
+          blue *= -1;
+        }
+        auto color = qRgb(red, green, blue);
+        qimage.setPixel(c, r, color);
+      }
+    }
+  } else if (image.type() == CV_32F) {
     for (int r = 0; r < image.rows; ++r) {
       for (int c = 0; c < image.cols; ++c) {
         if (image.at<float>(r, c) == 666) {
