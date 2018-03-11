@@ -137,7 +137,7 @@ Cloud::Ptr CloudOdomRosSubscriber::RosCloudToCloud(
   uint32_t x_offset = msg->fields[0].offset;
   uint32_t y_offset = msg->fields[1].offset;
   uint32_t z_offset = msg->fields[2].offset;
-  uint32_t ring_offset = msg->fields[4].offset;
+  uint32_t ring_offset = msg->fields[3].offset;
 
   Cloud cloud;
   for (uint32_t point_start_byte = 0, counter = 0;
