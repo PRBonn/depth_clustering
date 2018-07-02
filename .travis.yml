@@ -19,6 +19,9 @@ before_script:
   - sudo apt-get update -qq
   - sudo apt-get install -y libqt4-dev libqglviewer-dev gcovr freeglut3-dev
   - ls /usr/share/cmake-2.8/Modules | grep cmake
+  - ls /usr/local/cmake-3.9.2/
+  - ls /usr/local/cmake-3.9.2/share/cmake-3.9/
+  - ls /usr/local/cmake-3.9.2/share/cmake-3.9/Modules
   - mkdir build
   - cd build
 
