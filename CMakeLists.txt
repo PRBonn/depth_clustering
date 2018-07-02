@@ -17,6 +17,8 @@ set( CMAKE_CXX_FLAGS "-Wall -Wextra -fPIC")
 set( CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 set( CMAKE_CXX_FLAGS_RELEASE "-O3")
 
+cmake_policy(SET CMP0045 OLD)
+
 SET(CMAKE_MODULE_PATH
       ${CMAKE_MODULE_PATH}
       ${PROJECT_SOURCE_DIR}/cmake_modules
