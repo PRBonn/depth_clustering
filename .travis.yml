@@ -26,7 +26,7 @@ before_script:
   - cd build
 
 script:
-  - cmake .. -DBUILD_WITH_COVERAGE=YES -DCMAKE_MODULE_PATH=/usr/share/cmake-2.8/Modules -DCMAKE_PREFIX_PATH=/usr/share/cmake-2.8/Modules
+  - cmake .. -DBUILD_WITH_COVERAGE=YES
   - make -j8
   - ctest -VV
   - gcovr  -r `pwd`/../src/ .
