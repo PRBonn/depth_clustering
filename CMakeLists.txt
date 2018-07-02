@@ -17,6 +17,7 @@ set( CMAKE_CXX_FLAGS "-Wall -Wextra -fPIC")
 set( CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 set( CMAKE_CXX_FLAGS_RELEASE "-O3")
 
+cmake_policy(SET CMP0045 OLD)
 
 SET(CMAKE_MODULE_PATH
       ${CMAKE_MODULE_PATH}
@@ -61,7 +62,7 @@ find_package(QGLViewer REQUIRED)
 
 # find correct qt version
 if(${DISTRO} MATCHES "14.04")
-  find_package(Qt4 REQUIRED COMPONENTS QtCore QtXml QtOpenGL QtGui)
+  find_package(Qt4 REQUIRED COMPONENTS QtCore QtXml QtOpenGL QtGui QtMultimedia)
   include_directories(${QT_INCLUDES})
   set(MY_QT_LIBRARIES
       Qt4::QtCore
