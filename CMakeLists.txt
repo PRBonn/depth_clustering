@@ -21,7 +21,7 @@ cmake_policy(SET CMP0045 OLD)
 
 SET(CMAKE_MODULE_PATH
       ${CMAKE_MODULE_PATH}
-      ${PROJECT_SOURCE_DIR}/cmake_modules
+      "${PROJECT_SOURCE_DIR}/cmake_modules"
       "/usr/share/cmake-2.8/Modules"  ## Hack for travis
     )
 
