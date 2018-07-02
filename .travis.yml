@@ -18,16 +18,12 @@ before_install:
 before_script:
   - sudo apt-get update -qq
   - sudo apt-get install -y libqt4-dev libqglviewer-dev gcovr freeglut3-dev
-  - ls /usr/share
-  - ls /usr/local/share/
-  - ls /usr/local/share/cmake-3.9.2/
-  - ls /usr/local/share/cmake-3.9.2/Modules
-  - ls /usr/share/cmake-3.9.2/Modules | grep cmake
+  - ls /usr/share/cmake-2.8/Modules | grep cmake
   - mkdir build
   - cd build
 
 script:
-  - cmake .. -DBUILD_WITH_COVERAGE=YES -DCMAKE_MODULE_PATH=/usr/share/cmake-3.9.2/Modules
+  - cmake .. -DBUILD_WITH_COVERAGE=YES -DCMAKE_MODULE_PATH=/usr/share/cmake-2.8/Modules
   - make -j8
   - ctest -VV
   - gcovr  -r `pwd`/../src/ .
