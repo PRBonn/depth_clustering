@@ -23,7 +23,7 @@ before_script:
   - cd build
 
 script:
-  - cmake .. -DBUILD_WITH_COVERAGE=YES -DCMAKE_MODULE_PATH=/usr/share/cmake-2.8/Modules
+  - cmake .. -DBUILD_WITH_COVERAGE=YES -DCMAKE_MODULE_PATH=/usr/share/cmake-3.9/Modules
   - make -j8
   - ctest -VV
   - gcovr  -r `pwd`/../src/ .
