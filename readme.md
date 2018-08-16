@@ -12,35 +12,85 @@ Check out a video that shows all objects which have a bounding box with the volu
 [![Segmentation illustration](https://img.youtube.com/vi/UXHX9kFGXfg/0.jpg)](https://www.youtube.com/watch?v=UXHX9kFGXfg "Segmentation")
 
 
-## How to build? ##
-### Prerequisites ###
-- Catkin.
-- OpenCV: `sudo apt-get install libopencv-dev`
-- QGLViewer: `sudo apt-get install libqglviewer-dev`
-- GLUT: `sudo apt-get install freeglut3-dev`
-- Qt (4 or 5 depending on system):
-    + **Ubuntu 14.04:** `sudo apt-get install libqt4-dev`
-    + **Ubuntu 16.04:** `sudo apt-get install libqt5-dev`
+## Prerequisites ##
+I recommend using a virtual environment in your catkin workspace (`<catkin_ws>`
+in this readme) and will assume that you have it set up throughout this readme.
+Please update your commands accordingly if needed. I will be using `pipenv`
+that you can install with `pip`.
+
+### Set up workspace and catkin ###
+Regardless of your system you will need to do the following steps:
+```bash
+cd <catkin_ws>            # navigate to the workspace
+pipenv shell --fancy      # start a virtual environment
+pip install catkin-tools  # install catkin-tools for building
+mkdir src                 # create src dir if you don't have it already
+# Now you just need to clone the repo:
+git clone https://github.com/PRBonn/depth_clustering src/depth_clustering
+```
+
+### System requirements ###
+You will need OpenCV, QGLViewer, FreeGLUT, QT4 or QT5 and optionally PCL and/or
+ROS. The following sections contain an installation command for various Ubuntu
+systems (click folds to expand):
+
+<details>
+<summary>Ubuntu 14.04</summary>
+
+#### Install these packages:
+
+```bash
+sudo apt install libopencv-dev libqglviewer-dev freeglut3-dev libqt4-dev
+```
+</details>
+
+<details>
+<summary>Ubuntu 16.04</summary>
+
+#### Install these packages:
+
+```bash
+sudo apt install libopencv-dev libqglviewer-dev freeglut3-dev libqt5-dev
+```
+</details>
+
+<details>
+<summary>Ubuntu 18.04</summary>
+
+#### Install these packages:
+
+```bash
+sudo apt install libopencv-dev libqglviewer-dev-qt5 freeglut3-dev qtbase5-dev 
+```
+</details>
+
+### Optional requirements ###
+If you want to use PCL clouds and/or use ROS for data acquisition you can install the following: 
 - (optional) PCL - needed for saving clouds to disk
 - (optional) ROS - needed for subscribing to topics
 
-### Build script  ###
+## How to build? ##
 This is a catkin package. So we assume that the code is in a catkin workspace
-and CMake knows about the existence of Catkin. Then you can build it from the
-project folder:
+and CMake knows about the existence of Catkin. It should be already taken care
+of if you followed the instructions [here](#set-up-workspace-and-catkin). Then
+you can build it from the project folder:
 
-- `mkdir build`
-- `cd build`
-- `cmake ..`
-- `make -j4`
-- (optional) `ctest -VV`
+```bash
+mkdir build
+cd build
+cmake ..
+make -j4
+ctest -VV  # run unit tests, optional
+```
 
 It can also be built with `catkin_tools` if the code is inside catkin
 workspace:
-- `catkin build depth_clustering`
 
-P.S. in case you don't use `catkin build` you [should][catkin_tools_docs].
-Install it by `sudo pip install catkin_tools`.
+```bash
+catkin build depth_clustering
+```
+
+P.S. in case you don't use `catkin build` you [should][catkin_tools_docs] reconsider your decision.
 
 ## How to run? ##
 See [examples](examples/). There are ROS nodes as well as standalone

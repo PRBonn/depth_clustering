@@ -70,7 +70,7 @@ if(${DISTRO} MATCHES "14.04")
       Qt4::QtXml
       Qt4::QtOpenGL
       Qt4::QtGui)
-elseif(${DISTRO} MATCHES "16.04")
+elseif(${DISTRO} MATCHES "16.04" OR ${DISTRO} MATCHES "18.04")
   find_package(Qt5 REQUIRED COMPONENTS Core Xml OpenGL Gui Widgets)
   include_directories(${Qt5Core_INCLUDE_DIRS}
                       ${Qt5Xml_INCLUDE_DIRS}
