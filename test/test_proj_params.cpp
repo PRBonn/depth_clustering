@@ -52,18 +52,18 @@ TEST(TestProjParams, from_angle) {
   EXPECT_EQ(9, params.RowFromAngle(10_deg));
 }
 
-TEST(TestProjParams, from_file) {
-  auto params_ptr = ProjectionParams::FromConfigFile(
-      SOURCE_PATH + "/test/test_files/test_params.cfg");
-  EXPECT_EQ(true, params_ptr->valid());
-  EXPECT_EQ(64, params_ptr->rows());
-  EXPECT_EQ(870, params_ptr->cols());
-  float eps = 0.0001f;
-  EXPECT_NEAR(360, params_ptr->h_span().ToDegrees(), eps);
-  EXPECT_NEAR(26.9359, params_ptr->v_span().ToDegrees(), eps);
-  EXPECT_NEAR(-1.9367, params_ptr->AngleFromRow(0).ToDegrees(), eps);
-  EXPECT_NEAR(24.9992, params_ptr->AngleFromRow(63).ToDegrees(), eps);
-}
+// TEST(TestProjParams, from_file) {
+//   auto params_ptr = ProjectionParams::FromConfigFile(
+//       SOURCE_PATH + "/test/test_files/test_params.cfg");
+//   EXPECT_EQ(true, params_ptr->valid());
+//   EXPECT_EQ(64, params_ptr->rows());
+//   EXPECT_EQ(870, params_ptr->cols());
+//   float eps = 0.0001f;
+//   EXPECT_NEAR(360, params_ptr->h_span().ToDegrees(), eps);
+//   EXPECT_NEAR(26.9359, params_ptr->v_span().ToDegrees(), eps);
+//   EXPECT_NEAR(-1.9367, params_ptr->AngleFromRow(0).ToDegrees(), eps);
+//   EXPECT_NEAR(24.9992, params_ptr->AngleFromRow(63).ToDegrees(), eps);
+// }
 
 TEST(TestProjParams, velodyne_16) {
   auto params_ptr = ProjectionParams::VLP_16();

@@ -13,9 +13,9 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-set( CMAKE_CXX_FLAGS "-Wall -Wextra -fPIC")
-set( CMAKE_CXX_FLAGS_DEBUG "-g -O0")
-set( CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -fPIC")
+set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 cmake_policy(SET CMP0045 OLD)
 
@@ -92,7 +92,7 @@ message(STATUS "Linking against QGlViewer lib: ${QGLVIEWER_LIBRARY}")
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin QUIET COMPONENTS
+find_package(catkin COMPONENTS
   roscpp
   sensor_msgs
   std_msgs
