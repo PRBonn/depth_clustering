@@ -21,12 +21,12 @@ before_script:
 
 script:
   - docker exec
-    -w /catkin_ws build bash
+    --workdir /catkin_ws build bash
     -c 'source /opt/ros/melodic/setup.bash &&
       cmake -DBUILD_WITH_COVERAGE=YES -Hsrc/repo -B/build'
-  - docker exec -w /build build make -j8
-  - docker exec -w /build build ctest -VV
-  - docker exec -w /build build gcovr -r /catkin_ws/src/repo .
+  - docker exec --workdir /build build make -j8
+  - docker exec --workdir /build build ctest -VV
+  - docker exec --workdir /build build gcovr -r /catkin_ws/src/repo .
 
 after_script:
   - docker exec build lcov --directory . --capture --output-file coverage.info
