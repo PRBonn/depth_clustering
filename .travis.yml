@@ -12,24 +12,25 @@ before_install:
 before_script:
   - gem install coveralls-lcov
   - docker exec build bash -c 'source /opt/ros/melodic/setup.bash &&
-    apt-get update &&
-    apt-get install -y python3-pip libqglviewer-dev-qt5 freeglut3-dev gcovr lcov &&
-    pip3 install catkin-tools trollius'
+      apt-get update &&
+      apt-get install -y python3-pip libqglviewer-dev-qt5 freeglut3-dev gcovr lcov &&
+      pip3 install catkin-tools trollius'
   - docker exec build bash -c 'cd /catkin_ws/ &&
     catkin init &&
     git clone https://github.com/ros/catkin.git src/catkin'
 
 script:
-  - docker exec build
-    bash -c 'source /opt/ros/melodic/setup.bash &&
+  - docker exec build bash -c 'source /opt/ros/melodic/setup.bash &&
       cmake -DBUILD_WITH_COVERAGE=YES -H/catkin_ws/src/repo -B/build'
   - docker exec build bash -c 'cd /build && make -j8'
   - docker exec build bash -c 'cd /build && ctest -VV'
   - docker exec build bash -c 'cd /build && gcovr -r /catkin_ws/src/repo .'
 
 after_script:
-  - docker exec build lcov --directory /build --capture --output-file coverage.info
-  - docker exec build lcov --remove coverage.info 'examples/*' --output-file coverage.info
-  - docker exec build lcov --list coverage.info
-  - docker cp build:/build/coverage.info .
+  - docker exec build lcov --directory /build --capture --output-file /coverage.info
+  - docker exec build lcov
+    --remove /coverage.info '/usr/*' '/catkin_ws/src/repo/src/examples/*'
+    --output-file /coverage.info
+  - docker exec build lcov --list /coverage.info
+  - docker cp build:/coverage.info .
   - coveralls-lcov --repo-token ${COVERALLS_REPO_TOKEN} coverage.info
