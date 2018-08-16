@@ -7,7 +7,7 @@ FIND_PATH(QGLVIEWER_INCLUDE_DIR qglviewer.h
   )
 
 find_library(QGLVIEWER_LIBRARY_RELEASE
-  NAMES qglviewer-qt4 qglviewer QGLViewer QGLViewer2
+  NAMES qglviewer-qt4 qglviewer QGLViewer QGLViewer-qt5 QGLViewer2
   PATHS /usr/lib
         /usr/local/lib
         /usr/lib/x86_64-linux-gnu # Ubuntu 16.04 and derivatives
@@ -19,7 +19,7 @@ find_library(QGLVIEWER_LIBRARY_RELEASE
   PATH_SUFFIXES QGLViewer QGLViewer/release
 )
 find_library(QGLVIEWER_LIBRARY_DEBUG
-  NAMES dqglviewer dQGLViewer dQGLViewer2 QGLViewerd2
+  NAMES dqglviewer dQGLViewer dQGLViewer2 dQGLViewer-qt5 QGLViewerd2
   PATHS /usr/lib
         /usr/local/lib
         /usr/lib/x86_64-linux-gnu # Ubuntu 16.04 and derivatives

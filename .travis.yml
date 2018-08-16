@@ -1,36 +1,36 @@
-dist: trusty
 sudo: required
 language: generic
-cache: apt
-
-env:
-  global:
-    - ROS_DISTRO=indigo
-    - ROS_CI_DESKTOP="`lsb_release -cs`"
+services:
+  - docker
 
 before_install:
-  - sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main\" > /etc/apt/sources.list.d/ros-latest.list"
-  - wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
-  - sudo apt-get update -qq
-  - sudo apt-get install -y ros-${ROS_DISTRO}-desktop-full python-catkin-tools lcov
-  - source /opt/ros/$ROS_DISTRO/setup.bash
+  - rvm default
+  - docker run -itd --name build
+    -v $(pwd):/catkin_ws/src/repo
+    ros:melodic-perception
 
 before_script:
-  - sudo apt-get update -qq
-  - sudo apt-get install -y libqt4-dev libqglviewer-dev gcovr freeglut3-dev
-  - ls /usr/share/cmake-3.9.2/Modules | grep cmake
-  - mkdir build
-  - cd build
+  - gem install coveralls-lcov
+  - docker exec build bash -c 'source /opt/ros/melodic/setup.bash &&
+      apt-get update &&
+      apt-get install -y python3-pip libqglviewer-dev-qt5 freeglut3-dev gcovr lcov &&
+      pip3 install catkin-tools trollius'
+  - docker exec build bash -c 'cd /catkin_ws/ &&
+    catkin init &&
+    git clone https://github.com/ros/catkin.git src/catkin'
 
 script:
-  - cmake .. -DBUILD_WITH_COVERAGE=YES -DCMAKE_MODULE_PATH=/usr/share/cmake-3.9.2/Modules
-  - make -j8
-  - ctest -VV
-  - gcovr  -r `pwd`/../src/ .
+  - docker exec build bash -c 'source /opt/ros/melodic/setup.bash &&
+      cmake -DBUILD_WITH_COVERAGE=YES -H/catkin_ws/src/repo -B/build'
+  - docker exec build bash -c 'cd /build && make -j8'
+  - docker exec build bash -c 'cd /build && ctest -VV'
+  - docker exec build bash -c 'cd /build && gcovr -r /catkin_ws/src/repo .'
 
 after_script:
-  - sudo gem install coveralls-lcov
-  - lcov --directory . --capture --output-file coverage.info
-  - lcov --remove coverage.info 'examples/*' --output-file coverage.info
-  - lcov --list coverage.info
+  - docker exec build lcov --directory /build --capture --output-file /coverage.info
+  - docker exec build lcov
+    --remove /coverage.info '/usr/*' '/catkin_ws/src/repo/src/examples/*'
+    --output-file /coverage.info
+  - docker exec build lcov --list /coverage.info
+  - docker cp build:/coverage.info .
   - coveralls-lcov --repo-token ${COVERALLS_REPO_TOKEN} coverage.info

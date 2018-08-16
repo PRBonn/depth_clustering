@@ -1,33 +1,29 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.1)
 project(depth_clustering)
 
 include(DistVersion.cmake)
 system_info(DISTRO)
 message(STATUS "DISTRO: ${DISTRO}")
 
-if(NOT CMAKE_BUILD_TYPE)
-  set(POSSIBLE_BUILD_TYPES "Debug Release RelWithDebInfo MinSizeRel")
-  set(CMAKE_BUILD_TYPE "Release" CACHE STRING
-      "Choose the type of build, options are: ${POSSIBLE_BUILD_TYPES}." FORCE)
-endif(NOT CMAKE_BUILD_TYPE)
-message(STATUS "CMAKE_BUILD_TYPE: " ${CMAKE_BUILD_TYPE})
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
-if(COMPILER_SUPPORTS_CXX11)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-elseif(COMPILER_SUPPORTS_CXX0X)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
-else()
-    message(WARNING "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support.")
-    message(STATUS "Please use a different C++ compiler.")
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
 endif()
 
-# enable warnings
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -fPIC")
+set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake_modules)
+cmake_policy(SET CMP0045 OLD)
+
+SET(CMAKE_MODULE_PATH
+      ${CMAKE_MODULE_PATH}
+      "${PROJECT_SOURCE_DIR}/cmake_modules"
+      "/usr/share/cmake-2.8/Modules"  ## Hack for travis
+    )
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
@@ -66,14 +62,15 @@ find_package(QGLViewer REQUIRED)
 
 # find correct qt version
 if(${DISTRO} MATCHES "14.04")
-  find_package(Qt4 REQUIRED COMPONENTS QtCore QtXml QtOpenGL QtGui)
+  find_package(Qt4 REQUIRED COMPONENTS QtCore QtXml QtOpenGL QtGui QtMultimedia)
+  include(${QT_USE_FILE})
   include_directories(${QT_INCLUDES})
   set(MY_QT_LIBRARIES
       Qt4::QtCore
       Qt4::QtXml
       Qt4::QtOpenGL
       Qt4::QtGui)
-elseif(${DISTRO} MATCHES "16.04")
+elseif(${DISTRO} MATCHES "16.04" OR ${DISTRO} MATCHES "18.04")
   find_package(Qt5 REQUIRED COMPONENTS Core Xml OpenGL Gui Widgets)
   include_directories(${Qt5Core_INCLUDE_DIRS}
                       ${Qt5Xml_INCLUDE_DIRS}
@@ -95,7 +92,7 @@ message(STATUS "Linking against QGlViewer lib: ${QGLVIEWER_LIBRARY}")
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin QUIET COMPONENTS
+find_package(catkin COMPONENTS
   roscpp
   sensor_msgs
   std_msgs
