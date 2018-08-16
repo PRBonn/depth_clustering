@@ -168,8 +168,8 @@ url     = {https://link.springer.com/article/10.1007%2Fs41064-016-0003-y},
 [coveralls-img]: https://img.shields.io/coveralls/github/PRBonn/depth_clustering/master.svg?style=for-the-badge
 [coveralls-link]: https://coveralls.io/github/PRBonn/depth_clustering
 
-[codacy-img]: https://img.shields.io/codacy/grade/6ba7d6f0068944588ecaa5b6cd400c9a.svg?style=for-the-badge
-[codacy-link]: https://www.codacy.com/app/zabugr/depth_clustering?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=niosus/depth_clustering&amp;utm_campaign=Badge_Grade
+[codacy-img]: https://img.shields.io/codacy/grade/338a7f3c5b9c4323b1de266900ca20ff.svg?style=for-the-badge
+[codacy-link]: https://www.codacy.com/project/zabugr/depth_clustering/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PRBonn/depth_clustering&amp;utm_campaign=Badge_Grade_Dashboard
 
 [build-status-img]: https://gitlab.ipb.uni-bonn.de/igor/depth_clustering/badges/master/build.svg
 [coverage-img]: https://gitlab.ipb.uni-bonn.de/igor/depth_clustering/badges/master/coverage.svg
