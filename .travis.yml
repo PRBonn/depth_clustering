@@ -27,10 +27,10 @@ script:
   - docker exec build bash -c 'cd /build && gcovr -r /catkin_ws/src/repo .'
 
 after_script:
-  - docker exec build lcov --directory /build --capture --output-file /coverage.info
+  - docker exec build lcov --directory . --capture --output-file /coverage.info
   - docker exec build lcov
-    --remove /coverage.info '/usr/*' '/catkin_ws/src/repo/src/examples/*'
-    --output-file /coverage.info
+    --remove /coverage.info '/usr/*' '/catkin_ws/src/repo/src/examples/' --output-file /coverage.info
   - docker exec build lcov --list /coverage.info
   - docker cp build:/coverage.info .
-  - coveralls-lcov --repo-token ${COVERALLS_REPO_TOKEN} coverage.info
+  - sed 's/\/catkin_ws\/src\/repo\///g' coverage.info > coverage_better_paths.info
+  - coveralls-lcov --repo-token ${COVERALLS_REPO_TOKEN} coverage_better_paths.info
