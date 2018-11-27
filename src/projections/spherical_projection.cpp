@@ -19,7 +19,8 @@
 
 namespace depth_clustering {
 
-void SphericalProjection::InitFromPoints(const std::vector<RichPoint>& points) {
+void SphericalProjection::InitFromPoints(
+    const RichPoint::AlignedVector& points) {
   this->CheckCloudAndStorage(points);
   for (size_t index = 0; index < points.size(); ++index) {
     const auto& point = points[index];

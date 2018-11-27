@@ -22,6 +22,7 @@
 
 #include "projections/cloud_projection.h"
 #include "projections/projection_params.h"
+#include "utils/cloud.h"
 
 namespace depth_clustering {
 
@@ -38,7 +39,7 @@ class SphericalProjection : public CloudProjection {
    *
    * @param[in]  points  The points
    */
-  void InitFromPoints(const std::vector<RichPoint>& points) override;
+  void InitFromPoints(const RichPoint::AlignedVector& points) override;
   typename CloudProjection::Ptr Clone() const override;
   virtual ~SphericalProjection() {}
 };

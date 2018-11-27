@@ -17,6 +17,7 @@
 #define SRC_UTILS_RICH_POINT_H_
 
 #include <Eigen/Core>
+#include <vector>
 
 namespace depth_clustering {
 
@@ -26,6 +27,10 @@ namespace depth_clustering {
 class RichPoint {
  public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
+  using AlignedVector =
+      std::vector<RichPoint, Eigen::aligned_allocator<RichPoint>>;
+
   RichPoint() {}
   explicit RichPoint(float x, float y, float z) : _point(x, y, z) {}
   explicit RichPoint(float x, float y, float z, uint16_t ring)

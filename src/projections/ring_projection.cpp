@@ -21,9 +21,7 @@
 
 namespace depth_clustering {
 
-using std::vector;
-
-void RingProjection::InitFromPoints(const std::vector<RichPoint>& points) {
+void RingProjection::InitFromPoints(const RichPoint::AlignedVector& points) {
   fprintf(stderr, "Projecting cloud with %lu points\n", points.size());
   time_utils::Timer timer;
   this->CheckCloudAndStorage(points);
