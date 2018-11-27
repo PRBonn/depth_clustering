@@ -47,7 +47,7 @@ RichPoint CloudProjection::UnprojectPoint(const cv::Mat& image, const int row,
 }
 
 void CloudProjection::CheckCloudAndStorage(
-    const std::vector<RichPoint>& points) {
+    const RichPoint::AlignedVector& points) {
   if (this->_data.size() < 1) {
     throw std::length_error("_data size is < 1");
   }

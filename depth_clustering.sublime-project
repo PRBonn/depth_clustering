@@ -1,32 +1,39 @@
 {
-  "build_systems":
-  [
-    {
-      "file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
-      "name": "Anaconda Python Builder",
-      "selector": "source.python",
-      "shell_cmd": "\"python\" -u \"$file\""
-    }
-  ],
-  "folders":
-  [
-    {
-      "path": "."
-    }
-  ],
-  "settings":
-  {
-    "ecc_common_flags":
-    [
-      "-I/usr/include",
-      "-I/usr/lib/clang/$clang_version/include",
-      "-I~/Code/catkin_ws/build/$project_name/src"
-    ],
-    "ecc_flags_sources": [
-      {
-        "file": "CMakeLists.txt",
-        "prefix_paths": ["/opt/ros/kinetic", "~/Code/catkin_ws/devel"]
-      }
-    ]
-  }
+	"build_systems":
+	[
+		{
+			"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+			"name": "Anaconda Python Builder",
+			"selector": "source.python",
+			"shell_cmd": "\"python\" -u \"$file\""
+		}
+	],
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+	"settings":
+	{
+		"ecc_common_flags":
+		[
+			"-I/usr/include",
+			"-I/usr/lib/clang/$clang_version/include",
+			"-I~/Code/catkin_ws/build/$project_name/src"
+		],
+		"ecc_flags_sources":
+		[
+			{
+				"file": "CMakeLists.txt",
+				"prefix_paths":
+				[
+					"/opt/ros/kinetic",
+					"~/Code/catkin_ws/devel",
+					"/opt/ros/melodic"
+				]
+			}
+		],
+  	"ecc_use_target_compiler_built_in_flags": false,
+	}
 }

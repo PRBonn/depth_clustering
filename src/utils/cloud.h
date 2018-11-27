@@ -17,6 +17,7 @@
 #define SRC_UTILS_CLOUD_H_
 
 #include <Eigen/Core>
+#include <Eigen/StdVector>
 
 #if PCL_FOUND
 #include <pcl/point_cloud.h>
@@ -53,7 +54,7 @@ class Cloud {
 
   virtual ~Cloud() {}
 
-  inline const std::vector<RichPoint>& points() const { return _points; }
+  inline const RichPoint::AlignedVector& points() const { return _points; }
 
   inline Pose& pose() { return _pose; }
   inline const Pose& pose() const { return _pose; }
@@ -109,7 +110,7 @@ class Cloud {
 #endif  // PCL_FOUND
 
  protected:
-  std::vector<RichPoint> _points = std::vector<RichPoint>();
+  RichPoint::AlignedVector _points;
 
   Pose _pose;
   Pose _sensor_pose;

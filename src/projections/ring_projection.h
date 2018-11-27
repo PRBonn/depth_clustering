@@ -20,8 +20,9 @@
 
 #include <vector>
 
-#include "projections/projection_params.h"
 #include "projections/cloud_projection.h"
+#include "projections/projection_params.h"
+#include "utils/cloud.h"
 #include "utils/radians.h"
 
 namespace depth_clustering {
@@ -39,7 +40,7 @@ class RingProjection : public CloudProjection {
    *
    * @param[in]  cloud  The cloud with laser ring information
    */
-  void InitFromPoints(const std::vector<RichPoint>& cloud) override;
+  void InitFromPoints(const RichPoint::AlignedVector& cloud) override;
   CloudProjection::Ptr Clone() const override;
   virtual ~RingProjection() {}
 
