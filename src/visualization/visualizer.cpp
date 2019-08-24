@@ -70,7 +70,12 @@ void Visualizer::draw() {
     if (min_point.x() < max_point.x()) {
       extent = max_point - min_point;
     }
-    DrawCube(center, extent);
+      auto dist =  sqrt(center.x()*center.x()+center.y()*center.y()+center.z()*center.z());
+      if( dist < 25)
+      {
+          std::cout <<"dist: " <<  dist <<"-x: "<< center.x() <<"-y: "<< center.y() <<"-z: "<<center.z()<< std::endl;
+          DrawCube(center, extent);
+      }
   }
 }
 
