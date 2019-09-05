@@ -149,6 +149,7 @@ catkin_package(
 
 include_directories(
   src
+sub/autonomous-vehicle/Linux_Codes/src/ZmqCommunication
   # for QT moc files
   ${PROJECT_BINARY_DIR}/src
   # dependencies we have no control over
@@ -163,8 +164,9 @@ include_directories(
 
 add_subdirectory(src)
 add_subdirectory(examples)
-
+add_subdirectory(sub/autonomous-vehicle/Linux_Codes/src/ZmqCommunication)
 message(STATUS "BUILD_TESTING: ${BUILD_TESTING}")
+
 if (${BUILD_TESTING})
   add_subdirectory(test)
 endif()

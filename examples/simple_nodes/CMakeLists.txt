@@ -21,6 +21,7 @@ target_link_libraries(show_objects_moosmann
                       ground_remove
                       folder_reader
                       visualization
+		      ZmqCommunication
                       ${MY_QT_LIBRARIES}
                       ${Boost_LIBRARIES}
                       ${PCL_LIBRARIES}

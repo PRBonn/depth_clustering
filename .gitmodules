@@ -1,0 +1,3 @@
+[submodule "sub/autonomous-vehicle"]
+	path = sub/autonomous-vehicle
+	url = https://github.com/GTUComputerEngineers/autonomous-vehicle.git

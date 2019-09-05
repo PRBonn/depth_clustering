@@ -31,7 +31,7 @@
 #include "utils/timer.h"
 #include "utils/velodyne_utils.h"
 #include "visualization/visualizer.h"
-
+#include "comBase.h"
 #include "tclap/CmdLine.h"
 
 using std::string;
