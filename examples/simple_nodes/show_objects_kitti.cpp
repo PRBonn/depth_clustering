@@ -25,12 +25,13 @@
 
 #include "ground_removal/depth_ground_remover.h"
 #include "projections/projection_params.h"
+#include "qt/drawables/drawable_cloud.h"
+#include "qt/drawables/object_painter.h"
 #include "utils/cloud.h"
 #include "utils/folder_reader.h"
 #include "utils/radians.h"
 #include "utils/timer.h"
 #include "utils/velodyne_utils.h"
-#include "visualization/visualizer.h"
 
 #include "tclap/CmdLine.h"
 
@@ -39,7 +40,7 @@ using std::string;
 using namespace depth_clustering;
 
 void ReadData(const Radians& angle_tollerance, const string& in_path,
-              Visualizer* visualizer) {
+              Viewer* visualizer) {
   // delay reading for one second to allow GUI to load
   std::this_thread::sleep_for(std::chrono::milliseconds(500));
   // now load the data
@@ -63,8 +64,11 @@ void ReadData(const Radians& angle_tollerance, const string& in_path,
       angle_tollerance, min_cluster_size, max_cluster_size);
   clusterer.SetDiffType(DiffFactory::DiffType::ANGLES);
 
+  ObjectPainter object_painter{visualizer,
+                               ObjectPainter::OutlineType::kPolygon3d};
+
   depth_ground_remover.AddClient(&clusterer);
-  clusterer.AddClient(visualizer->object_clouds_client());
+  clusterer.AddClient(&object_painter);
 
   fprintf(stderr, "INFO: everything initialized\n");
 
@@ -72,7 +76,8 @@ void ReadData(const Radians& angle_tollerance, const string& in_path,
     time_utils::Timer timer;
     auto cloud = ReadKittiCloud(path);
     cloud->InitProjection(*proj_params_ptr);
-    visualizer->OnNewObjectReceived(*cloud, 0);
+    visualizer->Clear();
+    visualizer->AddDrawable(DrawableCloud::FromCloud(cloud));
     depth_ground_remover.OnNewObjectReceived(*cloud, 0);
 
     uint max_wait_time = 100;
@@ -108,7 +113,7 @@ int main(int argc, char* argv[]) {
 
   QApplication application(argc, argv);
   // visualizer should be created from a gui thread
-  Visualizer visualizer;
+  Viewer visualizer;
   visualizer.show();
 
   // create and run loader thread

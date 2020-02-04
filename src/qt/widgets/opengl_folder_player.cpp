@@ -14,7 +14,6 @@
 #include <utils/folder_reader.h>
 #include <utils/timer.h>
 #include <utils/velodyne_utils.h>
-#include <visualization/visualizer.h>
 
 #if PCL_FOUND
 #include <pcl/io/pcd_io.h>
@@ -25,6 +24,7 @@
 
 #include "qt/drawables/drawable_cloud.h"
 #include "qt/drawables/drawable_cube.h"
+#include "qt/drawables/object_painter.h"
 #include "qt/utils/utils.h"
 
 #include "qt/widgets/ui_opengl_folder_player.h"
@@ -99,7 +99,7 @@ OpenGlFolderPlayer::OpenGlFolderPlayer(QWidget *parent)
                                  QPainter::SmoothPixmapTransform);
 
   _painter.reset(
-      new ObjectPainter(_viewer, ObjectPainter::OutlineType::kPolygon3d));
+      new ObjectPainter{_viewer, ObjectPainter::OutlineType::kPolygon3d});
   this->onSegmentationParamUpdate();
 }
 
@@ -113,8 +113,7 @@ void OpenGlFolderPlayer::onPlayAllClouds() {
   qDebug() << "All clouds shown!";
 }
 
-void OpenGlFolderPlayer::OnNewObjectReceived(const cv::Mat &image,
-                                             int client_id) {
+void OpenGlFolderPlayer::OnNewObjectReceived(const cv::Mat &image, int) {
   QImage qimage;
   fprintf(stderr, "[INFO] Received Mat with type: %d\n", image.type());
   switch (image.type()) {

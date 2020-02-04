@@ -88,7 +88,7 @@ class ImageBasedClusterer : public AbstractClusterer {
    * @param[in]  cloud      The cloud to cluster
    * @param[in]  sender_id  The sender identifier
    */
-  void OnNewObjectReceived(const Cloud& cloud, const int sender_id) override {
+  void OnNewObjectReceived(const Cloud& cloud, int) override {
     // generate a projection from a point cloud
     if (!cloud.projection_ptr()) {
       fprintf(stderr, "ERROR: projection not initialized in cloud.\n");
