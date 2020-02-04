@@ -45,6 +45,7 @@ namespace depth_clustering {
  */
 class Cloud {
  public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
   using Ptr = shared_ptr<Cloud>;
   using ConstPtr = shared_ptr<const Cloud>;
 

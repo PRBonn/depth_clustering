@@ -11,13 +11,15 @@
 #include <QPixmap>
 #include <QUuid>
 
-#include <pcl/io/pcd_io.h>
-#include <pcl/point_cloud.h>
-
 #include <utils/folder_reader.h>
 #include <utils/timer.h>
 #include <utils/velodyne_utils.h>
 #include <visualization/visualizer.h>
+
+#if PCL_FOUND
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_cloud.h>
+#endif  // PCL_FOUND
 
 #include <vector>
 
@@ -29,21 +31,21 @@
 
 #include "image_labelers/diff_helpers/diff_factory.h"
 
-using std::vector;
-using depth_clustering::Cloud;
-using depth_clustering::ProjectionParams;
-using depth_clustering::FolderReader;
-using depth_clustering::ReadKittiCloudTxt;
-using depth_clustering::ReadKittiCloud;
-using depth_clustering::MatFromDepthPng;
-using depth_clustering::Radians;
-using depth_clustering::DepthGroundRemover;
-using depth_clustering::ImageBasedClusterer;
-using depth_clustering::LinearImageLabeler;
 using depth_clustering::AbstractImageLabeler;
 using depth_clustering::AngleDiffPrecomputed;
+using depth_clustering::Cloud;
+using depth_clustering::DepthGroundRemover;
 using depth_clustering::DiffFactory;
+using depth_clustering::FolderReader;
+using depth_clustering::ImageBasedClusterer;
+using depth_clustering::LinearImageLabeler;
+using depth_clustering::MatFromDepthPng;
+using depth_clustering::ProjectionParams;
+using depth_clustering::Radians;
+using depth_clustering::ReadKittiCloud;
+using depth_clustering::ReadKittiCloudTxt;
 using depth_clustering::time_utils::Timer;
+using std::vector;
 
 OpenGlFolderPlayer::OpenGlFolderPlayer(QWidget *parent)
     : BaseViewerWidget(parent), ui(new Ui::OpenGlFolderPlayer) {

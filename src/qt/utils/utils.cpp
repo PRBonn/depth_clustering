@@ -4,11 +4,14 @@
 
 #include "./utils.h"
 
-#include <pcl/io/pcd_io.h>
-#include <pcl/point_cloud.h>
 #include <utils/folder_reader.h>
 #include <utils/velodyne_utils.h>
 #include <projections/projection_params.h>
+
+#if PCL_FOUND
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_cloud.h>
+#endif  // PCL_FOUND
 
 using depth_clustering::Cloud;
 using depth_clustering::ProjectionParams;
@@ -53,10 +56,12 @@ Cloud::Ptr CloudFromFile(const std::string &file_name,
   QString name = fi.fileName();
   Cloud::Ptr cloud = nullptr;
   if (name.endsWith(".pcd")) {
+    #if PCL_FOUND
     pcl::PointCloud<pcl::PointXYZL> pcl_cloud;
     pcl::io::loadPCDFile(file_name, pcl_cloud);
     cloud = Cloud::FromPcl<pcl::PointXYZL>(pcl_cloud);
     cloud->InitProjection(proj_params);
+    #endif  // PCL_FOUND
   } else if (name.endsWith(".png") || name.endsWith(".exr")) {
     cloud = Cloud::FromImage(MatFromDepthPng(file_name), proj_params);
   } else if (name.endsWith(".txt")) {
