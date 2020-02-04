@@ -26,7 +26,6 @@
 #include "projections/ring_projection.h"
 #include "projections/spherical_projection.h"
 #include "utils/radians.h"
-#include "visualization/cloud_saver.h"
 #include "visualization/visualizer.h"
 
 #include "tclap/CmdLine.h"

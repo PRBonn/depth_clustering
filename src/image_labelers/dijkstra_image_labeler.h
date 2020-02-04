@@ -75,7 +75,7 @@ class DijkstraImageLabeler : public AbstractImageLabeler {
 
   virtual ~DijkstraImageLabeler() {}
 
-  void ComputeLabels() override {
+  void ComputeLabels(DiffFactory::DiffType diff_type) override {
     _label_image =
         cv::Mat::zeros(_depth_image_ptr->size(), cv::DataType<uint16_t>::type);
     // initialize the label
