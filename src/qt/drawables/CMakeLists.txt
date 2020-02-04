@@ -1,5 +1,6 @@
 add_library(drawable SHARED
             drawable_cloud.cpp
+            drawable_polygon3d.cpp
             drawable_cube.cpp)
 target_link_libraries(drawable
                       ${OPENGL_gl_LIBRARY}

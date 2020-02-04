@@ -17,23 +17,22 @@
 #include "qt/viewer/viewer.h"
 #include "utils/bbox.h"
 
-namespace dc = depth_clustering;
+namespace depth_clustering {
 
-class BBoxPainter : public dc::AbstractClient<std::vector<Bbox>> {
+class BBoxPainter : public AbstractClient<std::vector<Bbox>> {
  public:
-  void OnNewObjectReceived(const std::vector<Bbox>& bboxes,
-                           int client_id) override {
-    dc::time_utils::Timer timer;
+  void OnNewObjectReceived(const std::vector<Bbox>& bboxes, int) override {
+    time_utils::Timer timer;
     for (const auto& bbox : bboxes) {
       if (_viewer) {
         _viewer->AddDrawable(DrawableCube::Create(bbox.center(), bbox.scale()));
       }
     }
     fprintf(stderr, "[TIMING]: Adding all boxes took %lu us\n",
-            timer.measure(dc::time_utils::Timer::Units::Micro));
+            timer.measure(time_utils::Timer::Units::Micro));
     _viewer->update();
     fprintf(stderr, "[TIMING]: Viewer updated in %lu us\n",
-            timer.measure(dc::time_utils::Timer::Units::Micro));
+            timer.measure(time_utils::Timer::Units::Micro));
   }
 
   explicit BBoxPainter(Viewer* viewer) : _viewer(viewer) {}
@@ -42,5 +41,7 @@ class BBoxPainter : public dc::AbstractClient<std::vector<Bbox>> {
  private:
   Viewer* _viewer = nullptr;
 };
+
+}  // namespace depth_clustering
 
 #endif  // SRC_QT_DRAWABLES_BBOX_PAINTER_H_

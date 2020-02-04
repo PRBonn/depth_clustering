@@ -4,9 +4,9 @@
 
 #include "./utils.h"
 
+#include <projections/projection_params.h>
 #include <utils/folder_reader.h>
 #include <utils/velodyne_utils.h>
-#include <projections/projection_params.h>
 
 #if PCL_FOUND
 #include <pcl/io/pcd_io.h>
@@ -14,10 +14,10 @@
 #endif  // PCL_FOUND
 
 using depth_clustering::Cloud;
-using depth_clustering::ProjectionParams;
 using depth_clustering::MatFromDepthPng;
-using depth_clustering::ReadKittiCloudTxt;
+using depth_clustering::ProjectionParams;
 using depth_clustering::ReadKittiCloud;
+using depth_clustering::ReadKittiCloudTxt;
 
 QString appendPaths(const QString &path1, const QString &path2) {
   return QDir::cleanPath(path1 + QDir::separator() + path2);
@@ -56,12 +56,12 @@ Cloud::Ptr CloudFromFile(const std::string &file_name,
   QString name = fi.fileName();
   Cloud::Ptr cloud = nullptr;
   if (name.endsWith(".pcd")) {
-    #if PCL_FOUND
+#if PCL_FOUND
     pcl::PointCloud<pcl::PointXYZL> pcl_cloud;
     pcl::io::loadPCDFile(file_name, pcl_cloud);
     cloud = Cloud::FromPcl<pcl::PointXYZL>(pcl_cloud);
     cloud->InitProjection(proj_params);
-    #endif  // PCL_FOUND
+#endif  // PCL_FOUND
   } else if (name.endsWith(".png") || name.endsWith(".exr")) {
     cloud = Cloud::FromImage(MatFromDepthPng(file_name), proj_params);
   } else if (name.endsWith(".txt")) {

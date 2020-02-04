@@ -40,6 +40,7 @@ using depth_clustering::FolderReader;
 using depth_clustering::ImageBasedClusterer;
 using depth_clustering::LinearImageLabeler;
 using depth_clustering::MatFromDepthPng;
+using depth_clustering::ObjectPainter;
 using depth_clustering::ProjectionParams;
 using depth_clustering::Radians;
 using depth_clustering::ReadKittiCloud;
@@ -97,7 +98,8 @@ OpenGlFolderPlayer::OpenGlFolderPlayer(QWidget *parent)
   ui->gfx_labels->setRenderHints(QPainter::Antialiasing |
                                  QPainter::SmoothPixmapTransform);
 
-  _painter.reset(new ObjectPainter(_viewer));
+  _painter.reset(
+      new ObjectPainter(_viewer, ObjectPainter::OutlineType::kPolygon3d));
   this->onSegmentationParamUpdate();
 }
 

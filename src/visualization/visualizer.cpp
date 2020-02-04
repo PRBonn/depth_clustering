@@ -24,18 +24,18 @@
 
 namespace depth_clustering {
 
-using std::string;
-using std::vector;
 using std::array;
+using std::string;
 using std::to_string;
+using std::vector;
 
+using std::lock_guard;
 using std::map;
 using std::mutex;
 using std::string;
-using std::vector;
 using std::thread;
-using std::lock_guard;
 using std::unordered_map;
+using std::vector;
 
 static vector<array<int, 3>> COLORS;
 
