@@ -11,8 +11,8 @@
 
 #include <string>
 
-#include <utils/cloud.h>
 #include <opencv2/opencv.hpp>
+#include <utils/cloud.h>
 
 namespace dc = depth_clustering;
 

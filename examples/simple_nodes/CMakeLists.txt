@@ -6,7 +6,8 @@ target_link_libraries(show_objects_kitti
                       projections
                       ground_remove
                       folder_reader
-                      visualization
+                      viewer
+                      drawable
                       ${MY_QT_LIBRARIES}
                       ${Boost_LIBRARIES}
                       ${PCL_LIBRARIES}
@@ -20,7 +21,8 @@ target_link_libraries(show_objects_moosmann
                       projections
                       ground_remove
                       folder_reader
-                      visualization
+                      viewer
+                      drawable
                       ${MY_QT_LIBRARIES}
                       ${Boost_LIBRARIES}
                       ${PCL_LIBRARIES}

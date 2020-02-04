@@ -60,7 +60,7 @@ class OpenGlFolderPlayer : public BaseViewerWidget,
       _clusterer = nullptr;
   std::unique_ptr<depth_clustering::DepthGroundRemover> _ground_rem = nullptr;
 
-  std::unique_ptr<ObjectPainter> _painter = nullptr;
+  std::unique_ptr<depth_clustering::ObjectPainter> _painter = nullptr;
 
   cv::Mat _current_full_depth_image;
   depth_clustering::Cloud::Ptr _cloud;

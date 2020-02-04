@@ -10,6 +10,7 @@
 class Drawable {
  public:
   using Ptr = std::shared_ptr<Drawable>;
+  using UniquePtr = std::unique_ptr<Drawable>;
   virtual void Draw() const = 0;
   virtual ~Drawable() {}
 };

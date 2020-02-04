@@ -4,8 +4,8 @@
 
 #include "./viewer.h"
 
-using std::mutex;
 using std::lock_guard;
+using std::mutex;
 
 void Viewer::AddDrawable(Drawable::Ptr drawable) {
   lock_guard<mutex> guard(_cloud_mutex);

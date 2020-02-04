@@ -5,8 +5,12 @@
 #include "./drawable_cube.h"
 #include <GL/glut.h>
 
+namespace depth_clustering {
+
 void DrawableCube::Draw() const {
-  if (_scale.z() < 0.3) { return; }
+  if (_scale.z() < 0.3) {
+    return;
+  }
   glPushMatrix();
   glTranslatef(_center.x(), _center.y(), _center.z());
   glScalef(_scale.x(), _scale.y(), _scale.z());
@@ -53,3 +57,5 @@ void DrawableCube::Draw() const {
   glEnd();
   glPopMatrix();
 }
+
+}  // namespace depth_clustering

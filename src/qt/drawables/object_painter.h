@@ -5,7 +5,11 @@
 #ifndef SRC_QT_DRAWABLES_OBJECT_PAINTER_H_
 #define SRC_QT_DRAWABLES_OBJECT_PAINTER_H_
 
-#include <communication/abstract_client.h>
+#include "communication/abstract_client.h"
+#include "qt/drawables/drawable_cube.h"
+#include "qt/drawables/drawable_polygon3d.h"
+#include "qt/viewer/viewer.h"
+
 #include <utils/cloud.h>
 #include <utils/timer.h>
 
@@ -14,8 +18,9 @@
 #include <unordered_map>
 #include <vector>
 
-#include "qt/drawables/drawable_cube.h"
-#include "qt/viewer/viewer.h"
+#include <opencv2/imgproc.hpp>
+
+namespace depth_clustering {
 
 class ObjectPainter
     : public depth_clustering::AbstractClient<
@@ -24,45 +29,25 @@ class ObjectPainter
   using Timer = depth_clustering::time_utils::Timer;
 
  public:
-  void OnNewObjectReceived(const std::unordered_map<uint16_t, Cloud>& clouds,
-                           int client_id) override {
-    if (!_viewer) { return; }
-    Timer timer;
-    for (const auto& kv : clouds) {
-      const auto& cluster = kv.second;
-      Eigen::Vector3f center = Eigen::Vector3f::Zero();
-      Eigen::Vector3f extent = Eigen::Vector3f::Zero();
-      Eigen::Vector3f max_point(std::numeric_limits<float>::lowest(),
-                                std::numeric_limits<float>::lowest(),
-                                std::numeric_limits<float>::lowest());
-      Eigen::Vector3f min_point(std::numeric_limits<float>::max(),
-                                std::numeric_limits<float>::max(),
-                                std::numeric_limits<float>::max());
-      for (const auto& point : cluster.points()) {
-        center = center + point.AsEigenVector();
-        min_point << std::min(min_point.x(), point.x()),
-            std::min(min_point.y(), point.y()),
-            std::min(min_point.z(), point.z());
-        max_point << std::max(max_point.x(), point.x()),
-            std::max(max_point.y(), point.y()),
-            std::max(max_point.z(), point.z());
-      }
-      center /= cluster.size();
-      if (min_point.x() < max_point.x()) { extent = max_point - min_point; }
-      _viewer->AddDrawable(DrawableCube::Create(center, extent));
-    }
-    fprintf(stderr, "[TIMING]: Adding all boxes took %lu us\n",
-            timer.measure(Timer::Units::Micro));
-    _viewer->update();
-    fprintf(stderr, "[TIMING]: Viewer updated in %lu us\n",
-            timer.measure(Timer::Units::Micro));
-  }
+  enum class OutlineType { kBox, kPolygon3d };
 
-  explicit ObjectPainter(Viewer* viewer) : _viewer(viewer) {}
-  virtual ~ObjectPainter() {}
+  explicit ObjectPainter(Viewer* viewer, OutlineType outline_type)
+      : viewer_{viewer}, outline_type_{outline_type} {}
+
+  void OnNewObjectReceived(const std::unordered_map<uint16_t, Cloud>& clouds,
+                           int id) override;
 
  private:
-  Viewer* _viewer = nullptr;
+  static Drawable::UniquePtr CreateDrawableCube(
+      const depth_clustering::Cloud& cloud);
+
+  static Drawable::UniquePtr CreateDrawablePolygon3d(
+      const depth_clustering::Cloud& cloud);
+
+  Viewer* viewer_{nullptr};
+  OutlineType outline_type_{OutlineType::kBox};
 };
+
+}  // namespace depth_clustering
 
 #endif  // SRC_QT_DRAWABLES_OBJECT_PAINTER_H_
