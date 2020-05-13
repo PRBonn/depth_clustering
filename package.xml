@@ -6,7 +6,7 @@
 
   <maintainer email="igor.bogoslavskyi@uni-bonn.de">Igor Bogoslavskyi</maintainer>
 
-  <license>GPLv3</license>
+  <license>MIT</license>
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roscpp</build_depend>

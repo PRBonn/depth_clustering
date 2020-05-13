@@ -1,6 +1,22 @@
-// Copyright Igor Bogoslavskyi, year 2015.
-// In case of any problems with the code please contact me.
-// Email: igor.bogoslavskyi@uni-bonn.de.
+// Copyright (C) 2020  I. Bogoslavskyi, C. Stachniss
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+// DEALINGS IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
 #include <opencv2/opencv.hpp>
@@ -38,18 +54,18 @@ TEST(CloudProjectionTest, SingleLine) {
   cloud_ptr->InitProjection(params);
   auto projection = cloud_ptr->projection_ptr();
 
-  EXPECT_EQ(1, projection->rows());
-  EXPECT_EQ(10, projection->cols());
-  EXPECT_EQ(0, projection->at(0, 0).points().front());
-  EXPECT_EQ(1, projection->at(0, 1).points().front());
-  EXPECT_EQ(2, projection->at(0, 2).points().front());
-  EXPECT_EQ(3, projection->at(0, 3).points().front());
-  EXPECT_EQ(4, projection->at(0, 4).points().front());
-  EXPECT_EQ(5, projection->at(0, 5).points().front());
-  EXPECT_EQ(6, projection->at(0, 6).points().front());
-  EXPECT_EQ(7, projection->at(0, 7).points().front());
-  EXPECT_EQ(8, projection->at(0, 8).points().front());
-  EXPECT_EQ(9, projection->at(0, 9).points().front());
+  EXPECT_EQ(1ul, projection->rows());
+  EXPECT_EQ(10ul, projection->cols());
+  EXPECT_EQ(0ul, projection->at(0, 0).points().front());
+  EXPECT_EQ(1ul, projection->at(0, 1).points().front());
+  EXPECT_EQ(2ul, projection->at(0, 2).points().front());
+  EXPECT_EQ(3ul, projection->at(0, 3).points().front());
+  EXPECT_EQ(4ul, projection->at(0, 4).points().front());
+  EXPECT_EQ(5ul, projection->at(0, 5).points().front());
+  EXPECT_EQ(6ul, projection->at(0, 6).points().front());
+  EXPECT_EQ(7ul, projection->at(0, 7).points().front());
+  EXPECT_EQ(8ul, projection->at(0, 8).points().front());
+  EXPECT_EQ(9ul, projection->at(0, 9).points().front());
 }
 
 TEST(CloudProjectionTest, PlanePatch) {
@@ -77,37 +93,37 @@ TEST(CloudProjectionTest, PlanePatch) {
   SphericalProjection storage(params);
   storage.InitFromPoints(cloud_ptr->points());
 
-  EXPECT_EQ(5, storage.rows());
-  EXPECT_EQ(5, storage.cols());
-  EXPECT_EQ(0, storage.at(0, 0).points().front());
-  EXPECT_EQ(1, storage.at(0, 1).points().front());
-  EXPECT_EQ(2, storage.at(0, 2).points().front());
-  EXPECT_EQ(3, storage.at(0, 3).points().front());
-  EXPECT_EQ(4, storage.at(0, 4).points().front());
+  EXPECT_EQ(5ul, storage.rows());
+  EXPECT_EQ(5ul, storage.cols());
+  EXPECT_EQ(0ul, storage.at(0, 0).points().front());
+  EXPECT_EQ(1ul, storage.at(0, 1).points().front());
+  EXPECT_EQ(2ul, storage.at(0, 2).points().front());
+  EXPECT_EQ(3ul, storage.at(0, 3).points().front());
+  EXPECT_EQ(4ul, storage.at(0, 4).points().front());
 
-  EXPECT_EQ(5, storage.at(1, 0).points().front());
-  EXPECT_EQ(6, storage.at(1, 1).points().front());
-  EXPECT_EQ(7, storage.at(1, 2).points().front());
-  EXPECT_EQ(8, storage.at(1, 3).points().front());
-  EXPECT_EQ(9, storage.at(1, 4).points().front());
+  EXPECT_EQ(5ul, storage.at(1, 0).points().front());
+  EXPECT_EQ(6ul, storage.at(1, 1).points().front());
+  EXPECT_EQ(7ul, storage.at(1, 2).points().front());
+  EXPECT_EQ(8ul, storage.at(1, 3).points().front());
+  EXPECT_EQ(9ul, storage.at(1, 4).points().front());
 
-  EXPECT_EQ(10, storage.at(2, 0).points().front());
-  EXPECT_EQ(11, storage.at(2, 1).points().front());
-  EXPECT_EQ(12, storage.at(2, 2).points().front());
-  EXPECT_EQ(13, storage.at(2, 3).points().front());
-  EXPECT_EQ(14, storage.at(2, 4).points().front());
+  EXPECT_EQ(10ul, storage.at(2, 0).points().front());
+  EXPECT_EQ(11ul, storage.at(2, 1).points().front());
+  EXPECT_EQ(12ul, storage.at(2, 2).points().front());
+  EXPECT_EQ(13ul, storage.at(2, 3).points().front());
+  EXPECT_EQ(14ul, storage.at(2, 4).points().front());
 
-  EXPECT_EQ(15, storage.at(3, 0).points().front());
-  EXPECT_EQ(16, storage.at(3, 1).points().front());
-  EXPECT_EQ(17, storage.at(3, 2).points().front());
-  EXPECT_EQ(18, storage.at(3, 3).points().front());
-  EXPECT_EQ(19, storage.at(3, 4).points().front());
+  EXPECT_EQ(15ul, storage.at(3, 0).points().front());
+  EXPECT_EQ(16ul, storage.at(3, 1).points().front());
+  EXPECT_EQ(17ul, storage.at(3, 2).points().front());
+  EXPECT_EQ(18ul, storage.at(3, 3).points().front());
+  EXPECT_EQ(19ul, storage.at(3, 4).points().front());
 
-  EXPECT_EQ(20, storage.at(4, 0).points().front());
-  EXPECT_EQ(21, storage.at(4, 1).points().front());
-  EXPECT_EQ(22, storage.at(4, 2).points().front());
-  EXPECT_EQ(23, storage.at(4, 3).points().front());
-  EXPECT_EQ(24, storage.at(4, 4).points().front());
+  EXPECT_EQ(20ul, storage.at(4, 0).points().front());
+  EXPECT_EQ(21ul, storage.at(4, 1).points().front());
+  EXPECT_EQ(22ul, storage.at(4, 2).points().front());
+  EXPECT_EQ(23ul, storage.at(4, 3).points().front());
+  EXPECT_EQ(24ul, storage.at(4, 4).points().front());
 }
 
 TEST(CloudProjectionTest, Circle) {
@@ -130,18 +146,18 @@ TEST(CloudProjectionTest, Circle) {
   SphericalProjection storage(params);
   storage.InitFromPoints(cloud_ptr->points());
 
-  EXPECT_EQ(1, storage.rows());
-  EXPECT_EQ(12, storage.cols());
-  EXPECT_EQ(0, storage.at(0, 0).points().front());
-  EXPECT_EQ(1, storage.at(0, 1).points().front());
-  EXPECT_EQ(2, storage.at(0, 2).points().front());
-  EXPECT_EQ(3, storage.at(0, 3).points().front());
-  EXPECT_EQ(4, storage.at(0, 4).points().front());
-  EXPECT_EQ(5, storage.at(0, 5).points().front());
-  EXPECT_EQ(6, storage.at(0, 6).points().front());
-  EXPECT_EQ(7, storage.at(0, 7).points().front());
-  EXPECT_EQ(8, storage.at(0, 8).points().front());
-  EXPECT_EQ(9, storage.at(0, 9).points().front());
+  EXPECT_EQ(1ul, storage.rows());
+  EXPECT_EQ(12ul, storage.cols());
+  EXPECT_EQ(0ul, storage.at(0, 0).points().front());
+  EXPECT_EQ(1ul, storage.at(0, 1).points().front());
+  EXPECT_EQ(2ul, storage.at(0, 2).points().front());
+  EXPECT_EQ(3ul, storage.at(0, 3).points().front());
+  EXPECT_EQ(4ul, storage.at(0, 4).points().front());
+  EXPECT_EQ(5ul, storage.at(0, 5).points().front());
+  EXPECT_EQ(6ul, storage.at(0, 6).points().front());
+  EXPECT_EQ(7ul, storage.at(0, 7).points().front());
+  EXPECT_EQ(8ul, storage.at(0, 8).points().front());
+  EXPECT_EQ(9ul, storage.at(0, 9).points().front());
 }
 
 TEST(CloudProjectionTest, BigCylinder) {
@@ -174,15 +190,15 @@ TEST(CloudProjectionTest, BigCylinder) {
   SphericalProjection storage(params);
   storage.InitFromPoints(cloud_ptr->points());
 
-  EXPECT_EQ(12, storage.rows());
-  EXPECT_EQ(12, storage.cols());
+  EXPECT_EQ(12ul, storage.rows());
+  EXPECT_EQ(12ul, storage.cols());
 
   // first 5 points
-  EXPECT_EQ(0, storage.at(0, 0).points().front());
-  EXPECT_EQ(1, storage.at(0, 1).points().front());
-  EXPECT_EQ(2, storage.at(0, 2).points().front());
-  EXPECT_EQ(3, storage.at(0, 3).points().front());
-  EXPECT_EQ(4, storage.at(0, 4).points().front());
+  EXPECT_EQ(0ul, storage.at(0, 0).points().front());
+  EXPECT_EQ(1ul, storage.at(0, 1).points().front());
+  EXPECT_EQ(2ul, storage.at(0, 2).points().front());
+  EXPECT_EQ(3ul, storage.at(0, 3).points().front());
+  EXPECT_EQ(4ul, storage.at(0, 4).points().front());
 }
 
 TEST(CloudProjectionTest, FullSphere) {
@@ -217,15 +233,15 @@ TEST(CloudProjectionTest, FullSphere) {
   Mat image = storage.depth_image();
   cv::imwrite("sphere.png", image);
 
-  EXPECT_EQ(12, storage.rows());
-  EXPECT_EQ(12, storage.cols());
+  EXPECT_EQ(12ul, storage.rows());
+  EXPECT_EQ(12ul, storage.cols());
 
   // first 5 points
-  EXPECT_EQ(0, storage.at(0, 0).points().front());
-  EXPECT_EQ(1, storage.at(0, 1).points().front());
-  EXPECT_EQ(2, storage.at(0, 2).points().front());
-  EXPECT_EQ(3, storage.at(0, 3).points().front());
-  EXPECT_EQ(4, storage.at(0, 4).points().front());
+  EXPECT_EQ(0ul, storage.at(0, 0).points().front());
+  EXPECT_EQ(1ul, storage.at(0, 1).points().front());
+  EXPECT_EQ(2ul, storage.at(0, 2).points().front());
+  EXPECT_EQ(3ul, storage.at(0, 3).points().front());
+  EXPECT_EQ(4ul, storage.at(0, 4).points().front());
 
   float eps = 0.001;
   EXPECT_NEAR(image.at<float>(0, 0), radius, eps);
@@ -268,8 +284,8 @@ TEST(CloudProjectionTest, FromDepthImage) {
   auto cloud = Cloud::FromImage(image, params);
   auto projection = cloud->projection_ptr();
   cv::Mat image_res = projection->depth_image();
-  EXPECT_EQ(10, projection->rows());
-  EXPECT_EQ(10, projection->cols());
+  EXPECT_EQ(10ul, projection->rows());
+  EXPECT_EQ(10ul, projection->cols());
   for (int i = 0; i < 10; ++i) {
     EXPECT_EQ(image.at<float>(i, 0), image_res.at<float>(i, 0));
     EXPECT_EQ(image.at<float>(0, i), image_res.at<float>(0, i));

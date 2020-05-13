@@ -1,17 +1,6 @@
-// Copyright (C) 2017  I. Bogoslavskyi, C. Stachniss, University of Bonn
-
-// This program is free software: you can redistribute it and/or modify it
-// under the terms of the GNU General Public License as published by the Free
-// Software Foundation, either version 3 of the License, or (at your option)
-// any later version.
-
-// This program is distributed in the hope that it will be useful, but WITHOUT
-// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-// FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-// more details.
-
-// You should have received a copy of the GNU General Public License along
-// with this program.  If not, see <http://www.gnu.org/licenses/>.
+// Copyright (C) 2020  I. Bogoslavskyi, C. Stachniss
+//
+// GNU-GPL licence that follows one of libQGLViewer.
 
 #include "./visualizer.h"
 
@@ -143,7 +132,7 @@ void Visualizer::DrawCube(const Eigen::Vector3f& center,
 
 Visualizer::~Visualizer() {}
 
-void Visualizer::OnNewObjectReceived(const Cloud& cloud, const int id) {
+void Visualizer::OnNewObjectReceived(const Cloud& cloud, const int) {
   lock_guard<mutex> guard(_cloud_mutex);
   _cloud = cloud;
 }
@@ -156,7 +145,7 @@ unordered_map<uint16_t, Cloud> ObjectPtrStorer::object_clouds() const {
 }
 
 void ObjectPtrStorer::OnNewObjectReceived(
-    const unordered_map<uint16_t, Cloud>& clouds, const int id) {
+    const unordered_map<uint16_t, Cloud>& clouds, const int) {
   lock_guard<mutex> guard(_cluster_mutex);
   _obj_clouds = clouds;
 

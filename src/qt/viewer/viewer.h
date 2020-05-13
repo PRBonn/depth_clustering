@@ -1,6 +1,6 @@
-// Copyright Igor Bogoslavskyi, year 2017.
-// In case of any problems with the code please contact me.
-// Email: igor.bogoslavskyi@uni-bonn.de.
+// Copyright (C) 2020  I. Bogoslavskyi, C. Stachniss
+//
+// GNU-GPL licence that follows one of libQGLViewer.
 
 #ifndef SRC_QT_VIEWER_VIEWER_H_
 #define SRC_QT_VIEWER_VIEWER_H_

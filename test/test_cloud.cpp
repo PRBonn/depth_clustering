@@ -1,6 +1,22 @@
-// Copyright Igor Bogoslavskyi, year 2017.
-// In case of any problems with the code please contact me.
-// Email: igor.bogoslavskyi@uni-bonn.de.
+// Copyright (C) 2020  I. Bogoslavskyi, C. Stachniss
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+// DEALINGS IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
 #include <Eigen/Core>
@@ -24,7 +40,7 @@ TEST(CloudTest, InitEmpty) {
   EXPECT_NEAR(0.0, cloud.pose().x(), eps);
   EXPECT_NEAR(0.0, cloud.pose().y(), eps);
   EXPECT_NEAR(0.0, cloud.pose().theta(), eps);
-  EXPECT_EQ(0, cloud.size());
+  EXPECT_EQ(0ul, cloud.size());
 }
 
 TEST(CloudTest, InitPose) {
@@ -37,7 +53,7 @@ TEST(CloudTest, InitPose) {
   EXPECT_NEAR(1, cloud.pose().x(), eps);
   EXPECT_NEAR(2, cloud.pose().y(), eps);
   EXPECT_NEAR(M_PI / 3, cloud.pose().theta(), eps);
-  EXPECT_EQ(0, cloud.size());
+  EXPECT_EQ(0ul, cloud.size());
 }
 
 TEST(CloudTest, InitCloudWithPose) {
@@ -51,7 +67,7 @@ TEST(CloudTest, InitCloudWithPose) {
   EXPECT_NEAR(1, cloud.pose().x(), eps);
   EXPECT_NEAR(2, cloud.pose().y(), eps);
   EXPECT_NEAR(M_PI / 3, cloud.pose().theta(), eps);
-  EXPECT_EQ(1, cloud.size());
+  EXPECT_EQ(1ul, cloud.size());
 }
 
 TEST(CloudTest, CloudCopy) {
@@ -70,7 +86,7 @@ TEST(CloudTest, CloudCopy) {
   EXPECT_NEAR(1, cloud_copy[0].x(), eps);
   EXPECT_NEAR(2, cloud_copy[0].y(), eps);
   EXPECT_NEAR(3, cloud_copy[0].z(), eps);
-  EXPECT_EQ(1, cloud.size());
+  EXPECT_EQ(1ul, cloud.size());
 }
 
 TEST(CloudTest, EmptyCloudProjectionPixels) {

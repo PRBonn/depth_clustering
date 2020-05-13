@@ -1,3 +1,7 @@
+## Copyright (C) 2020  I. Bogoslavskyi, C. Stachniss
+##
+## GNU-GPL licence that follows one of libQGLViewer.
+
 add_library(visualization SHARED visualizer.cpp)
 target_link_libraries(visualization
                       identifiable
