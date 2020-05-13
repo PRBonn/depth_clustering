@@ -47,7 +47,7 @@ class TestClient : public AbstractClient<int> {
       : AbstractClient<int>(), _object_received(false), _sender_id(-1) {}
   virtual ~TestClient() {}
 
-  void OnNewObjectReceived(const int& object, const int sender_id) override {
+  void OnNewObjectReceived(const int&, const int sender_id) override {
     _object_received = true;
     _sender_id = sender_id;
   }
@@ -62,7 +62,7 @@ class TestTemplateClient : public AbstractClient<T> {
   TestTemplateClient() : AbstractClient<T>(), _object_received(false) {}
   virtual ~TestTemplateClient() {}
 
-  void OnNewObjectReceived(const T& object, const int sender_id) override {
+  void OnNewObjectReceived(const T&, const int) override {
     _object_received = true;
   }
 
@@ -100,16 +100,16 @@ TEST(SenderClientTest, SendAndReceive) {
   ASSERT_EQ(id + 3, client_simple_2.id());
   ASSERT_EQ(id + 4, client_templated.id());
 
-  ASSERT_EQ(0, sender.client_count());
+  ASSERT_EQ(0ul, sender.client_count());
   sender.AddClient(&client_simple_1);
-  ASSERT_EQ(1, sender.client_count());
+  ASSERT_EQ(1ul, sender.client_count());
   sender.AddClient(&client_simple_2);
-  ASSERT_EQ(2, sender.client_count());
+  ASSERT_EQ(2ul, sender.client_count());
   sender.AddClient(&client_templated);
-  ASSERT_EQ(3, sender.client_count());
+  ASSERT_EQ(3ul, sender.client_count());
 
   sender.RemoveClient(client_simple_2.id());
-  ASSERT_EQ(2, sender.client_count());
+  ASSERT_EQ(2ul, sender.client_count());
   int package = 42;
   ASSERT_EQ(false, client_simple_1._object_received);
   ASSERT_EQ(false, client_simple_2._object_received);
@@ -126,7 +126,7 @@ TEST(SenderClientTest, SendAndReceive) {
 
 TEST(SenderClientTest, RemoveNonExistingId) {
   TestSender sender;
-  ASSERT_EQ(0, sender.client_count());
+  ASSERT_EQ(0ul, sender.client_count());
   sender.RemoveClient(42);
-  ASSERT_EQ(0, sender.client_count());
+  ASSERT_EQ(0ul, sender.client_count());
 }

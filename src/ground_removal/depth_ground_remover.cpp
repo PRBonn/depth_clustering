@@ -24,24 +24,23 @@
 
 #include <algorithm>
 
-#include "utils/velodyne_utils.h"
-#include "image_labelers/linear_image_labeler.h"
 #include "image_labelers/diff_helpers/angle_diff.h"
 #include "image_labelers/diff_helpers/simple_diff.h"
+#include "image_labelers/linear_image_labeler.h"
 #include "utils/timer.h"
+#include "utils/velodyne_utils.h"
 
 namespace depth_clustering {
 
-using cv::Mat;
 using cv::DataType;
+using cv::Mat;
 using std::to_string;
 using time_utils::Timer;
 
 const cv::Point ANCHOR_CENTER = cv::Point(-1, -1);
 const int SAME_OUTPUT_TYPE = -1;
 
-void DepthGroundRemover::OnNewObjectReceived(const Cloud& cloud,
-                                             const int sender_id) {
+void DepthGroundRemover::OnNewObjectReceived(const Cloud& cloud, const int) {
   // this can be done even faster if we switch to column-major implementation
   // thus allowing us to load whole row in L1 cache
   if (!cloud.projection_ptr()) {

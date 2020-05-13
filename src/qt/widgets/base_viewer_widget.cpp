@@ -24,7 +24,7 @@
 
 BaseViewerWidget::BaseViewerWidget(QWidget *parent) : QWidget(parent) {}
 
-bool BaseViewerWidget::eventFilter(QObject *object, QEvent *event) {
+bool BaseViewerWidget::eventFilter(QObject *, QEvent *event) {
   if (event->type() == QEvent::KeyPress) {
     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
     if (keyEvent->key() == Qt::Key_Right || keyEvent->key() == Qt::Key_Left) {

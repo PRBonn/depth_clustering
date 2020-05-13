@@ -51,7 +51,7 @@ TEST(AngleDiff, AlphasRows) {
                  SpanParams::Direction::HORIZONTAL);
   TestAngleDiff angle_diff_helper(&depth_image, &params);
   auto alphas_rows = angle_diff_helper.GetRowAlphas();
-  EXPECT_EQ(4, alphas_rows.size());
+  EXPECT_EQ(4ul, alphas_rows.size());
   EXPECT_NEAR(Radians::FromDegrees(1).val(), alphas_rows[0], 0.001);
   EXPECT_NEAR(Radians::FromDegrees(1).val(), alphas_rows[1], 0.001);
   EXPECT_NEAR(Radians::FromDegrees(1).val(), alphas_rows[2], 0.001);
@@ -68,7 +68,7 @@ TEST(AngleDiff, AlphasCols) {
                  SpanParams::Direction::HORIZONTAL);
   TestAngleDiff angle_diff_helper(&depth_image, &params);
   auto alphas_cols = angle_diff_helper.GetColAlphas();
-  EXPECT_EQ(4, alphas_cols.size());
+  EXPECT_EQ(4ul, alphas_cols.size());
   EXPECT_NEAR(Radians::FromDegrees(1).val(), alphas_cols[0], 0.001);
   EXPECT_NEAR(Radians::FromDegrees(1).val(), alphas_cols[1], 0.001);
   EXPECT_NEAR(Radians::FromDegrees(1).val(), alphas_cols[2], 0.001);

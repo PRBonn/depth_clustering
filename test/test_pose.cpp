@@ -291,7 +291,6 @@ TEST(PoseTest, V2T2V) {
 // More: http://en.cppreference.com/w/cpp/error/assert
 #ifndef NDEBUG
 TEST(PoseDeathTest, TestLikelihood) {
-  double eps = 0.000001;
   Pose pose;
   ASSERT_DEATH(pose.SetLikelihood(2), "");
   ASSERT_DEATH(pose.SetLikelihood(-1), "");

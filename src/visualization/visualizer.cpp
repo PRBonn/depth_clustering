@@ -148,7 +148,7 @@ void Visualizer::DrawCube(const Eigen::Vector3f& center,
 
 Visualizer::~Visualizer() {}
 
-void Visualizer::OnNewObjectReceived(const Cloud& cloud, const int id) {
+void Visualizer::OnNewObjectReceived(const Cloud& cloud, const int) {
   lock_guard<mutex> guard(_cloud_mutex);
   _cloud = cloud;
 }
@@ -161,7 +161,7 @@ unordered_map<uint16_t, Cloud> ObjectPtrStorer::object_clouds() const {
 }
 
 void ObjectPtrStorer::OnNewObjectReceived(
-    const unordered_map<uint16_t, Cloud>& clouds, const int id) {
+    const unordered_map<uint16_t, Cloud>& clouds, const int) {
   lock_guard<mutex> guard(_cluster_mutex);
   _obj_clouds = clouds;
 

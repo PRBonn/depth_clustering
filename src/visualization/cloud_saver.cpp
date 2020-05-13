@@ -25,7 +25,7 @@
 namespace depth_clustering {
 
 void VectorCloudSaver::OnNewObjectReceived(
-    const std::unordered_map<uint16_t, Cloud>& clouds, const int id) {
+    const std::unordered_map<uint16_t, Cloud>& clouds, const int) {
   if (_folder_counter++ % _save_every > 0) {
     // nope, skip this one
     return;
@@ -53,7 +53,7 @@ std::string VectorCloudSaver::WithLeadingZerosStr(int num) {
 }
 
 void DepthMapSaver::OnNewObjectReceived(
-    const std::unordered_map<uint16_t, cv::Mat>& clusters, const int id) {
+    const std::unordered_map<uint16_t, cv::Mat>& clusters, const int) {
   if (_folder_counter++ % _save_every > 0) {
     // nope, skip this one
     return;
@@ -79,7 +79,7 @@ std::string DepthMapSaver::WithLeadingZerosStr(int num) {
       .append(counter_str);
 }
 
-void CloudSaver::OnNewObjectReceived(const Cloud& cloud, const int id) {
+void CloudSaver::OnNewObjectReceived(const Cloud& cloud, const int) {
   pcl::io::savePCDFileBinary(
       _prefix + "_" + std::to_string(_counter++) + ".pcd", *(cloud.ToPcl()));
 }

@@ -40,7 +40,7 @@ TEST(CloudTest, InitEmpty) {
   EXPECT_NEAR(0.0, cloud.pose().x(), eps);
   EXPECT_NEAR(0.0, cloud.pose().y(), eps);
   EXPECT_NEAR(0.0, cloud.pose().theta(), eps);
-  EXPECT_EQ(0, cloud.size());
+  EXPECT_EQ(0ul, cloud.size());
 }
 
 TEST(CloudTest, InitPose) {
@@ -53,7 +53,7 @@ TEST(CloudTest, InitPose) {
   EXPECT_NEAR(1, cloud.pose().x(), eps);
   EXPECT_NEAR(2, cloud.pose().y(), eps);
   EXPECT_NEAR(M_PI / 3, cloud.pose().theta(), eps);
-  EXPECT_EQ(0, cloud.size());
+  EXPECT_EQ(0ul, cloud.size());
 }
 
 TEST(CloudTest, InitCloudWithPose) {
@@ -67,7 +67,7 @@ TEST(CloudTest, InitCloudWithPose) {
   EXPECT_NEAR(1, cloud.pose().x(), eps);
   EXPECT_NEAR(2, cloud.pose().y(), eps);
   EXPECT_NEAR(M_PI / 3, cloud.pose().theta(), eps);
-  EXPECT_EQ(1, cloud.size());
+  EXPECT_EQ(1ul, cloud.size());
 }
 
 TEST(CloudTest, CloudCopy) {
@@ -86,7 +86,7 @@ TEST(CloudTest, CloudCopy) {
   EXPECT_NEAR(1, cloud_copy[0].x(), eps);
   EXPECT_NEAR(2, cloud_copy[0].y(), eps);
   EXPECT_NEAR(3, cloud_copy[0].z(), eps);
-  EXPECT_EQ(1, cloud.size());
+  EXPECT_EQ(1ul, cloud.size());
 }
 
 TEST(CloudTest, EmptyCloudProjectionPixels) {

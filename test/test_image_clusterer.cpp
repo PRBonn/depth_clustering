@@ -40,7 +40,7 @@ TEST(LinearImageLabeler, NeighborhoodTest) {
   Radians threshold = 20_deg;
   ProjectionParams params;
   LinearImageLabeler<1, 1> labeler(depth_image, params, threshold);
-  EXPECT_EQ(4, labeler.Neighborhood.size());
+  EXPECT_EQ(4ul, labeler.Neighborhood.size());
 
   EXPECT_EQ(-1, labeler.Neighborhood[0].row);
   EXPECT_EQ(0, labeler.Neighborhood[0].col);
@@ -61,7 +61,7 @@ TEST(LinearImageLabeler, NeighborhoodTestBigger) {
   Radians threshold = 20_deg;
   ProjectionParams params;
   LinearImageLabeler<2, 1> labeler(depth_image, params, threshold);
-  EXPECT_EQ(6, labeler.Neighborhood.size());
+  EXPECT_EQ(6ul, labeler.Neighborhood.size());
 
   EXPECT_EQ(-2, labeler.Neighborhood[0].row);
   EXPECT_EQ(0, labeler.Neighborhood[0].col);
