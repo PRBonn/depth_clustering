@@ -1,7 +1,6 @@
 # Depth Clustering #
 
 [![Build Status][travis-img]][travis-link]
-[![Codacy Badge][codacy-img]][codacy-link]
 [![Coverage Status][coveralls-img]][coveralls-link]
 
 This is a fast and robust algorithm to segment point clouds taken with
@@ -62,6 +61,9 @@ sudo apt install libopencv-dev libqglviewer-dev freeglut3-dev libqt5-dev
 ```bash
 sudo apt install libopencv-dev libqglviewer-dev-qt5 freeglut3-dev qtbase5-dev 
 ```
+
+You might also need the latest GoogleTest binary installed on your systems. As Ubuntu is not shipped with these binaries by default, you would have to install them yourself or adapt the build script to build them from source.
+
 </details>
 
 ### Optional requirements ###
@@ -167,9 +169,6 @@ url     = {https://link.springer.com/article/10.1007%2Fs41064-016-0003-y},
 
 [coveralls-img]: https://img.shields.io/coveralls/github/PRBonn/depth_clustering/master.svg?style=for-the-badge
 [coveralls-link]: https://coveralls.io/github/PRBonn/depth_clustering
-
-[codacy-img]: https://img.shields.io/codacy/grade/338a7f3c5b9c4323b1de266900ca20ff.svg?style=for-the-badge
-[codacy-link]: https://www.codacy.com/project/zabugr/depth_clustering/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PRBonn/depth_clustering&amp;utm_campaign=Badge_Grade_Dashboard
 
 [build-status-img]: https://gitlab.ipb.uni-bonn.de/igor/depth_clustering/badges/master/build.svg
 [coverage-img]: https://gitlab.ipb.uni-bonn.de/igor/depth_clustering/badges/master/coverage.svg
